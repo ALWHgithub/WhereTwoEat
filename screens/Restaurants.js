@@ -3,10 +3,9 @@ import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, SafeAreaView, Button, ScrollView } from 'react-native';
 import RestaurantItem from '../RestaurantItem';
 import { localRestaurants } from '../RestaurantItem';
+import config from '../config'
 
-
-// bearer token hidden for commit to gitHub, will eventually replace with proper solution
-const YELP_API_KEY = '';
+const YELP_API_KEY = config.API_KEY;
 
 export default function Restaurants() {
     const [restaurantData,setRestaurantData] = useState(localRestaurants)

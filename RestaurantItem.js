@@ -24,12 +24,14 @@ export const localRestaurants = [
 
 export default function RestaurantItem(props) {
     return (
-        props.restaurantData.map((restaurant,index) => (
+        <>
+        {props.restaurantData.map((restaurant,index) => (
         <View key = {index}>
             <RestaurantImage image = {restaurant.image_url}/>
             <RestaurantInfo alias = {restaurant.alias} rating = {restaurant.rating}/>
         </View>
-        ))
+        ))}
+        </>
     )
 }
 
