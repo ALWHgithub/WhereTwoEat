@@ -22,7 +22,6 @@ function PriceScreen({ navigation }) {
 
 function handlePrice(price) {
   currRequest = new Request(price,0);
-  console.log(price);
 }
 
 const styles = StyleSheet.create({
