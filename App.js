@@ -9,7 +9,6 @@ import Restaurtants from './screens/Restaurants';
 import LoginScreen from './screens/Login'
 
 const Stack = createNativeStackNavigator();
-let currRequest = null;
 
 
 export default function App() {

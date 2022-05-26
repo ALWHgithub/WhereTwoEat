@@ -14,8 +14,8 @@ function LoginScreen({ navigation }) {
   const handleSignUp = () => {
     createUserWithEmailAndPassword(authentication,email,password)
     .then(re => {
-      console.log(re);
       setIsSignedIn(true)
+      navigation.navigate('Home')
     })
     .catch(error => alert(error.message))
   }
@@ -24,6 +24,7 @@ function LoginScreen({ navigation }) {
     signInWithEmailAndPassword(authentication,email,password)
     .then(re => {
       setIsSignedIn(true)
+      navigation.navigate('Home')
     })
     .catch(error => alert(error.message))
   }

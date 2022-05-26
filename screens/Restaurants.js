@@ -7,8 +7,10 @@ import config from '../config'
 
 const YELP_API_KEY = config.API_KEY;
 
-export default function Restaurants() {
+export default function Restaurants({ route }) {
     const [restaurantData,setRestaurantData] = useState(localRestaurants)
+    const [price, setPrice] = useState(route.params.Price);
+
     const getDataFromYelp = () => {
       const yelpURL = 'https://api.yelp.com/v3/businesses/search?term=restaurants&location=Singapore';
       const apiOptions = {
@@ -16,16 +18,20 @@ export default function Restaurants() {
           Authorization : `Bearer ${YELP_API_KEY}`,
         },
       }
-  
+      
       return fetch(yelpURL, apiOptions)
       .then((res) => res.json())
-      .then((json) =>setRestaurantData(json.businesses));
+      .then((json) =>setRestaurantData(
+        json.businesses.filter((business) =>
+        business.price == price)
+        ))
+      .catch(error => alert(error.message));
     };
 
     useEffect(() => {
       getDataFromYelp();
     }, []);
-  
+
     return (
       <SafeAreaView style={styles.container}>
         <Text>Here are the restaurants !</Text>
