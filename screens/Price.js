@@ -8,7 +8,7 @@ function PriceScreen({ navigation }) {
     <SafeAreaView style={styles.container}>
       <Text>What price ?</Text>
       <View style={{flexDirection: 'row'}}>
-      <Button title = "$$$$" onPress={() =>handlePrice("$$$$",navigation)} />
+      <Button style = {styles.priceButton} title = "$$$$" onPress={() =>handlePrice("$$$$",navigation)} />
       <Button title = "$$$" onPress={() =>handlePrice("$$$",navigation)} />
       <Button title = "$$" onPress={() =>handlePrice("$$",navigation)} />
       <Button title = "$" onPress={() =>handlePrice("$",navigation)} />
@@ -31,7 +31,8 @@ const styles = StyleSheet.create({
   },
   priceButton: {
     flex: 1,
-    backgroundColor: '#fff',
+    color: 'orange',
+    borderRadius: '25px',
     alignItems: 'center',
     justifyContent: 'center',
   },
