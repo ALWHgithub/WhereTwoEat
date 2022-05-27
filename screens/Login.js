@@ -39,19 +39,10 @@ function LoginScreen({ navigation }) {
            <TextInput placeholder = "Email" value = {email} onChangeText = {text => setEmail(text)} style = {styles.input} />
            <TextInput placeholder = "Password" secureTextEntry value = {password} onChangeText = {text => setPassword(text)} style = {styles.input}/>
 
-          
-           <TouchableOpacity
-              onPress={handleSignIn}
-              style = {styles.button}
-           >
-             <Text>Login</Text>
-           </TouchableOpacity>
-           <TouchableOpacity
-              onPress={handleSignUp}
-              style = {styles.button}
-           >
-             <Text>Register</Text>
-           </TouchableOpacity>
+
+           <StdButton text = "Login" onPress={handleSignIn} />
+           <StdButton text = "Register" onPress={handleSignUp} />
+
         </View>
         
       </KeyboardAvoidingView>
@@ -70,10 +61,6 @@ function LoginScreen({ navigation }) {
       backgroundColor: '#FFDA84', // to put an image here
       width: '100%',
 
-      borderColor: '#e8e8e8',
-      borderWidth: 1,
-      borderRadius: 5,
-
       justifyContent: 'center',
       paddingHorizontal: 10,
       marginVertical: 5,
@@ -84,25 +71,13 @@ function LoginScreen({ navigation }) {
       borderColor: '#e8e8e8',
       borderWidth: 1,
       
-      alignItems: "center",
-      justifyContent: 'center',
 
       borderRadius: 5,
-      height: 40,
-      paddingHorizontal: 10,
-      marginVertical: 5,
+      padding: 10,
+      margin: 5,
+
+
     }, 
-    button: {
-      backgroundColor: 'orange',
-
-      alignItems: "center",
-      justifyContent: 'center',
-
-      borderRadius: 5,
-      height: 40,
-      paddingHorizontal: 10,
-      marginVertical: 5,
-    },
   });
 
   export default LoginScreen;

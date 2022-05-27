@@ -1,16 +1,17 @@
 import React from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View,SafeAreaView, Button } from 'react-native';
+import StdButton from '../button';
 
 function PriceScreen({ navigation }) {
   return (
     <SafeAreaView style={styles.container}>
       <Text>What price ?</Text>
       <View style={{flexDirection: 'row'}}>
-      <Button style = {styles.priceButton} title = "$$$$" onPress={() =>handlePrice("$$$$",navigation)} />
-      <Button title = "$$$" onPress={() =>handlePrice("$$$",navigation)} />
-      <Button title = "$$" onPress={() =>handlePrice("$$",navigation)} />
-      <Button title = "$" onPress={() =>handlePrice("$",navigation)} />
+      <StdButton text = "$$$$" onPress={() =>handlePrice("$$$$",navigation)} />
+      <StdButton text = "$$$" onPress={() =>handlePrice("$$$",navigation)} />
+      <StdButton text = "$$" onPress={() =>handlePrice("$$",navigation)} />
+      <StdButton text = "$" onPress={() =>handlePrice("$",navigation)} />
       </View>
       <StatusBar style="auto" />
     </SafeAreaView>
