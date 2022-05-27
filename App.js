@@ -3,23 +3,26 @@ import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View,SafeAreaView, Button } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import HomeScreen from './screens/Home';
+import HomeScreen from './screens/HomeStack';
 import PriceScreen from './screens/Price';
 import Restaurtants from './screens/Restaurants';
 import LoginScreen from './screens/Login'
+import { LogBox } from "react-native"
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import BottomBar from './screens/BottomBar'
 
+
+LogBox.ignoreAllLogs(true)
 const Stack = createNativeStackNavigator();
-
-
+const screenOptions = {
+  headerShown: false,
+};
 export default function App() {
-
   return (
-    <NavigationContainer>
-      <Stack.Navigator>
+    <NavigationContainer   independent={true}>
+      <Stack.Navigator screenOptions={screenOptions}  options={{ headerShown: false }}>
         <Stack.Screen name="Login" component={LoginScreen}/>
         <Stack.Screen name="Home" component={HomeScreen}/>
-        <Stack.Screen name="Price" component={PriceScreen} />
-        <Stack.Screen name="Restaurant" component={Restaurtants} />
       </Stack.Navigator>
     </NavigationContainer>
   );

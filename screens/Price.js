@@ -3,7 +3,6 @@ import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View,SafeAreaView, Button } from 'react-native';
 
 function PriceScreen({ navigation }) {
-
   return (
     <SafeAreaView style={styles.container}>
       <Text>What price ?</Text>

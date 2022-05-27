@@ -3,13 +3,25 @@ import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, SafeAreaView, Button, ScrollView } from 'react-native';
 import RestaurantItem from '../RestaurantItem';
 import { localRestaurants } from '../RestaurantItem';
+import GetLocation from 'react-native-get-location'
 import config from '../config'
 
 const YELP_API_KEY = config.API_KEY;
 
 export default function Restaurants({ route }) {
+  
     const [restaurantData,setRestaurantData] = useState(localRestaurants)
     const [price, setPrice] = useState(route.params.Price);
+    GetLocation.getCurrentPosition({
+      enableHighAccuracy: true,
+      timeout: 150000,
+    })
+    .then(location => {
+      console.log(location);
+    }).catch(error => {
+    const { code, message } = error;
+    console.warn(code, message);
+    })
 
     const getDataFromYelp = () => {
       const yelpURL = 'https://api.yelp.com/v3/businesses/search?term=restaurants&location=Singapore';
@@ -31,6 +43,7 @@ export default function Restaurants({ route }) {
     useEffect(() => {
       getDataFromYelp();
     }, []);
+
 
     return (
       <SafeAreaView style={styles.container}>

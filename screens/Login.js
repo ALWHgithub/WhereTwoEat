@@ -39,7 +39,6 @@ function LoginScreen({ navigation }) {
            <TextInput placeholder = "Email" value = {email} onChangeText = {text => setEmail(text)} style = {styles.input} />
            <TextInput placeholder = "Password" secureTextEntry value = {password} onChangeText = {text => setPassword(text)} style = {styles.input}/>
 
-
           
            <TouchableOpacity
               onPress={handleSignIn}
