@@ -12,16 +12,7 @@ export default function Restaurants({ route }) {
   
     const [restaurantData,setRestaurantData] = useState(localRestaurants)
     const [price, setPrice] = useState(route.params.Price);
-    GetLocation.getCurrentPosition({
-      enableHighAccuracy: true,
-      timeout: 150000,
-    })
-    .then(location => {
-      console.log(location);
-    }).catch(error => {
-    const { code, message } = error;
-    console.warn(code, message);
-    })
+    
 
     const getDataFromYelp = () => {
       const yelpURL = 'https://api.yelp.com/v3/businesses/search?term=restaurants&location=Singapore';
