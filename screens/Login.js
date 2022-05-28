@@ -7,6 +7,7 @@ import StdButton from '../button';
 
 
 function LoginScreen({ navigation }) {
+  const [username, setUsername] = useState('Anonymous User');
   const [email, setEmail] = useState('');
   const [password, setPassword,] = useState('');
   const [isSignedIn, setIsSignedIn] = useState(false);
@@ -15,7 +16,7 @@ function LoginScreen({ navigation }) {
     createUserWithEmailAndPassword(authentication,email,password)
     .then(re => {
       setIsSignedIn(true)
-      navigation.navigate('Home')
+      navigation.navigate('HomeStack', {Email: email, Username: username})
     })
     .catch(error => alert(error.message))
   }
@@ -24,7 +25,7 @@ function LoginScreen({ navigation }) {
     signInWithEmailAndPassword(authentication,email,password)
     .then(re => {
       setIsSignedIn(true)
-      navigation.navigate('Home')
+      navigation.navigate('HomeStack', {Email: email, Username: username})
     })
     .catch(error => alert(error.message))
   }
@@ -36,10 +37,9 @@ function LoginScreen({ navigation }) {
       >
         <View style = {styles.inputContainer}>
            <Text style = {{ fontWeight: 'bold', fontSize: 50}} >Where Two Eat!</Text>
+           <TextInput placeholder = "Nickname"  onChangeText = {text => setUsername(text)} style = {styles.input} />
            <TextInput placeholder = "Email" value = {email} onChangeText = {text => setEmail(text)} style = {styles.input} />
            <TextInput placeholder = "Password" secureTextEntry value = {password} onChangeText = {text => setPassword(text)} style = {styles.input}/>
-
-
            <StdButton text = "Login" onPress={handleSignIn} />
            <StdButton text = "Register" onPress={handleSignUp} />
 

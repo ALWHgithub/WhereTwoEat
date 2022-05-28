@@ -3,23 +3,7 @@ import { View,Text,Image,TouchableOpacity, Dimensions } from 'react-native';
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons"
 
 export const localRestaurants = [
-    {
-        alias: "Beachside Bar",
-        image_url:
-          "https://static.onecms.io/wp-content/uploads/sites/9/2020/04/24/ppp-why-wont-anyone-rescue-restaurants-FT-BLOG0420.jpg",
-        categories: ["Cafe", "Bar"],
-        price: "$$",
-        reviews: 1244,
-        rating: 4.5,
-      },
-    {
-        alias: "Kurger Bing",
-        image_url : "https://upload.wikimedia.org/wikipedia/commons/b/bd/Spoon_%26_Pork_chori_burger.jpg",
-        categories: ["Western"],
-        price: "$$",
-        reviews: 1244,
-        rating: 4.9
-    }
+  
 ]
 
 export default function RestaurantItem(props) {

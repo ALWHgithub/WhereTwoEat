@@ -1,15 +1,14 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { View, Text, TouchableOpacity } from "react-native";
 import FontAwesome5 from "react-native-vector-icons/FontAwesome5";
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import HomeScreen from './Home'
-import PriceScreen from './Price';
 import { useNavigation } from '@react-navigation/native';
 
 const Tab = createBottomTabNavigator();
 
 
-export default function BottomTabs() {
+const BottomTabs = (props) => {
+
   const navigation = useNavigation();
   return (
 
@@ -23,7 +22,7 @@ export default function BottomTabs() {
     >
       <TouchableOpacity onPress={() => navigation.navigate('Home')} ><Icon icon="home" text="Home" /></TouchableOpacity>
       <TouchableOpacity onPress={() => navigation.navigate('Price')} ><Icon icon="receipt" text="Order" /></TouchableOpacity>
-      <Icon icon="user" text="Account" />
+      <TouchableOpacity onPress={() => navigation.navigate('Profile', {Email: props.email, Username: props.username})} ><Icon icon="user" text="Profile" /></TouchableOpacity>
     </View>
   );
 }
@@ -42,3 +41,5 @@ const Icon = (props) => (
       <Text>{props.text}</Text>
     </View>
 );
+
+export default BottomTabs
