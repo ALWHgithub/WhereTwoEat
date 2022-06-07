@@ -39,12 +39,14 @@ const RestaurantImage = (props) => (
 const RestaurantInfo = (props) => (
     <View style = {{ flexDirection : "row", justifyContent : "space-between", alignItems : "center",
     marginBottom: 10,}}>
-        <Text style={{textTransform: 'capitalize',}}>{replaceAll(props.alias,"-", " ")} </Text>
+        <Text style={{textTransform: 'capitalize',}}>
+        {replaceAll(props.alias,"-", " ")} 
+        </Text>
         <Text> 30-45 min </Text>
         <Text>{props.rating}</Text>
     </View>
 )
 
 const replaceAll = (str, find, replace) => (
-     str.replace(new RegExp(find, 'g'), replace)
+   str.replace(new RegExp(find, 'g'), replace)
 )

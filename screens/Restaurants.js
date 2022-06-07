@@ -8,56 +8,76 @@ import config from '../config'
 import StdButton from '../button';
 
 const YELP_API_KEY = config.API_KEY;
+let offset = 0
 
 export default function Restaurants({ route }) {
-    let offset = 0
+    const [pastRestaurantData,setPastRestaurantData] = useState(localRestaurants)
     const [restaurantData,setRestaurantData] = useState(localRestaurants)
     const [price, setPrice] = useState(route.params.Price);
     const [cat, setCat] = useState(route.params.Cat)
-    const[location, setLocation] = useState(route.params.Location)
     
-    const filter = (business,price,cat) => {
-      let filterPrice = business.price == price;
-      let filterCat =true;
-      if(cat == 'Others'){
-        filterCat = !(business.categories.find(element => element.title == cat) != undefined)
-      } else if (cat != 'Others'){
-          filterCat = business.categories.find(element => element.title == cat) != undefined
-        }
-        return filterPrice && filterCat
-      }
-      
-      
+    let yelpURL = `https://api.yelp.com/v3/businesses/search?term=restaurants&location=Singapore&offset=${offset}&limit=50`
+    function refresh() {
+      console.log(offset)
+      offset += 50
+      yelpURL = `https://api.yelp.com/v3/businesses/search?term=restaurants&location=Singapore&offset=${offset}&limit=50`
+      getDataFromYelp();
+    }
+
     const getDataFromYelp = () => {
-      const yelpURL = `https://api.yelp.com/v3/businesses/search?term=restaurants&location=Singapore&offset=${offset}&limit=50`
-      
+      const filter = (business,price,cat) => {
+        let filterPrice = business.price == price;
+        let filterCat =true;
+        if(cat == 'Others'){
+          filterCat = !(business.categories.find(element => element.title == cat) != undefined)
+        } else if (cat != 'Others'){
+            filterCat = business.categories.find(element => element.title == cat) != undefined
+          }
+          return filterPrice && filterCat
+        }
+        
+      const addJson = (json) => {
+        setRestaurantData(pastRestaurantData.concat(json.businesses.filter((business) =>filter(business,price,cat)))
+          )
+        return json
+      }
       const apiOptions = {
         headers: {
           Authorization : `Bearer ${YELP_API_KEY}`,
         },
       }
       
-      return fetch(yelpURL, apiOptions)
+      let data = fetch(yelpURL, apiOptions)
       .then((res) => res.json())
-      .then((json) =>setRestaurantData(
-        json.businesses.filter((business) =>
-        filter(business,price,cat))
-        ))
-      .catch(error => alert(error.message));
+      .then((json) => addJson(json))
+      .catch(error => alert(error.message))
+
+      return data
     };
+
+    const updateData = () => {
+      setPastRestaurantData(restaurantData);
+    }
+
+    
 
     useEffect(() => {
         getDataFromYelp();
-      }, []);
+      }, [])
+    useEffect(() => {
+      updateData();
+    }, [restaurantData])
+    
 
-    console.log(restaurantData)
-
+    
 
     return (
       <SafeAreaView style={styles.container}>
         <Text>Here are the restaurants !</Text>
         <ScrollView showsVerticalScrollIndication = {false}>
-          <RestaurantItem restaurantData = {restaurantData}/>
+          <RestaurantItem restaurantData = {restaurantData}>
+          </RestaurantItem>
+          <Button onPress = {refresh} title = "Refresh"></Button>
         </ScrollView>
         <StatusBar style="auto" />
       </SafeAreaView>
