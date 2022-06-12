@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { StatusBar } from 'expo-status-bar';
 import {TextInput, KeyboardAvoidingView,StyleSheet,Text,View, Button ,TouchableOpacity} from 'react-native';
 import { authentication } from "../firebase/firebase-config";
-import {signInWithEmailAndPassword, createUserWithEmailAndPassword } from "firebase/auth";
+import {signInWithEmailAndPassword, createUserWithEmailAndPassword, sendEmailVerification, applyActionCode} from "firebase/auth";
 import StdButton from '../button';
 
 
@@ -12,10 +12,28 @@ function LoginScreen({ navigation }) {
   const [password, setPassword,] = useState('');
   const [isSignedIn, setIsSignedIn] = useState(false);
 
+  const actionCodeSettings = {
+    url: 'https://www.google.com',
+    handleCodeInApp: true,
+    iOS: {
+      bundleId: 'com.example.ios'
+    },
+    android: {
+      packageName: 'com.example.android',
+      installApp: true,
+      minimumVersion: '12'
+    },
+    dynamicLinkDomain: 'example.page.link'
+  }
+
   const handleSignUp = () => {
     createUserWithEmailAndPassword(authentication,email,password)
-    .then(re => {
-      setIsSignedIn(true)
+    .then((userCredential) => {
+      const user = userCredential.user;
+      user.emailVerified
+      sendEmailVerification(user, actionCodeSettings);
+      applyActionCode(authentication, code);
+      setIsSignedIn(true);
       navigation.navigate('HomeStack', {Email: email, Username: username})
     })
     .catch(error => alert(error.message))
@@ -23,9 +41,15 @@ function LoginScreen({ navigation }) {
 
   const handleSignIn = () => {
     signInWithEmailAndPassword(authentication,email,password)
-    .then(re => {
+    .then((userCredential) => {
+      const user = userCredential.user;
+      if(user.emailVerified) {
+        navigation.navigate('Verification', {User: user})
+      } else {
+        sendEmailVerification(authentication.currentUser)
+        navigation.navigate('Verification', {User: user, Email: email, Username: username})
+      }
       setIsSignedIn(true)
-      navigation.navigate('HomeStack', {Email: email, Username: username})
     })
     .catch(error => alert(error.message))
   }

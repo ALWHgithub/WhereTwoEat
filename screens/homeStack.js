@@ -7,8 +7,8 @@ import HomeScreen from './Home';
 import FilterScreen from './FilterOrder';
 import Restaurtants from './Restaurants';
 import Profile from "./ProfilePage";
+
 import { LogBox } from "react-native"
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import BottomBar from './BottomBar'
 
 

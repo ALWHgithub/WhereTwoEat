@@ -59,8 +59,6 @@ export default function Restaurants({ route }) {
       setPastRestaurantData(restaurantData);
     }
 
-    
-
     useEffect(() => {
         getDataFromYelp();
       }, [])

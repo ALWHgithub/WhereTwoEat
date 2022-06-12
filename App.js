@@ -5,9 +5,10 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import HomeStack from './screens/HomeStack';
 import LoginScreen from './screens/Login'
+import Verification from "./screens/Verification";
 import { LogBox } from "react-native"
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import BottomBar from './screens/BottomBar'
+
+
 
 
 LogBox.ignoreAllLogs(true)
@@ -21,6 +22,7 @@ export default function App() {
       <Stack.Navigator screenOptions={screenOptions}  options={{ headerShown: false }}>
         <Stack.Screen name="Login" component={LoginScreen}/>
         <Stack.Screen name="HomeStack" component={HomeStack}/>
+        <Stack.Screen name="Verification" component={Verification} />
       </Stack.Navigator>
     </NavigationContainer>
   );
