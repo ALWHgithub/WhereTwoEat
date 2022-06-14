@@ -64,9 +64,7 @@ export default function Restaurants({ route }) {
       }, [])
     useEffect(() => {
       updateData();
-    }, [restaurantData])
-    
-
+    }, [restaurantData]);
     
 
     return (
@@ -81,13 +79,14 @@ export default function Restaurants({ route }) {
       </SafeAreaView>
     );
   }
-  
+
   const styles = StyleSheet.create({
     container: {
       flex: 1,
       backgroundColor: '#fff',
       alignItems: 'center',
       justifyContent: 'center',
+      paddingTop: 20,
     },
   });
   
