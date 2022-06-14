@@ -1,7 +1,7 @@
 import { authentication } from "../firebase/firebase-config";
-import {signInWithEmailAndPassword, createUserWithEmailAndPassword, sendEmailVerification, applyActionCode} from "firebase/auth";
+import {sendEmailVerification} from "firebase/auth";
 import React, { useEffect, useState } from "react";
-import {SafeAreaView,Text} from 'react-native';
+import {SafeAreaView,Text,StyleSheet,Alert} from 'react-native';
 import StdButton from '../button';
 
 export default function Verification({ navigation,route}) {
@@ -33,10 +33,19 @@ export default function Verification({ navigation,route}) {
 
 
     return (
-      <SafeAreaView >
+      <SafeAreaView style = {styles.container}>
         <Text>Please verify your email!</Text>
         <StdButton text = "Send anther email" onPress={sendEmail} />
         <StdButton text = "I'm verified !" onPress={handleSignIn} />
       </SafeAreaView>
     );
   }
+
+  const styles = StyleSheet.create({
+    container: {
+      flex: 1,
+      backgroundColor: '#fff',
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+  });

@@ -30,11 +30,8 @@ function LoginScreen({ navigation }) {
     createUserWithEmailAndPassword(authentication,email,password)
     .then((userCredential) => {
       const user = userCredential.user;
-      user.emailVerified
-      sendEmailVerification(user, actionCodeSettings);
-      applyActionCode(authentication, code);
-      setIsSignedIn(true);
-      navigation.navigate('HomeStack', {Email: email, Username: username})
+      sendEmailVerification(authentication.currentUser)
+      navigation.navigate('Verification', {User: user, Email: email, Username: username})
     })
     .catch(error => alert(error.message))
   }
@@ -44,7 +41,7 @@ function LoginScreen({ navigation }) {
     .then((userCredential) => {
       const user = userCredential.user;
       if(user.emailVerified) {
-        navigation.navigate('Verification', {User: user})
+        navigation.navigate('HomeStack', {User: user, Email: email, Username: username})
       } else {
         sendEmailVerification(authentication.currentUser)
         navigation.navigate('Verification', {User: user, Email: email, Username: username})
