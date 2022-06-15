@@ -44,7 +44,7 @@ function LoginScreen({ navigation }) {
     .then((userCredential) => {
       const user = userCredential.user;
       if(user.emailVerified) {
-        navigation.navigate('Verification', {User: user})
+        navigation.navigate('HomeStack', {User: user, Email: email, Username: username})
       } else {
         sendEmailVerification(authentication.currentUser)
         navigation.navigate('Verification', {User: user, Email: email, Username: username})
