@@ -3,7 +3,7 @@ import { StatusBar } from 'expo-status-bar';
 import {TextInput, KeyboardAvoidingView,StyleSheet,Text,View, Button ,TouchableOpacity} from 'react-native';
 import { authentication } from "../firebase/firebase-config";
 import {signInWithEmailAndPassword, createUserWithEmailAndPassword, sendEmailVerification, applyActionCode} from "firebase/auth";
-import StdButton from '../button';
+import StdButton from './components/button';
 
 
 function LoginScreen({ navigation }) {

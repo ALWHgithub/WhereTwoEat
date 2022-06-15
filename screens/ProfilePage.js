@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, SafeAreaView, Button, ScrollView } from 'react-native';
-import StdButton from '../button';
+import StdButton from './components/button';
 
 export default function Profile({ navigation,route}) {
   const handleSignOut = () => {

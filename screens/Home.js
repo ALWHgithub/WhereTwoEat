@@ -1,7 +1,7 @@
 import React, { useEffect, useState, Component } from 'react';
 import { StatusBar } from 'expo-status-bar';
 import {StyleSheet,Text,SafeAreaView, Divider, ScrollView } from 'react-native';
-import StdButton from '../button';
+import StdButton from './components/button';
 import BottomTabs from './BottomBar';
 import RestaurantItem from '../RestaurantItem';
 import { localRestaurants, VertRestaurantItem } from '../RestaurantItem';
