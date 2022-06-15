@@ -8,6 +8,7 @@ import FilterScreen from './FilterOrder';
 import Restaurtants from './Restaurants';
 import Profile from "./ProfilePage";
 
+
 import { LogBox } from "react-native"
 import BottomBar from './BottomBar'
 
@@ -18,18 +19,21 @@ const screenOptions = {
   headerShown: false,
 };
 
-export default function App({route}) {
-  const [email, setEmail] = useState(route.params.Email);
-  const [username, setUsername] = useState(route.params.Username);
+export default function App({route,navigation}) {
+  const handleSignOut = () => {
+    navigation.navigate('Login')
+  }
+
   return (
     <NavigationContainer   independent={true}>
+      
       <Stack.Navigator screenOptions={screenOptions}  options={{ headerShown: false }}>
         <Stack.Screen name="Home" component={HomeScreen}/>
         <Stack.Screen name="Price" component={FilterScreen} />
         <Stack.Screen name="Restaurant" component={Restaurtants} />
         <Stack.Screen name="Profile" component={Profile} />
       </Stack.Navigator>
-      <BottomBar navigation={HomeScreen.navigation} email = {email} username = {username}/>
+      <BottomBar navigation={HomeScreen.navigation} email = {route.params.email} username = {route.params.username} user = {route.params.user} masternav = {navigation}/>
     </NavigationContainer>
   );
 }

@@ -1,7 +1,7 @@
 import { authentication } from "../firebase/firebase-config";
-import {signInWithEmailAndPassword, createUserWithEmailAndPassword, sendEmailVerification, applyActionCode} from "firebase/auth";
+import {sendEmailVerification} from "firebase/auth";
 import React, { useEffect, useState } from "react";
-import {SafeAreaView, Text, StyleSheet} from 'react-native';
+import {SafeAreaView,Text,StyleSheet,Alert} from 'react-native';
 import StdButton from '../button';
 
 export default function Verification({ navigation,route}) {
@@ -24,8 +24,8 @@ export default function Verification({ navigation,route}) {
   }
 
   const handleSignIn = () => {
-    if(route.params.User.emailVerified) {
-      navigation.navigate('HomeStack', {Email: route.params.Email, Username: route.params.Username})
+    if(route.params.user.emailVerified) {
+      navigation.navigate('HomeStack', {user: route.params.user, email: route.params.email, username: route.params.username})
     } else {
       sendEmailVerification(authentication.currentUser)
     }
@@ -33,8 +33,8 @@ export default function Verification({ navigation,route}) {
 
 
     return (
-      <SafeAreaView style={styles.container}>
-        <Text style={{textAlign:"center",}} >Please verify your email!</Text>
+      <SafeAreaView style = {styles.container}>
+        <Text style={{textAlign:"center",}}>Please verify your email!</Text>
         <StdButton text = "Send anther email" onPress={sendEmail} />
         <StdButton text = "I'm verified !" onPress={handleSignIn} />
       </SafeAreaView>
