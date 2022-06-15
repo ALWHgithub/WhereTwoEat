@@ -20,6 +20,7 @@ export default function RestaurantItem(props) {
 }
 
 const windowWidth = Dimensions.get('window').width;
+const windowHeight = Dimensions.get('window').height;
 
 const RestaurantImage = (props) => (
     <>
@@ -50,3 +51,37 @@ const RestaurantInfo = (props) => (
 const replaceAll = (str, find, replace) => (
    str.replace(new RegExp(find, 'g'), replace)
 )
+
+
+export function VertRestaurantItem(props) {
+    return (
+        <>
+        {props.restaurantData.map((restaurant,index) => (
+        <View key = {index} >
+            <VertRestaurantImage image = {restaurant.image_url}/>
+        </View>
+        ))}
+        </>
+    )
+}
+
+const VertRestaurantImage = (props) => (
+    <>
+    <Image
+    source = {{
+        uri : props.image,
+    }}
+    
+    style = {{ 
+        width: windowWidth * 0.3,
+        height : windowHeight * 0.5, 
+        borderRadius: 20, 
+        resizeMode: 'cover', 
+        margin: 5,
+
+    }}
+    />
+
+    </>
+)
+
