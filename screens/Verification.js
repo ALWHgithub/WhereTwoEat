@@ -24,8 +24,8 @@ export default function Verification({ navigation,route}) {
   }
 
   const handleSignIn = () => {
-    if(route.params.User.emailVerified) {
-      navigation.navigate('HomeStack', {Email: route.params.Email, Username: route.params.Username})
+    if(route.params.user.emailVerified) {
+      navigation.navigate('HomeStack', {user: route.params.user, email: route.params.email, username: route.params.username})
     } else {
       sendEmailVerification(authentication.currentUser)
     }

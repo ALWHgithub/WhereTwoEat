@@ -33,7 +33,7 @@ export default function App({route,navigation}) {
         <Stack.Screen name="Restaurant" component={Restaurtants} />
         <Stack.Screen name="Profile" component={Profile} />
       </Stack.Navigator>
-      <BottomBar navigation={HomeScreen.navigation} email = {route.params.Email} username = {route.params.Username} user = {route.params.User} masternav = {navigation}/>
+      <BottomBar navigation={HomeScreen.navigation} email = {route.params.email} username = {route.params.username} user = {route.params.user} masternav = {navigation}/>
     </NavigationContainer>
   );
 }

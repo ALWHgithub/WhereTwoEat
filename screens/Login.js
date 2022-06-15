@@ -31,7 +31,7 @@ function LoginScreen({ navigation }) {
     .then((userCredential) => {
       const user = userCredential.user;
       sendEmailVerification(authentication.currentUser)
-      navigation.navigate('Verification', {User: user, Email: email, Username: username})
+      navigation.navigate('Verification', {user: user, email: email, username: username})
     })
     .catch(error => alert(error.message))
   }
@@ -41,10 +41,10 @@ function LoginScreen({ navigation }) {
     .then((userCredential) => {
       const user = userCredential.user;
       if(user.emailVerified) {
-        navigation.navigate('HomeStack', {User: user, Email: email, Username: username})
+        navigation.navigate('HomeStack', {user: user, email: email, username: username})
       } else {
         sendEmailVerification(authentication.currentUser)
-        navigation.navigate('Verification', {User: user, Email: email, Username: username})
+        navigation.navigate('Verification', {user: user, email: email, username: username})
       }
       setIsSignedIn(true)
     })

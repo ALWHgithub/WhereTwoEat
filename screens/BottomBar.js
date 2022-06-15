@@ -23,7 +23,7 @@ const BottomTabs = (props) => {
       <TouchableOpacity onPress={() => navigation.navigate('Home')} ><Icon icon="home" text="Home" /></TouchableOpacity>
       <TouchableOpacity onPress={() => navigation.navigate('Price')} ><Icon icon="receipt" text="Order" /></TouchableOpacity>
       <TouchableOpacity onPress={() => navigation.navigate('Profile',
-       {User: props.user, Email: props.email, Username: props.username, MasterNav: props.masternav})
+       {user: props.user, email: props.email, username: props.username, masternav: props.masternav})
        } ><Icon icon="user" text="Profile" /></TouchableOpacity>
     </View>
   );
