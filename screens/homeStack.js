@@ -9,6 +9,7 @@ import Restaurtants from './Restaurants';
 import Profile from "./ProfilePage";
 import FilterPrice from "./Filters/FilterPrice"
 import FilterCat from "./Filters/FilterCat"
+import GetRoom from "./GetRoom"
 
 import { LogBox } from "react-native"
 import BottomBar from './BottomBar'
@@ -35,6 +36,7 @@ export default function App({route,navigation}) {
         <Stack.Screen name="Profile" component={Profile} />
         <Stack.Screen name="Price" component={FilterPrice} />
         <Stack.Screen name="Cat" component={FilterCat} />
+        <Stack.Screen name="GetRoom" component={GetRoom} />
       </Stack.Navigator>
       <BottomBar navigation={HomeScreen.navigation} email = {route.params.email} username = {route.params.username} user = {route.params.user} masternav = {navigation}/>
     </NavigationContainer>
