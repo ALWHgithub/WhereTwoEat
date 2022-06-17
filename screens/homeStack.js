@@ -4,9 +4,10 @@ import { StyleSheet, Text, View,SafeAreaView, Button } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import HomeScreen from './Home';
-import FilterScreen from './FilterOrder';
+import FilterScreen from './FilterOrder'; 
 import Restaurtants from './Restaurants';
 import Profile from "./ProfilePage";
+import EditProfile from "./EditProfilePage";
 
 
 import { LogBox } from "react-native"
@@ -32,6 +33,7 @@ export default function App({route,navigation}) {
         <Stack.Screen name="Price" component={FilterScreen} />
         <Stack.Screen name="Restaurant" component={Restaurtants} />
         <Stack.Screen name="Profile" component={Profile} />
+        <Stack.Screen name="EditProfile" component={EditProfile} />
       </Stack.Navigator>
       <BottomBar navigation={HomeScreen.navigation} email = {route.params.email} username = {route.params.username} user = {route.params.user} masternav = {navigation}/>
     </NavigationContainer>

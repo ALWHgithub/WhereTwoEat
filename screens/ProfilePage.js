@@ -7,12 +7,15 @@ export default function Profile({ navigation,route}) {
   const handleSignOut = () => {
     route.params.masternav.navigate("Login")
   }
-
-
+  const handleEditProfilePage = () => {
+    navigation.navigate('EditProfile', {user: route.user, username: route.params.username, email: route.params.user.email});
+  }
     return (
     <SafeAreaView style={styles.container}>
         <Text>Hey there, {route.params.username} !</Text>
         <Text>Your email is {route.params.user.email}</Text>
+        
+        <StdButton text = "Edit Profile" onPress={handleEditProfilePage} />
         <StdButton text = "Logout ?" onPress={handleSignOut} />
     </SafeAreaView>
       );
