@@ -5,7 +5,7 @@ import RestaurantItem from '../RestaurantItem';
 import { localRestaurants } from '../RestaurantItem';
 import GetLocation from 'react-native-get-location'
 import config from '../config'
-import StdButton from '../button';
+import StdButton from './components/button';
 
 const YELP_API_KEY = config.API_KEY;
 let offset = 0
