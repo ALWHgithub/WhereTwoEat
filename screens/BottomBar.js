@@ -3,7 +3,6 @@ import { View, Text, TouchableOpacity } from "react-native";
 import FontAwesome5 from "react-native-vector-icons/FontAwesome5";
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { useNavigation } from '@react-navigation/native';
-
 const Tab = createBottomTabNavigator();
 
 
@@ -21,11 +20,18 @@ const BottomTabs = (props) => {
       }}
     >
       <TouchableOpacity onPress={() => navigation.navigate('Home')} ><Icon icon="home" text="Home" /></TouchableOpacity>
-      <TouchableOpacity onPress={() => navigation.navigate('Price')} ><Icon icon="receipt" text="Order" /></TouchableOpacity>
+
+      <TouchableOpacity onPress={() => {
+        global.offset = 0
+        navigation.navigate('Price')
+        }} ><Icon icon="receipt" text="Order" />
+        </TouchableOpacity>
+
       <TouchableOpacity onPress={() => navigation.navigate('Profile',
        {user: props.user, email: props.email, username: props.username, masternav: props.masternav})
        } ><Icon icon="user" text="Profile" /></TouchableOpacity>
-       <TouchableOpacity onPress={() => navigation.navigate('GetRoom')} ><Icon icon="people-arrows-left-right" text="Room" /></TouchableOpacity>
+
+       <TouchableOpacity onPress={() => navigation.navigate('GetRoom')} ><Icon icon="glass-cheers" text="Group Order" /></TouchableOpacity>
     </View>
   );
 }

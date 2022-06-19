@@ -8,18 +8,20 @@ import config from '../config'
 import StdButton from './components/button';
 
 const YELP_API_KEY = config.API_KEY;
-let offset = 0
+global.offset = 0
+
 
 export default function Restaurants({ route }) {
     const [pastRestaurantData,setPastRestaurantData] = useState(localRestaurants)
     const [restaurantData,setRestaurantData] = useState(localRestaurants)
     const [price, setPrice] = useState(route.params.Price);
     const [cat, setCat] = useState(route.params.Cat)
+
     
     let yelpURL = `https://api.yelp.com/v3/businesses/search?term=restaurants&location=Singapore&offset=${offset}&limit=50`
     function refresh() {
       console.log(offset)
-      offset += 50
+      global.offset += 50
       yelpURL = `https://api.yelp.com/v3/businesses/search?term=restaurants&location=Singapore&offset=${offset}&limit=50`
       getDataFromYelp();
     }

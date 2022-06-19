@@ -10,7 +10,7 @@ function LoginScreen({ navigation }) {
   const [username, setUsername] = useState('Anonymous User');
   const [email, setEmail] = useState('');
   const [password, setPassword,] = useState('');
-  const [isSignedIn, setIsSignedIn] = useState(false);
+
 
   const actionCodeSettings = {
     url: 'https://www.google.com',
@@ -46,7 +46,6 @@ function LoginScreen({ navigation }) {
         sendEmailVerification(authentication.currentUser)
         navigation.navigate('Verification', {user: user, email: email, username: username})
       }
-      setIsSignedIn(true)
     })
     .catch(error => alert(error.message))
   }

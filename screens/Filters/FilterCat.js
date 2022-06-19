@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View,SafeAreaView, Button } from 'react-native';
 import StdButton from "../components/button";
+import Restaurants from "../Restaurants";
 
 function FilterCat({ navigation,route }) {
   const [cat, setCat] = useState('')
@@ -12,7 +13,9 @@ function FilterCat({ navigation,route }) {
       <StdButton text = "Chinese" onPress={() =>setCat('Chinese')} />
       <StdButton text = "All" onPress={() =>setCat('Others')} />
       </View>
-      <StdButton text = "Let's Go!" onPress={() => navigation.navigate('Restaurant', {Price: route.params.Price, Cat: cat})} />
+      <StdButton text = "Let's Go!" onPress={() => {
+        navigation.navigate('Restaurant', {Price: route.params.Price, Cat: cat, Offset: 0})
+      }} />
       <StatusBar style="auto" />
     </SafeAreaView>
   );

@@ -4,11 +4,11 @@ import { StyleSheet, Text, View,SafeAreaView, Button } from 'react-native';
 import StdButton from "../components/button";
 
 function FilterCat({ navigation }) {
-  const [finalPrice, setPrice] = useState('$$');
+  const [finalPrice, setPrice] = useState('');
 
   const handlePrice = (fig) => {
     setPrice(fig);
-    navigation.navigate('Cat', {Price: finalPrice})
+    navigation.navigate('Cat', {Price: fig})
     }
 
 
