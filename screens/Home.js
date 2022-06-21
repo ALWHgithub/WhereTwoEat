@@ -12,8 +12,6 @@ const YELP_API_KEY = config.API_KEY;
 
 
 function HomeScreen({ navigation }) {
-
-  let offset = 0
   const [restaurantData,setRestaurantData] = useState(localRestaurants)
      
     

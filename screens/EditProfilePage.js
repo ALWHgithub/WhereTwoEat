@@ -2,7 +2,7 @@ import { authentication } from "../firebase/firebase-config";
 import {sendEmailVerification} from "firebase/auth";
 import React, { useEffect, useState } from "react";
 import {SafeAreaView,Text,StyleSheet,Alert, View } from 'react-native';
-import StdButton from '../button'; 
+import StdButton from './components/button'
 import Profile from "./ProfilePage";
 
 export default function EditProfilePage({ navigation,route}) {
