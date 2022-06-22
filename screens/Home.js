@@ -3,8 +3,8 @@ import { StatusBar } from 'expo-status-bar';
 import {StyleSheet,Text,SafeAreaView, Divider, ScrollView } from 'react-native';
 import StdButton from './components/button';
 import BottomTabs from './BottomBar';
-import RestaurantItem from '../RestaurantItem';
-import { localRestaurants} from '../RestaurantItem';
+import RestaurantItem from './components/RestaurantItem';
+import { localRestaurants} from './components/RestaurantItem';
 import GetLocation from 'react-native-get-location'
 import config from '../config'
 
