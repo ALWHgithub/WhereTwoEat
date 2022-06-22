@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, SafeAreaView, Button, ScrollView } from 'react-native';
-import RestaurantItem from '../RestaurantItem';
-import { localRestaurants } from '../RestaurantItem';
+import RestaurantItem from './components/RestaurantItem';
+import { localRestaurants } from './components/RestaurantItem';
 import GetLocation from 'react-native-get-location'
 import config from '../config'
 import StdButton from './components/button';
