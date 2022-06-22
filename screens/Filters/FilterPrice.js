@@ -7,7 +7,7 @@ import Slider from '@react-native-community/slider';
 import {GLOBAL_RESTAURANT_PRICE, GLOBAL_RESTAURANT_CAT} from '../Restaurants';
 
 
-function FilterCat({ navigation }) {
+function FilterPrice({ navigation }) {
   const [finalPrice, setPrice] = useState('');
   const [range, setRange] = useState(1);
 
@@ -19,7 +19,6 @@ function FilterCat({ navigation }) {
 
   return (
     <SafeAreaView style={styles.container}>
-      <Text>Previously Selected: {GLOBAL_RESTAURANT_PRICE}, {GLOBAL_RESTAURANT_CAT}</Text>
       <Text>What price ? {"$".repeat(range)} </Text>
       <View>
       {/* <View style={{flexDirection: 'row'}}>
@@ -63,4 +62,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default FilterCat;
+export default FilterPrice;

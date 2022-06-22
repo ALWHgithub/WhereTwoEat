@@ -9,7 +9,7 @@ import GetLocation from 'react-native-get-location'
 import config from '../config'
 
 const YELP_API_KEY = config.API_KEY;
-
+global.offset = 0
 
 function HomeScreen({ navigation }) {
   const [restaurantData,setRestaurantData] = useState(localRestaurants)

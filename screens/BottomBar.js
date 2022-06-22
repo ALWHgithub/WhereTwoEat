@@ -31,7 +31,9 @@ const BottomTabs = (props) => {
        {user: props.user, email: props.email, username: props.username, masternav: props.masternav})
        } ><Icon icon="user" text="Profile" /></TouchableOpacity>
 
-       <TouchableOpacity onPress={() => navigation.navigate('GetRoom')} ><Icon icon="glass-cheers" text="Group Order" /></TouchableOpacity>
+       <TouchableOpacity onPress={() => navigation.navigate('EnterRoom',
+       {user: props.user, email: props.email, username: props.username, masternav: props.masternav})
+       } ><Icon icon="glass-cheers" text="Group Order" /></TouchableOpacity>
     </View>
   );
 }

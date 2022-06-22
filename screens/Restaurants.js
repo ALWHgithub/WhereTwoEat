@@ -8,21 +8,13 @@ import config from '../config'
 import StdButton from './components/button';
 
 const YELP_API_KEY = config.API_KEY;
-global.offset = 0
-let GLOBAL_RESTAURANT_PRICE = 'Unselected';
-let GLOBAL_RESTAURANT_CAT = 'Unselected';
-
 
 export default function Restaurants({ route }) {
     const [pastRestaurantData,setPastRestaurantData] = useState(localRestaurants)
     const [restaurantData,setRestaurantData] = useState(localRestaurants)
     const [price, setPrice] = useState(route.params.Price);
     const [cat, setCat] = useState(route.params.Cat)
-    GLOBAL_RESTAURANT_PRICE = price;
-    GLOBAL_RESTAURANT_CAT = cat;
 
-    
-    
     let yelpURL = `https://api.yelp.com/v3/businesses/search?term=restaurants&location=Singapore&offset=${offset}&limit=50`
     function refresh() {
       console.log(offset)
@@ -86,8 +78,6 @@ export default function Restaurants({ route }) {
       </SafeAreaView>
     );
   }
-
-  export { GLOBAL_RESTAURANT_PRICE, GLOBAL_RESTAURANT_CAT };
 
   const styles = StyleSheet.create({
     container: {

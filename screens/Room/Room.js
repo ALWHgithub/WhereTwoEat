@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { StyleSheet, Text, View,SafeAreaView, Button } from 'react-native';
-import { authentication } from "../firebase/firebase-config";
+import { StyleSheet, Text, View,SafeAreaView, Button, TextInput } from 'react-native';
+import { authentication } from "../../firebase/firebase-config";
 import {
   getFirestore,collection,getDocs,
   addDoc, updateDoc
 } from 'firebase/firestore'
+import StdButton from '../components/button';
 
 
 export default function App({route,navigation}) {
@@ -37,7 +38,10 @@ export default function App({route,navigation}) {
   return (
     <SafeAreaView style={styles.container}>
         {renderRoomName()}
+        <TextInput placeholder = "Nickname"  onChangeText = {text => setUsername(text)} style = {styles.input} />
+        <StdButton text = "Add to room" />
     </SafeAreaView>
+    
   );
 }
 
@@ -54,5 +58,15 @@ const styles = StyleSheet.create({
       borderRadius: '25px',
       alignItems: 'center',
       justifyContent: 'center',
+    },
+    input: {
+      backgroundColor: 'white',
+      borderColor: '#e8e8e8',
+      borderWidth: 1,
+      borderRadius: 5,
+      padding: 10,
+      margin: 5,
+
+
     },
   });

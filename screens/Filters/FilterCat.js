@@ -2,19 +2,25 @@ import React, { useEffect, useState } from "react";
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View,SafeAreaView, Button } from 'react-native';
 import StdButton from "../components/button";
-import Restaurants from "../Restaurants";
+ 
 
 function FilterCat({ navigation,route }) {
   const [cat, setCat] = useState('')
   return (
     <SafeAreaView style={styles.container}>
+      <View style={{flexDirection: 'row'}}>
+      <StdButton text = {route.params.Price} />
+      </View>
+
+
       <Text>What Cuisine ?</Text>
+
       <View style={{flexDirection: 'row'}}>
       <StdButton text = "Chinese" onPress={() =>setCat('Chinese')} />
       <StdButton text = "All" onPress={() =>setCat('Others')} />
       </View>
-      <StdButton text = "Let's Go!" onPress={() => {
-        navigation.navigate('Restaurant', {Price: route.params.Price, Cat: cat, Offset: 0})
+      <StdButton text = "Next" onPress={() => {
+        navigation.navigate('Loc', {Price: route.params.Price, Cat: cat, Offset: 0})
       }} />
       <StatusBar style="auto" />
     </SafeAreaView>

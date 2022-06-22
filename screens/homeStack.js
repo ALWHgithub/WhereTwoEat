@@ -11,8 +11,9 @@ import Profile from "./ProfilePage";
 import EditProfile from "./EditProfilePage";
 import FilterPrice from "./Filters/FilterPrice"
 import FilterCat from "./Filters/FilterCat"
-import GetRoom from "./GetRoom"
-
+import FilterLoc from "./Filters/FilterLocation";
+import EnterRoom from "./Room/EnterRoom"
+import CreateRoom from "./Room/CreateRoom"
 
 import { LogBox } from "react-native"
 import BottomBar from './BottomBar'
@@ -40,8 +41,9 @@ export default function App({route,navigation}) {
         <Stack.Screen name="EditProfile" component={EditProfile} />
         <Stack.Screen name="Price" component={FilterPrice} />
         <Stack.Screen name="Cat" component={FilterCat} />
-        <Stack.Screen name="GetRoom" component={GetRoom} />
-
+        <Stack.Screen name="Loc" component={FilterLoc} />
+        <Stack.Screen name="EnterRoom" component={EnterRoom} />
+        <Stack.Screen name="CreateRoom" component={CreateRoom} />
       </Stack.Navigator>
       <BottomBar navigation={HomeScreen.navigation} email = {route.params.email} username = {route.params.username} user = {route.params.user} masternav = {navigation}/>
     </NavigationContainer>
