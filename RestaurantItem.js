@@ -10,10 +10,29 @@ export default function RestaurantItem(props) {
     return (
         <>
         {props.restaurantData.map((restaurant,index) => (
-        <View key = {index}>
-            <RestaurantImage image = {restaurant.image_url}/>
-            <RestaurantInfo alias = {restaurant.alias} rating = {restaurant.rating}/>
-        </View>
+            <TouchableOpacity
+                key={index}
+                activeOpacity={1}
+                style={{ marginBottom: 25 }}
+                // onPress={() =>
+                //     navigation.navigate("RestaurantDetail", {
+                //     name: restaurant.name,
+                //     image: restaurant.image_url,
+                //     price: restaurant.price,
+                //     reviews: restaurant.review_count,
+                //     rating: restaurant.rating,
+                //     categories: restaurant.categories,
+                //     })
+                // }
+            >
+            
+
+                <View>
+                    <RestaurantImage image = {restaurant.image_url}/>
+                    <RestaurantInfo alias = {restaurant.alias} rating = {restaurant.rating}/>
+                </View>
+
+            </TouchableOpacity>
         ))}
         </>
     )
@@ -29,7 +48,7 @@ const RestaurantImage = (props) => (
         uri : props.image,
     }}
     
-    style = {{ width: windowWidth - 10, height : 180, borderRadius: 20, resizeMode: 'cover', }}
+    style = {{ width: windowWidth - 10, height : 180, borderRadius: 0, resizeMode: 'cover', }}
     />
     <TouchableOpacity style={{position: 'absolute', right: 20, top: 20}}>
         <MaterialCommunityIcons name = 'heart-outline' size ={25} color = "#ffffff"/>
@@ -38,13 +57,32 @@ const RestaurantImage = (props) => (
 )
 
 const RestaurantInfo = (props) => (
-    <View style = {{ flexDirection : "row", justifyContent : "space-between", alignItems : "center",
-    marginBottom: 10,}}>
-        <Text style={{textTransform: 'capitalize',}}>
-        {replaceAll(props.alias,"-", " ")} 
-        </Text>
-        <Text> 30-45 min </Text>
-        <Text>{props.rating}</Text>
+    <View style = {{ flexDirection : "row", 
+        justifyContent : "space-between", 
+        alignItems : "center",
+        marginTop: 10,
+    }}>
+        
+        <View>
+
+            <Text style={{ontSize: 14, textTransform: 'capitalize', fontWeight: 'bold',}}>
+                {replaceAll(props.alias,"-", " ")} 
+            </Text>            
+            <Text style={{fontSize: 12, color: 'grey',}}>30-45 min</Text>
+            
+        </View>
+    
+        <View style={{
+                backgroundColor: "#eee",
+                height: 30,
+                width: 30,
+                alignItems: "center",
+                justifyContent: "center",
+                borderRadius: 15,
+            }}
+        >
+            <Text>{props.rating}</Text>
+        </View>
     </View>
 )
 
