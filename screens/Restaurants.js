@@ -12,12 +12,16 @@ const YELP_API_KEY = config.API_KEY;
 export default function Restaurants({ route }) {
     const [pastRestaurantData,setPastRestaurantData] = useState(localRestaurants)
     const [restaurantData,setRestaurantData] = useState(localRestaurants)
-    const [price, setPrice] = useState(route.params.Price);
-    const [cat, setCat] = useState(route.params.Cat)
+    const [price, setPrice] = useState(route.params.price);
+    const [cat, setCat] = useState(route.params.cat)
+    const long = route.params.long
+    const lat = route.params.lat
+    const range = route.params.range
 
     let yelpURL = `https://api.yelp.com/v3/businesses/search?term=restaurants&location=Singapore&offset=${offset}&limit=50`
     function refresh() {
       console.log(offset)
+      console.log(cat)
       global.offset += 50
       yelpURL = `https://api.yelp.com/v3/businesses/search?term=restaurants&location=Singapore&offset=${offset}&limit=50`
       getDataFromYelp();

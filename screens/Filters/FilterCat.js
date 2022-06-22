@@ -5,23 +5,34 @@ import StdButton from "../components/button";
  
 
 function FilterCat({ navigation,route }) {
-  const [cat, setCat] = useState('')
+  const [cat, setCat] = useState('Others')
+  const price = route.params.price
+  const toLoc = (cat) => {
+      navigation.navigate('Loc', {price: route.params.price, cat: cat})
+  }
+
+  const toRes = (cat) => {
+      navigation.navigate('Restaurant', {price: route.params.price, cat: cat})
+
+    
+  }
+
   return (
     <SafeAreaView style={styles.container}>
       <View style={{flexDirection: 'row'}}>
-      <StdButton text = {route.params.Price} />
+      <Text>You have chosen : {route.params.price} </Text>
       </View>
-
 
       <Text>What Cuisine ?</Text>
 
       <View style={{flexDirection: 'row'}}>
       <StdButton text = "Chinese" onPress={() =>setCat('Chinese')} />
+      <StdButton text = "Japanese" onPress={() =>setCat('Japanese')} />
       <StdButton text = "All" onPress={() =>setCat('Others')} />
       </View>
-      <StdButton text = "Next" onPress={() => {
-        navigation.navigate('Loc', {Price: route.params.Price, Cat: cat, Offset: 0})
-      }} />
+      <View style={styles.nestedViewStyle}><Text>{'     '}</Text></View>
+      <StdButton text = "Filter Based on Location" onPress={() =>toLoc(cat)} />
+      <StdButton text = "Get Results !" onPress={() =>toRes(cat)} />
       <StatusBar style="auto" />
     </SafeAreaView>
   );
@@ -41,6 +52,11 @@ const styles = StyleSheet.create({
     borderRadius: '25px',
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  nestedViewStyle: {
+    width: 0,
+    borderBottomWidth: 1,
+    marginVertical: 5
   },
 });
 

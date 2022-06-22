@@ -51,7 +51,12 @@ function HomeScreen({ navigation }) {
       <Text>   </Text>
       <StdButton
         text="Start New Order ?" 
-        onPress={() => navigation.navigate('Price')}
+        onPress={() => {
+          global.offset = 0
+          navigation.navigate('Price')
+        }
+          
+        }
       />
       <StatusBar style="auto" />
     </SafeAreaView>

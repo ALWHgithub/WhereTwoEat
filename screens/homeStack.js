@@ -3,15 +3,15 @@ import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View,SafeAreaView, Button } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import HomeScreen from './Home';
 
-import FilterScreen from './FilterStart';
-import Restaurtants from './Restaurants';
-import Profile from "./ProfilePage";
-import EditProfile from "./EditProfilePage";
+import HomeScreen from './Home'
+import FilterScreen from './FilterStart'
+import Restaurtants from './Restaurants'
+import Profile from "./ProfilePage"
+import EditProfile from "./EditProfilePage"
 import FilterPrice from "./Filters/FilterPrice"
 import FilterCat from "./Filters/FilterCat"
-import FilterLoc from "./Filters/FilterLocation";
+import FilterLoc from "./Filters/FilterLocation"
 import EnterRoom from "./Room/EnterRoom"
 import CreateRoom from "./Room/CreateRoom"
 

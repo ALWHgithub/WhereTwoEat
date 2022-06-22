@@ -3,17 +3,16 @@ import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View,SafeAreaView, Button } from 'react-native';
 import StdButton from "../components/button";
 import Slider from '@react-native-community/slider'; 
-// need to import sth from restaurant
-import {GLOBAL_RESTAURANT_PRICE, GLOBAL_RESTAURANT_CAT} from '../Restaurants';
 
 
-function FilterPrice({ navigation }) {
+
+function FilterPrice({ navigation,route }) {
   const [finalPrice, setPrice] = useState('');
   const [range, setRange] = useState(1);
 
   const handlePrice = (fig) => {
     setPrice(fig);
-    navigation.navigate('Cat', {Price: fig})
+    navigation.navigate('Cat', {price: fig})
   }
 
 
