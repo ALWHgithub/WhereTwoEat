@@ -30,7 +30,7 @@ export default function Reviews({ navigation,route}) {
     getDataFromYelp();
   }, [])
 
-
+  // JSON.stringify(reviews);
     return (
         // Note that I won't be using safe area view here
         <SafeAreaView style={styles.container}>
@@ -39,27 +39,23 @@ export default function Reviews({ navigation,route}) {
             <RestaurantAbout route={route}/>
 
             {/* To make this into a ReviewItem class soonTM */}
-            {/* <Text>{JSON.stringify(reviews)}</Text> */}
+            <Text>{JSON.stringify(reviews)}</Text>
             
-            <Text>{JSON.stringify(reviews['reviews'][0]['rating'])}</Text>
+            {/* <Text>{JSON.stringify(reviews['reviews'][0]['rating'])}</Text>
             <Text>{JSON.stringify(reviews['reviews'][0]['time_created'])}</Text>
             <Image source={{ uri: reviews['reviews'][0]['user']['image_url'] }} style={{ width: 50, height: 50 }} />
-            {/* <Text>{JSON.stringify(reviews['reviews'][0]['user']['image_url'])}</Text> */}
             <Text>{reviews['reviews'][0]['text']}</Text>
 
             <Text>{JSON.stringify(reviews['reviews'][1]['rating'])}</Text>
             <Text>{JSON.stringify(reviews['reviews'][1]['time_created'])}</Text>
             <Image source={{ uri: reviews['reviews'][1]['user']['image_url'] }} style={{ width: 50, height: 50 }} />
-            {/* <Text>{JSON.stringify(reviews['reviews'][0]['user']['image_url'])}</Text> */}
             <Text>{reviews['reviews'][1]['text']}</Text>            
             
             <Text>{JSON.stringify(reviews['reviews'][2]['rating'])}</Text>
             <Text>{JSON.stringify(reviews['reviews'][2]['time_created'])}</Text>
             <Image source={{ uri: reviews['reviews'][2]['user']['image_url'] }} style={{ width: 50, height: 50 }} />
-            {/* <Text>{JSON.stringify(reviews['reviews'][0]['user']['image_url'])}</Text> */}
-            <Text>{reviews['reviews'][2]['text']}</Text>
+            <Text>{reviews['reviews'][2]['text']}</Text> */}
 
-            <Text></Text>
           </ScrollView>
         </SafeAreaView>
         )
