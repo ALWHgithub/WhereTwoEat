@@ -4,7 +4,6 @@ import React, { useEffect, useState } from "react";
 import {SafeAreaView,Text,StyleSheet,Alert, View,Button } from 'react-native';
 import StdButton from '../components/button';
 import {StdButtonBlue} from '../components/button'; 
-import Profile from "./ProfilePage";
 import {
   getFirestore,collection,getDocs,
   addDoc, updateDoc
