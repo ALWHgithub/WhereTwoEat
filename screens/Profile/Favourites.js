@@ -1,17 +1,17 @@
 import React, { useEffect, useState, Component } from 'react';
 import { StatusBar } from 'expo-status-bar';
 import {StyleSheet,Text,SafeAreaView, Divider, ScrollView } from 'react-native';
-import StdButton from './components/button';
-import BottomTabs from './BottomBar';
-import RestaurantItem from './components/RestaurantItem';
-import { localRestaurants} from './components/RestaurantItem';
+import StdButton from '../components/button';
+import BottomTabs from '../BottomBar';
+import RestaurantItem from '../components/RestaurantItem';
+import { localRestaurants} from '../components/RestaurantItem';
 import GetLocation from 'react-native-get-location'
-import config from '../config'
+import config from '../../config'
 
 const YELP_API_KEY = config.API_KEY;
-global.offset = 0
 
-function HomeScreen({ navigation }) {
+
+function Favourites({ navigation }) {
   const [restaurantData,setRestaurantData] = useState(localRestaurants)
      
     
@@ -38,41 +38,13 @@ function HomeScreen({ navigation }) {
 
   return (
     <SafeAreaView style={styles.container}>
-
-      {/* <ScrollView 
-      showsHorizontalScrollIndication = {false} 
-      horizontal
-      // ref = {scroll_ref}
-      contentContainerStyle = {{alignItems: 'center',}}
-      >
-        <VertRestaurantItem restaurantData = {restaurantData}/>
-      </ScrollView> */}
       <ScrollView>
-        <RestaurantItem restaurantData = {restaurantData} navigation = {navigation}/>
+        <RestaurantItem restaurantData = {restaurantData}/>
       </ScrollView>
-
       <Text>   </Text>
-      <StdButton
-        text="Start New Order ?" 
-        onPress={() => {
-          global.offset = 0
-          navigation.navigate('Price')
-        }
-          
-        }
-      />
-      <StatusBar style="auto" />
     </SafeAreaView>
   );
 }
-
-// const autoScroll = () => {
-//   this.refs[scroll_ref].scrollTo({x: 50});
-// }
-
-// componentDidMount() {
-//   this.autoScroll;
-// }
 
 const styles = StyleSheet.create({
   container: {
@@ -84,4 +56,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default HomeScreen;
+export default Favourites;

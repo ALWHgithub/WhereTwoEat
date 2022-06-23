@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, SafeAreaView, Button, ScrollView } from 'react-native';
-import StdButton from './components/button';
+import StdButton from '../components/button';
 
 export default function Profile({ navigation,route}) {
   const handleSignOut = () => {
@@ -10,13 +10,19 @@ export default function Profile({ navigation,route}) {
   const handleEditProfilePage = () => {
     navigation.navigate('EditProfile', {user: route.user, username: route.params.username, email: route.params.user.email});
   }
+  const handleFavourites = () => {
+    navigation.navigate('Favourites', {user: route.user, username: route.params.username, email: route.params.user.email});
+  }
+
     return (
     <SafeAreaView style={styles.container}>
-        <Text>Hey there, {route.params.username} !</Text>
-        <Text>Your email is {route.params.user.email}</Text>
-        
-        <StdButton text = "Edit Profile" onPress={handleEditProfilePage} />
-        <StdButton text = "Logout ?" onPress={handleSignOut} />
+      <Text>Hey there, {route.params.username} !</Text>
+      <Text>Your email is {global.user.email}</Text>
+    <SafeAreaView>
+      <StdButton text = "Edit Profile" onPress={handleEditProfilePage} />
+      <StdButton text = "See Favourites" onPress={handleFavourites} />
+      <StdButton text = "Logout ?" onPress={handleSignOut} />
+    </SafeAreaView>
     </SafeAreaView>
       );
 }

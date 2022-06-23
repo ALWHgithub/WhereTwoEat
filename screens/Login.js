@@ -59,6 +59,7 @@ function LoginScreen({ navigation }) {
     createUserWithEmailAndPassword(authentication,email,password)
     .then((userCredential) => {
       const user = userCredential.user;
+      global.user = user
       sendEmailVerification(authentication.currentUser)
       navigation.navigate('Verification', {user: user, email: email, username: username})
     })
@@ -69,6 +70,7 @@ function LoginScreen({ navigation }) {
     signInWithEmailAndPassword(authentication,email,password)
     .then((userCredential) => {
       const user = userCredential.user;
+      global.user = user
       if(user.emailVerified) {
         navigation.navigate('HomeStack', {user: user, email: email, username: username})
       } else {

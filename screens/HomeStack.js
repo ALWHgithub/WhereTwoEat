@@ -7,8 +7,10 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import HomeScreen from './Home'
 import FilterScreen from './FilterStart'
 import Restaurtants from './Restaurants'
-import Profile from "./ProfilePage"
-import EditProfile from "./EditProfilePage"
+import Reviews from './Reviews'
+import Profile from "./Profile/ProfilePage"
+import EditProfile from "./Profile/EditProfilePage"
+import Favourites from "./Profile/Favourites"
 import FilterPrice from "./Filters/FilterPrice"
 import FilterCat from "./Filters/FilterCat"
 import FilterLoc from "./Filters/FilterLocation"
@@ -34,8 +36,10 @@ export default function App({route,navigation}) {
         <Stack.Screen name="Home" component={HomeScreen}/>
         <Stack.Screen name="Filter" component={FilterScreen} />
         <Stack.Screen name="Restaurant" component={Restaurtants} />
+        <Stack.Screen name="Reviews" component={Reviews} />
         <Stack.Screen name="Profile" component={Profile} />
         <Stack.Screen name="EditProfile" component={EditProfile} />
+        <Stack.Screen name="Favourites" component={Favourites} />
         <Stack.Screen name="Price" component={FilterPrice} />
         <Stack.Screen name="Cat" component={FilterCat} />
         <Stack.Screen name="Loc" component={FilterLoc} />

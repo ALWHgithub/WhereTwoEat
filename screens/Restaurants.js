@@ -9,7 +9,7 @@ import StdButton from './components/button';
 
 const YELP_API_KEY = config.API_KEY;
 
-export default function Restaurants({ route }) {
+export default function Restaurants({ navigation,route }) {
     const [pastRestaurantData,setPastRestaurantData] = useState(localRestaurants)
     const [restaurantData,setRestaurantData] = useState(localRestaurants)
     const [price, setPrice] = useState(route.params.price);
@@ -18,12 +18,11 @@ export default function Restaurants({ route }) {
     const lat = route.params.lat
     const range = route.params.range
 
-    let yelpURL = `https://api.yelp.com/v3/businesses/search?term=restaurants&location=Singapore&offset=${offset}&limit=50`
+    let yelpURL = `https://api.yelp.com/v3/businesses/search?term=restaurant&location=Singapore&offset=${offset}&limit=50`
     function refresh() {
       console.log(offset)
-      console.log(cat)
       global.offset += 50
-      yelpURL = `https://api.yelp.com/v3/businesses/search?term=restaurants&location=Singapore&offset=${offset}&limit=50`
+      yelpURL = `https://api.yelp.com/v3/businesses/search?term=restaurant&location=Singapore&offset=${offset}&limit=50`
       getDataFromYelp();
     }
 
@@ -35,8 +34,8 @@ export default function Restaurants({ route }) {
           filterCat = !(business.categories.find(element => element.title == cat) != undefined)
         } else if (cat != 'Others'){
             filterCat = business.categories.find(element => element.title == cat) != undefined
-          }
-          return filterPrice && filterCat
+        }
+          return filterPrice && filterCat 
         }
         
       const addJson = (json) => {
@@ -74,7 +73,7 @@ export default function Restaurants({ route }) {
       <SafeAreaView style={styles.container}>
         <Text>Here are the restaurants !</Text>
         <ScrollView showsVerticalScrollIndication = {false}>
-          <RestaurantItem restaurantData = {restaurantData}>
+          <RestaurantItem restaurantData = {restaurantData} navigation = {navigation}>
           </RestaurantItem>
           <Button onPress = {refresh} title = "Refresh"></Button>
         </ScrollView>
