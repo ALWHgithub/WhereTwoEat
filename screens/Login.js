@@ -26,6 +26,35 @@ function LoginScreen({ navigation }) {
     dynamicLinkDomain: 'example.page.link'
   }
 
+
+  const handleSignUpError = (err) => {
+    if (err == "Firebase: Password should be at least 6 characters (auth/weak-password).") {
+      return "Password should be at least 6 characters."
+    } else if (err == "Firebase: Error (auth/email-already-in-use).") {
+      return "The provided email is already in use by an existing user. Each user must have a unique email."
+    } else if (err == "Firebase: Error (auth/invalid-email).") {
+      return "The Email used is invalid."
+    } else {
+      return "An error has occurred, please check your email or password again."
+    }
+  }
+
+  const handleSignInError = (err) => {
+    if (err == "Firebase: Error (auth/wrong-password).") {
+      return "Incorrect password."
+    } else if (err == "Firebase: Error (auth/user-not-found).") {
+      return "User not recognised."
+    } else if (err == "Firebase: Error (auth/invalid-email).") {
+      return "The Email used is invalid."
+    } else if (err == "Firebase: Error (auth/internal-error).") {
+      return "Incorrect email or password."
+    } else {
+      return "An error has occurred, please check your email or password again."
+    }
+  }
+
+
+
   const handleSignUp = () => {
     createUserWithEmailAndPassword(authentication,email,password)
     .then((userCredential) => {
@@ -47,7 +76,7 @@ function LoginScreen({ navigation }) {
         navigation.navigate('Verification', {user: user, email: email, username: username})
       }
     })
-    .catch(error => alert(error.message))
+    .catch(error => alert(handleSignInError(error.message)))
   }
 
     return (

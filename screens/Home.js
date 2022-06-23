@@ -3,8 +3,8 @@ import { StatusBar } from 'expo-status-bar';
 import {StyleSheet,Text,SafeAreaView, Divider, ScrollView } from 'react-native';
 import StdButton from './components/button';
 import BottomTabs from './BottomBar';
-import RestaurantItem from '../RestaurantItem';
-import { localRestaurants, VertRestaurantItem } from '../RestaurantItem';
+import RestaurantItem from './components/RestaurantItem';
+import { localRestaurants} from './components/RestaurantItem';
 import GetLocation from 'react-native-get-location'
 import config from '../config'
 
@@ -16,7 +16,7 @@ function HomeScreen({ navigation }) {
      
     
   const getDataFromYelp = () => {
-    const yelpURL = `https://api.yelp.com/v3/businesses/search?term=restaurants&location=Singapore&offset=${offset}&limit=50`
+    const yelpURL = `https://api.yelp.com/v3/businesses/search?term=restaurants&location=Singapore&offset=${offset}&limit=30`
     
     const apiOptions = {
       headers: {
@@ -40,14 +40,18 @@ function HomeScreen({ navigation }) {
   return (
     <SafeAreaView style={styles.container}>
 
-        <ScrollView 
-        showsHorizontalScrollIndication = {false} 
-        horizontal
-        // ref = {scroll_ref}
-        contentContainerStyle = {{alignItems: 'center',}}
-        >
-          <VertRestaurantItem restaurantData = {restaurantData}/>
-        </ScrollView>
+      {/* <ScrollView 
+      showsHorizontalScrollIndication = {false} 
+      horizontal
+      // ref = {scroll_ref}
+      contentContainerStyle = {{alignItems: 'center',}}
+      >
+        <VertRestaurantItem restaurantData = {restaurantData}/>
+      </ScrollView> */}
+      <ScrollView>
+        <RestaurantItem restaurantData = {restaurantData}/>
+      </ScrollView>
+
       <Text>   </Text>
       <StdButton
         text="Start New Order ?" 
@@ -73,6 +77,7 @@ function HomeScreen({ navigation }) {
 
 const styles = StyleSheet.create({
   container: {
+    paddingTop: 20,
     flex: 1,
     backgroundColor: '#fff',
     alignItems: 'center',
