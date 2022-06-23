@@ -26,9 +26,6 @@ const screenOptions = {
 };
 
 export default function App({route,navigation}) {
-  const handleSignOut = () => {
-    navigation.navigate('Login')
-  }
 
   return (
     <NavigationContainer   independent={true}>
