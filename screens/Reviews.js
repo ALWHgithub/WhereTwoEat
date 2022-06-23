@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, SafeAreaView, Button, ScrollView } from 'react-native';
+import { StyleSheet, Text, SafeAreaView, Button, ScrollView, Image } from 'react-native';
 import RestaurantItem from './components/RestaurantItem';
 import { localRestaurants } from './components/RestaurantItem';
-import GetLocation from 'react-native-get-location'
-import config from '../config'
+import GetLocation from 'react-native-get-location';
+import config from '../config';
 import StdButton from './components/button';
+import RestaurantAbout from './components/RestaurantAbout';
 
 const YELP_API_KEY = config.API_KEY;
 
@@ -31,8 +32,35 @@ export default function Reviews({ navigation,route}) {
 
 
     return (
+        // Note that I won't be using safe area view here
         <SafeAreaView style={styles.container}>
-            <Text>{JSON.stringify(reviews)}</Text>
+          <ScrollView>
+            <Image source={{ uri: route.params.image }} style={{ width: "100%", height: 180 }} />
+            <RestaurantAbout route={route}/>
+
+            {/* To make this into a ReviewItem class soonTM */}
+            {/* <Text>{JSON.stringify(reviews)}</Text> */}
+            
+            <Text>{JSON.stringify(reviews['reviews'][0]['rating'])}</Text>
+            <Text>{JSON.stringify(reviews['reviews'][0]['time_created'])}</Text>
+            <Image source={{ uri: reviews['reviews'][0]['user']['image_url'] }} style={{ width: 50, height: 50 }} />
+            {/* <Text>{JSON.stringify(reviews['reviews'][0]['user']['image_url'])}</Text> */}
+            <Text>{reviews['reviews'][0]['text']}</Text>
+
+            <Text>{JSON.stringify(reviews['reviews'][1]['rating'])}</Text>
+            <Text>{JSON.stringify(reviews['reviews'][1]['time_created'])}</Text>
+            <Image source={{ uri: reviews['reviews'][1]['user']['image_url'] }} style={{ width: 50, height: 50 }} />
+            {/* <Text>{JSON.stringify(reviews['reviews'][0]['user']['image_url'])}</Text> */}
+            <Text>{reviews['reviews'][1]['text']}</Text>            
+            
+            <Text>{JSON.stringify(reviews['reviews'][2]['rating'])}</Text>
+            <Text>{JSON.stringify(reviews['reviews'][2]['time_created'])}</Text>
+            <Image source={{ uri: reviews['reviews'][2]['user']['image_url'] }} style={{ width: 50, height: 50 }} />
+            {/* <Text>{JSON.stringify(reviews['reviews'][0]['user']['image_url'])}</Text> */}
+            <Text>{reviews['reviews'][2]['text']}</Text>
+
+            <Text></Text>
+          </ScrollView>
         </SafeAreaView>
         )
 }
