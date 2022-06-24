@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, SafeAreaView, Button, ScrollView, Image } from 'react-native';
+import { StyleSheet, Text, SafeAreaView, Button, ScrollView, Dimensions, Image } from 'react-native';
 import RestaurantItem from './components/RestaurantItem';
 import { localRestaurants } from './components/RestaurantItem';
 import GetLocation from 'react-native-get-location';
@@ -24,11 +24,21 @@ export default function Reviews({ navigation,route}) {
     let data = fetch(yelpURL, apiOptions)
       .then((res) => res.json())
       .then((json) => setReviews(json))
+      .catch(error => alert(error.message))
   }
 
   useEffect(() => {
     getDataFromYelp();
   }, [])
+
+  const renderReviews = () => {
+    if (reviews == undefined) {
+      return <Text>Please wait!</Text>
+    } else {
+      return <Text>{JSON.stringify(reviews)}</Text>
+    }
+  }
+
 
   // JSON.stringify(reviews);
     return (
@@ -39,22 +49,9 @@ export default function Reviews({ navigation,route}) {
             <RestaurantAbout route={route}/>
 
             {/* To make this into a ReviewItem class soonTM */}
-            <Text>{JSON.stringify(reviews)}</Text>
+            {renderReviews()}
             
-            {/* <Text>{JSON.stringify(reviews['reviews'][0]['rating'])}</Text>
-            <Text>{JSON.stringify(reviews['reviews'][0]['time_created'])}</Text>
-            <Image source={{ uri: reviews['reviews'][0]['user']['image_url'] }} style={{ width: 50, height: 50 }} />
-            <Text>{reviews['reviews'][0]['text']}</Text>
-
-            <Text>{JSON.stringify(reviews['reviews'][1]['rating'])}</Text>
-            <Text>{JSON.stringify(reviews['reviews'][1]['time_created'])}</Text>
-            <Image source={{ uri: reviews['reviews'][1]['user']['image_url'] }} style={{ width: 50, height: 50 }} />
-            <Text>{reviews['reviews'][1]['text']}</Text>            
             
-            <Text>{JSON.stringify(reviews['reviews'][2]['rating'])}</Text>
-            <Text>{JSON.stringify(reviews['reviews'][2]['time_created'])}</Text>
-            <Image source={{ uri: reviews['reviews'][2]['user']['image_url'] }} style={{ width: 50, height: 50 }} />
-            <Text>{reviews['reviews'][2]['text']}</Text> */}
 
           </ScrollView>
         </SafeAreaView>
