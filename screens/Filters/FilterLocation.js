@@ -50,7 +50,7 @@ export default function FilterLoc({navigation,route}) {
 
   return (
     <View style={styles.container}>
-
+      <Text>{text}</Text>
       <Text>All restruants in {range} km </Text>
       <Slider
         style={{width: 200, height: 40}}

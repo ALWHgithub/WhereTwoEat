@@ -7,7 +7,7 @@ import GetLocation from 'react-native-get-location'
 import config from '../config'
 import StdButton from './components/button';
 
-const YELP_API_KEY = config.API_KEY;
+const YELP_API_KEY = 'MjlQEWa72Q8941NLdRlF4V3Inrv3TN6XqJwa0K3NJQRzQeShU45vHVTCkLoa6vIKTOfkNgoaRtl46uEMVNNKkQg4f6JlksMZxQPnR732-Z-KjJ204raA7wpVaXe2YnYx';
 
 export default function Restaurants({ navigation,route }) {
     const [pastRestaurantData,setPastRestaurantData] = useState(localRestaurants)
@@ -17,12 +17,16 @@ export default function Restaurants({ navigation,route }) {
     const long = route.params.long
     const lat = route.params.lat
     const range = route.params.range
+    let term = 'restaurants'
+    if (global.vegetarian) {
+      term = 'vegetarian'
+    }
 
-    let yelpURL = `https://api.yelp.com/v3/businesses/search?term=restaurant&location=Singapore&offset=${offset}&limit=50`
+    let yelpURL = `https://api.yelp.com/v3/businesses/search?term=${term}&latitude=${lat}&longitude=${long}&range${range}&offset=${offset}&limit=50`
     function refresh() {
       console.log(offset)
       global.offset += 50
-      yelpURL = `https://api.yelp.com/v3/businesses/search?term=restaurant&location=Singapore&offset=${offset}&limit=50`
+      yelpURL = `https://api.yelp.com/v3/businesses/search?term=${term}&latitude=${lat}&longitude=${long}&range${range}&offset=${offset}&limit=50`
       getDataFromYelp();
     }
 
@@ -39,8 +43,8 @@ export default function Restaurants({ navigation,route }) {
         }
         
       const addJson = (json) => {
-        setRestaurantData(pastRestaurantData.concat(json.businesses.filter((business) =>filter(business,price,cat)))
-          )
+        setRestaurantData(pastRestaurantData.concat(json.businesses)
+          .filter((business) =>filter(business,price,cat)))
         return json
       }
       const apiOptions = {

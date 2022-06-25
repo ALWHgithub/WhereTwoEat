@@ -8,10 +8,11 @@ import config from '../config';
 import StdButton from './components/button';
 import RestaurantAbout from './components/RestaurantAbout';
 
-const YELP_API_KEY = config.API_KEY;
+const YELP_API_KEY = 'qHoHCD_FdGhwjp33pq65DTrPBq_MkOBxXb3gagd3itzGkm4g10mmaVYET_OEYDPb8pfBC0ESNvJ9DU2LWlJBZKX_zDZLanfmr1pNCv4yzsotwYRWCL92wnEJHKu2YnYx';
 
 export default function Reviews({ navigation,route}) {
   const [reviews, setReviews] = useState(['Please Wait!','Please Wait!','Please Wait!'])
+  const [count,setCount] = useState(0)
   const apiOptions = {
     headers: {
       Authorization : `Bearer ${YELP_API_KEY}`,
@@ -21,6 +22,7 @@ export default function Reviews({ navigation,route}) {
 
 
   const getDataFromYelp = () => {
+    console.log('test')
     let data = fetch(yelpURL, apiOptions)
       .then((res) => res.json())
       .then((json) => parseReviews(json))
@@ -29,15 +31,22 @@ export default function Reviews({ navigation,route}) {
 
   const parseReviews = (reviews) => {
     let temp = []
+    if(reviews.error != undefined){
+      console.log(reviews.error)
+      temp[0] = "Error"
+      temp[1] = "Error"
+      temp[2] = "Error"
+      setReviews(temp)
+    } else {
     temp[0] = JSON.stringify(reviews['reviews'][0]['text'])
     temp[1] = JSON.stringify(reviews['reviews'][1]['text'])
     temp[2] = JSON.stringify(reviews['reviews'][2]['text'])
     setReviews(temp)
+    }
+    
   }
 
-  useEffect(() => {
-    getDataFromYelp()
-  })
+  useEffect(() => {getDataFromYelp()},[])
 
     return (
         // Note that I won't be using safe area view here
@@ -45,7 +54,6 @@ export default function Reviews({ navigation,route}) {
           <ScrollView>
             <Image source={{ uri: route.params.image }} style={{ width: "100%", height: 180 }} />
             <RestaurantAbout route={route}/>
-
             {/* To make this into a ReviewItem class soonTM */}
             <Text>{reviews[0]}</Text>
             <Text>{reviews[1]}</Text>

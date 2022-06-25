@@ -4,12 +4,18 @@ import {TextInput, KeyboardAvoidingView,StyleSheet,Text,View, Button ,TouchableO
 import { authentication } from "../firebase/firebase-config";
 import {signInWithEmailAndPassword, createUserWithEmailAndPassword, sendEmailVerification, applyActionCode} from "firebase/auth";
 import StdButton from './components/button';
-
+import {
+  getFirestore,collection,getDocs,
+  addDoc, updateDoc, setDoc,doc
+} from 'firebase/firestore'
 
 function LoginScreen({ navigation }) {
   const [username, setUsername] = useState('Anonymous User');
   const [email, setEmail] = useState('');
   const [password, setPassword,] = useState('');
+  const db = getFirestore()
+  const colRef = collection(db,'RoomIDs')
+  const [code,setCode] = useState()
 
 
   const actionCodeSettings = {
@@ -60,6 +66,8 @@ function LoginScreen({ navigation }) {
     .then((userCredential) => {
       const user = userCredential.user;
       global.user = user
+      setDoc(doc(db,'Users',user.uid),{name: user.uid, vegetarian: false })
+      global.vegetarian = false
       sendEmailVerification(authentication.currentUser)
       navigation.navigate('Verification', {user: user, email: email, username: username})
     })
@@ -71,6 +79,8 @@ function LoginScreen({ navigation }) {
     .then((userCredential) => {
       const user = userCredential.user;
       global.user = user
+      updateDoc(doc(db,'Users',user.uid),{name: user.uid})
+
       if(user.emailVerified) {
         navigation.navigate('HomeStack', {user: user, email: email, username: username})
       } else {

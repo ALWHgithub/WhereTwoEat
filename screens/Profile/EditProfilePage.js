@@ -6,22 +6,46 @@ import StdButton from '../components/button';
 import {StdButtonBlue} from '../components/button'; 
 import {
   getFirestore,collection,getDocs,
-  addDoc, updateDoc
+  addDoc, updateDoc,setDoc,doc
 } from 'firebase/firestore'
 
 export default function EditProfilePage({ navigation,route}) {
   const db = getFirestore()
   const colRef = collection(db,'Users')
   const [state, setState] = useState(0)
+  const [rooms, setRooms] = useState([])
 
+  getDocs(colRef).then((snapshot) => {
+    let temp = []
+    snapshot.docs.forEach((doc) => {
+      if(doc.id == route.params.name){
+        temp.push({...doc.data(), id: doc.id})
+      }
+    })
+    return temp
+  })
+  .then((temp) => {
+    setRooms(temp)
+  })
+  .catch(err => {
+    console.log(err);
+  })
+
+  if (rooms.length != 0) {
+    global.vegetarian = rooms[0].vegetarian;
+  }
+  
+  
   const setVegetarianTrue = () => {
     global.vegetarian = true;
+    setDoc(doc(db,'Users',global.user.uid),{name: global.user.uid, vegetarian: true })
     console.log(global.vegetarian)
     setState(state+1)
   }
 
   const setVegetarianFalse = () => {
     global.vegetarian = false;
+    setDoc(doc(db,'Users',global.user.uid),{name: global.user.uid, vegetarian: false })
     console.log(global.vegetarian)
     setState(state+1)
   }
@@ -39,7 +63,6 @@ export default function EditProfilePage({ navigation,route}) {
   getDocs(colRef).then((snapshot) => {
     snapshot.docs.forEach((doc) => {
       const email = JSON.stringify(doc.data().email)
-      const vegetarian = (doc.data().vegetarian)
       if(email == '"' + global.user.email + '"'){
         
       }
