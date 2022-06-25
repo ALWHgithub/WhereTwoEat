@@ -3,7 +3,7 @@ import { StyleSheet, Text, View,SafeAreaView, Button, TextInput } from 'react-na
 import { authentication } from "../../firebase/firebase-config";
 import {
   getFirestore,collection,getDocs,
-  addDoc, updateDoc
+  addDoc, updateDoc, setDoc,doc
 } from 'firebase/firestore'
 import StdButton from '../components/button';
 
@@ -12,16 +12,17 @@ export default function App({route,navigation}) {
   const db = getFirestore()
   const colRef = collection(db,'RoomIDs')
   const [code,setCode] = useState()
+  
 
   const createRoom = () => {
-    console.log("lololol")
-    addDoc(colRef,{Test: "test"})
+    setDoc(doc(db,'RoomIDs',code),{name: code, 1:0, 2:0, 3:0, 4:0})
+    navigation.navigate('Room',{name: code})
   }
 
   return (
     <SafeAreaView style={styles.container}>
         <Text>Pick a Name for your room!</Text>
-        <TextInput placeholder = "Code"  onChangeText = {text => setCode(text)} style = {styles.input} />
+        <TextInput placeholder = "Name"  onChangeText = {text => setCode(text)} style = {styles.input} />
         <StdButton text = "Create Room" onPress={() => createRoom()}/>
     </SafeAreaView>
   );

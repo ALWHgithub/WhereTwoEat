@@ -9,7 +9,7 @@ import Slider from '@react-native-community/slider';
 function FilterPrice({ navigation,route }) {
   const [finalPrice, setPrice] = useState('');
   const [range, setRange] = useState(1);
-
+  
   const handlePrice = (fig) => {
     setPrice(fig);
     navigation.navigate('Cat', {price: fig})
