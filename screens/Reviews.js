@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, SafeAreaView, Button, ScrollView, Dimensions, Image } from 'react-native';
+import { StyleSheet, Text, SafeAreaView, Button, ScrollView, Dimensions, Image,View } from 'react-native';
 import RestaurantItem from './components/RestaurantItem';
 import { localRestaurants } from './components/RestaurantItem';
 import GetLocation from 'react-native-get-location';
@@ -11,7 +11,7 @@ import RestaurantAbout from './components/RestaurantAbout';
 const YELP_API_KEY = config.API_KEY;
 
 export default function Reviews({ navigation,route}) {
-  const [reviews, setReviews] = useState('')
+  const [reviews, setReviews] = useState(['Please Wait!','Please Wait!','Please Wait!'])
   const apiOptions = {
     headers: {
       Authorization : `Bearer ${YELP_API_KEY}`,
@@ -23,24 +23,22 @@ export default function Reviews({ navigation,route}) {
   const getDataFromYelp = () => {
     let data = fetch(yelpURL, apiOptions)
       .then((res) => res.json())
-      .then((json) => setReviews(json))
+      .then((json) => parseReviews(json))
       .catch(error => alert(error.message))
   }
 
-  useEffect(() => {
-    getDataFromYelp();
-  }, [])
-
-  const renderReviews = () => {
-    if (reviews == undefined) {
-      return <Text>Please wait!</Text>
-    } else {
-      return <Text>{JSON.stringify(reviews)}</Text>
-    }
+  const parseReviews = (reviews) => {
+    let temp = []
+    temp[0] = JSON.stringify(reviews['reviews'][0]['text'])
+    temp[1] = JSON.stringify(reviews['reviews'][1]['text'])
+    temp[2] = JSON.stringify(reviews['reviews'][2]['text'])
+    setReviews(temp)
   }
 
+  useEffect(() => {
+    getDataFromYelp()
+  })
 
-  // JSON.stringify(reviews);
     return (
         // Note that I won't be using safe area view here
         <SafeAreaView style={styles.container}>
@@ -49,10 +47,9 @@ export default function Reviews({ navigation,route}) {
             <RestaurantAbout route={route}/>
 
             {/* To make this into a ReviewItem class soonTM */}
-            {renderReviews()}
-            
-            
-
+            <Text>{reviews[0]}</Text>
+            <Text>{reviews[1]}</Text>
+            <Text>{reviews[2]}</Text>
           </ScrollView>
         </SafeAreaView>
         )
