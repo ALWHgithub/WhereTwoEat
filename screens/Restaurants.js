@@ -7,7 +7,7 @@ import GetLocation from 'react-native-get-location'
 import config from '../config'
 import StdButton from './components/button';
 
-const YELP_API_KEY = 'MjlQEWa72Q8941NLdRlF4V3Inrv3TN6XqJwa0K3NJQRzQeShU45vHVTCkLoa6vIKTOfkNgoaRtl46uEMVNNKkQg4f6JlksMZxQPnR732-Z-KjJ204raA7wpVaXe2YnYx';
+const YELP_API_KEY = config.API_KEY
 
 export default function Restaurants({ navigation,route }) {
     const [pastRestaurantData,setPastRestaurantData] = useState(localRestaurants)
