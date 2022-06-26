@@ -34,11 +34,13 @@ export default function FilterLoc({navigation,route}) {
     })();
   }, []);
 
-  let text = 'Waiting..';
+  let long = 'Waiting..';
+  let lat = ''
   if (errorMsg) {
-    text = errorMsg;
+    long = errorMsg;
   } else if (location) {
-    text = JSON.stringify(location.coords.longitude);
+    long = JSON.stringify(location.coords.longitude);
+    lat = JSON.stringify(location.coords.latitude);
   }
 
   const toRestraunt = () => {
@@ -50,7 +52,7 @@ export default function FilterLoc({navigation,route}) {
 
   return (
     <View style={styles.container}>
-      <Text>{text}</Text>
+      <Text>Your position is: {long},{lat}</Text>
       <Text>All restruants in {range} km </Text>
       <Slider
         style={{width: 200, height: 40}}
