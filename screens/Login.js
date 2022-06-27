@@ -71,7 +71,7 @@ function LoginScreen({ navigation }) {
       sendEmailVerification(authentication.currentUser)
       navigation.navigate('Verification', {user: user, email: email, username: username})
     })
-    .catch(error => alert(handleSignUpError(error.message)))
+    .catch(error => handleSignUpError(error.message))
   }
 
   const handleSignIn = () => {

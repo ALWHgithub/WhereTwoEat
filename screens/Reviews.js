@@ -8,7 +8,7 @@ import config from '../config';
 import StdButton from './components/button';
 import RestaurantAbout from './components/RestaurantAbout';
 
-const YELP_API_KEY = 'qHoHCD_FdGhwjp33pq65DTrPBq_MkOBxXb3gagd3itzGkm4g10mmaVYET_OEYDPb8pfBC0ESNvJ9DU2LWlJBZKX_zDZLanfmr1pNCv4yzsotwYRWCL92wnEJHKu2YnYx';
+const YELP_API_KEY = config.API_KEY
 
 export default function Reviews({ navigation,route}) {
   const [reviews, setReviews] = useState(['Please Wait!','Please Wait!','Please Wait!'])
