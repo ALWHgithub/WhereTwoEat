@@ -14,6 +14,7 @@ export default function App({route,navigation}) {
   const colRef = collection(db,'RoomIDs')
   const [rooms, setRooms] = useState([])
   const [range, setRange] = useState(1);
+  const [vote, setVote] = useState(0)
 
   getDocs(colRef).then((snapshot) => {
     let temp = []
@@ -50,13 +51,18 @@ export default function App({route,navigation}) {
   const castVote = () => {
     let name = global.user.uid
     let count = rooms[0][range]
-    let valid = rooms[0][name] == undefined
-    if(valid) {
+    let first = rooms[0][name] == undefined
+    if(first) {
       updateDoc(doc(db,'RoomIDs',rooms[0].id),{ [name] : true, [range] : count +1 })
+      setVote(range)
       setRooms(rooms)
-      console.log(rooms)
     } else {
-      alert("No double voting!")
+      let prev = rooms[0][name]
+      let prevCount = rooms[0][prev]
+      updateDoc(doc(db,'RoomIDs',rooms[0].id),{  [prev] : prevCount -1 })
+      updateDoc(doc(db,'RoomIDs',rooms[0].id),{ [name] : range, [range] : count +1 })
+      setVote(range)
+      setRooms(rooms)
     }
     
   }
@@ -68,6 +74,7 @@ export default function App({route,navigation}) {
     <SafeAreaView style={styles.container}>
         {renderCount()}
         {renderRoomName()}
+        <Text>Current Vote:  {"$".repeat(vote)}</Text>
         <Text>Currently Selected:  {"$".repeat(range)}</Text>
         <Slider
         style={{width: 200, height: 40}}
