@@ -6,6 +6,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import HomeStack from './screens/HomeStack';
 import LoginScreen from './screens/Login'
 import Verification from "./screens/Verification";
+import Register from "./screens/Register"
 import { LogBox } from "react-native"
 
 
@@ -16,6 +17,7 @@ const Stack = createNativeStackNavigator();
 const screenOptions = {
   headerShown: false,
 };
+
 export default function App() {
   return (
     <NavigationContainer   independent={true}>
@@ -23,6 +25,7 @@ export default function App() {
         <Stack.Screen name="Login" component={LoginScreen}/>
         <Stack.Screen name="HomeStack" component={HomeStack}/>
         <Stack.Screen name="Verification" component={Verification} />
+        <Stack.Screen name="Register" component={Register} />
       </Stack.Navigator>
     </NavigationContainer>
   );
