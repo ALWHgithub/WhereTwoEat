@@ -15,7 +15,7 @@ export default function App({route,navigation}) {
   const colRef = collection(db,'RoomIDs')
   const [rooms, setRooms] = useState([])
   const [range, setRange] = useState(1);
-  const [vote, setVote] = useState(0)
+  const [votePrice, setVotePrice] = useState(0)
   const [cat, setCat] = useState('Chinese')
 
 
@@ -67,10 +67,10 @@ export default function App({route,navigation}) {
 
 
   const renderCurrentVotePrice = () => {
-    if (vote == 0) {
+    if (votePrice == 0) {
       return <Text></Text>
     } else {
-      return <Text>Current Vote:  {"$".repeat(vote)}</Text>
+      return <Text>Current Vote:  {"$".repeat(votePrice)}</Text>
     }
   }
 
@@ -80,7 +80,7 @@ export default function App({route,navigation}) {
     let first = rooms[0][name] == undefined
     if(first) {
       firstTime()
-      setVote(range)
+      setVotePrice(range)
       setRooms(rooms)
     } else {
       let prevPrice = rooms[0][name][0]
@@ -94,6 +94,8 @@ export default function App({route,navigation}) {
     }
   }
 
+  
+
   const updatePrice = () => {
     let name = global.user.uid
     let prev = rooms[0][name][0]
@@ -101,7 +103,7 @@ export default function App({route,navigation}) {
     let priceCount = rooms[0][range]
     updateDoc(doc(db,'RoomIDs',rooms[0].id),{  [prev] : prevCount -1 })
     updateDoc(doc(db,'RoomIDs',rooms[0].id),{ [name] : [range,cat] , [range] : priceCount +1})
-    setVote(range)
+    setVotePrice(range)
     setRooms(rooms)
   }
 
@@ -123,14 +125,12 @@ export default function App({route,navigation}) {
   }
 
 
-
-
   return (
     <SafeAreaView style={styles.container}>
         {renderCountPrice()}
         {renderCountCat()}
         {renderCurrentVotePrice()}
-        <Text>Currently Selected:  {"$".repeat(range)}</Text>
+        <Text>Currently Selected:  {"$".repeat(range)}, {cat}</Text>
         <Slider
         style={{width: 200, height: 40}}
         minimumValue={1}
@@ -141,6 +141,12 @@ export default function App({route,navigation}) {
         maximumTrackTintColor="#000000"        
         minimumTrackTintColor = 'orange'
       />
+      <View style={{flexDirection: 'row'}}>
+      <StdButton text = "Chinese" onPress={() => setCat('Chinese')} />
+      <StdButton text = "Japanese" onPress={() => setCat('Japanese')} />
+      <StdButton text = "Italian" onPress={() => setCat('Italian')} />
+      <StdButton text = "Others" onPress={() => setCat('Others')} />
+      </View>
       <StdButton text = "Cast Vote!" onPress={() => castVote()} />
     </SafeAreaView>
     
