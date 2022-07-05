@@ -15,7 +15,7 @@ export default function App({route,navigation}) {
   
 
   const createRoom = () => {
-    setDoc(doc(db,'RoomIDs',code),{name: code, 1:0, 2:0, 3:0, 4:0})
+    setDoc(doc(db,'RoomIDs',code),{name: code, 1:0, 2:0, 3:0, 4:0, Chinese:0, Japanese:0, Italian:0, Others:0})
     navigation.navigate('Room',{name: code})
   }
 
