@@ -8,6 +8,7 @@ import {
   View,
   Text,
   StyleSheet,
+  TextInput,
   Image,
   PermissionsAndroid,
   Platform,
@@ -20,6 +21,7 @@ export default function FilterLoc({navigation,route}) {
   const [location, setLocation] = useState(null);
   const [errorMsg, setErrorMsg] = useState(null);
   const [range, setRange] = useState(1);
+  const [loc, setLoc] = useState('');
   
   useEffect(() => {
     (async () => {
@@ -43,8 +45,12 @@ export default function FilterLoc({navigation,route}) {
     lat = JSON.stringify(location.coords.latitude);
   }
 
+  
+
   const toRestraunt = () => {
-    navigation.navigate('Restaurant', {price: route.params.price, cat: route.params.cat,
+    navigation.navigate('Restaurant', {price: route.params.price,
+       loc: loc,
+       cat: route.params.cat,
        long: JSON.stringify(location.coords.longitude),
        lat: JSON.stringify(location.coords.latitude),
         range: range})
@@ -64,6 +70,7 @@ export default function FilterLoc({navigation,route}) {
         maximumTrackTintColor="#000000"        
         minimumTrackTintColor = 'orange'
       />
+      <TextInput placeholder = "Name of Place"  onChangeText = {text => setLoc(text)} style = {styles.input} />
       <StdButton text = "Confirm" onPress={() => toRestraunt()} />
     </View>
   );
@@ -84,6 +91,14 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  input: {
+    backgroundColor: 'white',
+    borderColor: '#e8e8e8',
+    borderWidth: 1,
+    borderRadius: 5,
+    padding: 10,
+    margin: 5,
+  }, 
 });
  
   

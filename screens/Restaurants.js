@@ -17,16 +17,17 @@ export default function Restaurants({ navigation,route }) {
     const long = route.params.long
     const lat = route.params.lat
     const range = route.params.range
+    const loc = route.params.loc
     let term = 'restaurants'
     if (global.vegetarian) {
       term = 'vegetarian'
     }
 
-    let yelpURL = `https://api.yelp.com/v3/businesses/search?term=${term}&latitude=${lat}&longitude=${long}&range${range}&offset=${offset}&limit=50`
+    let yelpURL = `https://api.yelp.com/v3/businesses/search?term=${term}&location=${loc}&radius=${range}&offset=${offset}&limit=50`
     function refresh() {
       console.log(offset)
       global.offset += 50
-      yelpURL = `https://api.yelp.com/v3/businesses/search?term=${term}&latitude=${lat}&longitude=${long}&range${range}&offset=${offset}&limit=50`
+      yelpURL = `https://api.yelp.com/v3/businesses/search?term=${term}&location=${loc}&radius=${range}&offset=${offset}&limit=50`
       getDataFromYelp();
     }
 

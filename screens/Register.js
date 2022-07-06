@@ -42,9 +42,11 @@ function Register({ navigation }) {
   }
 
   const handleSignUp = () => {
-    
-    createUserWithEmailAndPassword(authentication,email,password)
-    .then((userCredential) => {
+    if(setEmailValidError != '') {
+        alert(emailValidError)
+    } else {
+       createUserWithEmailAndPassword(authentication,email,password)
+      .then((userCredential) => {
       const user = userCredential.user;
       global.user = user
       setDoc(doc(db,'Users',user.uid),{name: user.uid, vegetarian: false })
@@ -53,6 +55,7 @@ function Register({ navigation }) {
       navigation.navigate('Verification', {user: user, email: email, username: username})
     })
     .catch(error => alert(handleSignUpError(error.message)))
+    }
   }
 
     return (
