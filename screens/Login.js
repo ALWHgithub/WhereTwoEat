@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { StatusBar } from 'expo-status-bar';
-import {TextInput, KeyboardAvoidingView,StyleSheet,Text,View, Button ,TouchableOpacity} from 'react-native';
+import {TextInput, KeyboardAvoidingView,StyleSheet,Text,View, Button ,TouchableOpacity, ImageBackground} from 'react-native';
 import { authentication } from "../firebase/firebase-config";
 import {signInWithEmailAndPassword, createUserWithEmailAndPassword, sendEmailVerification, applyActionCode} from "firebase/auth";
 import StdButton from './components/button';
+
 import {
   getFirestore,collection,getDocs,
   addDoc, updateDoc, setDoc,doc
@@ -76,19 +77,25 @@ function LoginScreen({ navigation }) {
     .catch(error => alert(handleSignInError(error.message)))
   }
 
+  const handleSignInAdmin = () => {
+    navigation.navigate('HomeStack', {user: user, email: email, username: username})
+  }
+
     return (
       <KeyboardAvoidingView 
          style={styles.container}
          behaviour = "padding"
       >
         <View style = {styles.inputContainer}>
-           <Text style = {{ fontWeight: 'bold', fontSize: 50}} >Where Two Eat!</Text>
-           <TextInput placeholder = "Nickname"  onChangeText = {text => setUsername(text)} style = {styles.input} />
-           <TextInput placeholder = "Email" value = {email} onChangeText = {text => setEmail(text)} style = {styles.input} />
-           <TextInput placeholder = "Password" secureTextEntry value = {password} onChangeText = {text => setPassword(text)} style = {styles.input}/>
-           <StdButton text = "Login" onPress={handleSignIn} />
-           <StdButton text = "Im new!" onPress={() => navigation.navigate('Register')} />
-
+          <ImageBackground source={require('../assets/WhereTwoEatLogin.png')} resizeMode="cover" style = {styles.image}>
+           {/* <Text style = {{ fontWeight: 'bold', fontSize: 50}} >Where Two Eat!</Text> */}
+          <TextInput placeholder = "Nickname"  onChangeText = {text => setUsername(text)} style = {styles.input} />
+          <TextInput placeholder = "Email" value = {email} onChangeText = {text => setEmail(text)} style = {styles.input} />
+          <TextInput placeholder = "Password" secureTextEntry value = {password} onChangeText = {text => setPassword(text)} style = {styles.input}/>
+          <StdButton text = "Login" onPress={handleSignIn} />
+          <StdButton text = "Im new!" onPress={() => navigation.navigate('Register')} />
+          <StdButton text = "Hackerman" onPress={handleSignInAdmin} />
+          </ImageBackground>
         </View>
         
       </KeyboardAvoidingView>
@@ -99,6 +106,7 @@ function LoginScreen({ navigation }) {
     container: {
       flex: 1,
       backgroundColor: '#fff',
+      
       alignItems: 'center',
       justifyContent: 'center',
     }, 
@@ -108,22 +116,25 @@ function LoginScreen({ navigation }) {
       width: '100%',
 
       justifyContent: 'center',
-      paddingHorizontal: 10,
-      marginVertical: 5,
+      // paddingHorizontal: 10,
+      // marginVertical: 5,
     }, 
+    image: {
+      flex: 1,
+      justifyContent: "center"
+    },
     input: {
-      backgroundColor: 'white',
+      backgroundColor: 'rgba(255, 255, 255, 0.8)',
       
       borderColor: '#e8e8e8',
       borderWidth: 1,
       
-
-      borderRadius: 5,
+      borderRadius: 3,
       padding: 10,
       margin: 5,
-
-
+      // marginHorizontal: 5,
     }, 
+
   });
 
   export default LoginScreen;
