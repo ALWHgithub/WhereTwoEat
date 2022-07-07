@@ -8,7 +8,6 @@ import { localRestaurants} from './components/RestaurantItem';
 import GetLocation from 'react-native-get-location'
 import config from '../config'
 
-//  <RestaurantItem restaurantData = {restaurantData} navigation = {navigation}/>
 const YELP_API_KEY = config.API_KEY
 global.offset = 0
 
