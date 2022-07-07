@@ -67,13 +67,6 @@ function HomeScreen({ navigation }) {
   );
 }
 
-// const autoScroll = () => {
-//   this.refs[scroll_ref].scrollTo({x: 50});
-// }
-
-// componentDidMount() {
-//   this.autoScroll;
-// }
 
 const styles = StyleSheet.create({
   container: {

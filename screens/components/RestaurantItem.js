@@ -40,9 +40,9 @@ export default function RestaurantItem(props) {
 				style={{ marginBottom: 25 }}>
 				<View>
 					<RestaurantImage image = {restaurant.image_url}/>
-					<RestaurantInfo alias = {restaurant.alias} rating = {restaurant.rating} phone = {restaurant.phone}/>
+					<RestaurantInfo alias = {restaurant.alias} rating = {restaurant.rating} phone = {restaurant.phone} name = {restaurant.name}/>
 					<TouchableOpacity onPress={() =>toReviews(restaurant, props.navigation)}>
-						<Text>See Reviews</Text>
+						<Text style={{fontSize: 15, }}>See Reviews</Text>
 					</TouchableOpacity>
 				</View>
 
@@ -78,12 +78,13 @@ const RestaurantInfo = (props) => (
 	}}>
 
 		<View>
-		<Text style={{fontSize: 14, textTransform: 'capitalize', fontWeight: 'bold',}}>
-			{replaceAll(props.alias,"-", " ")} 
+		<Text style={{fontSize: 20, textTransform: 'capitalize', fontWeight: 'bold', width: windowWidth - 50}}>
+			{/* {replaceAll(props.alias,"-", " ")}  */}
+			{props.name}
 			</Text>  
 			<TouchableOpacity style ={{ flexDirection : "row"}} onPress={() => {Linking.openURL(`tel:${props.phone}`)}}>
-			<MaterialCommunityIcons  name = 'phone' size ={13} color = 'grey'/>          
-			<Text style={{fontSize: 12, color: 'grey',}}> {props.phone}</Text>
+			<MaterialCommunityIcons  name = 'phone' size ={15} color = 'grey'/>          
+			<Text style={{fontSize: 15, color: 'grey',}}> {props.phone}</Text>
 			</TouchableOpacity>
 			
 		</View>
@@ -91,14 +92,14 @@ const RestaurantInfo = (props) => (
 		<View style={{
 			flexDirection : "row",
 			backgroundColor: "#eee",
-			height: 30,
-			width: 30,
+			height: 34,
+			width: 34,
 			alignItems: "center",
 			justifyContent: "center",
-			borderRadius: 15,
+			borderRadius: 17,
 		}}
 		>  
-			<Text>{props.rating}</Text>
+			<Text style={{fontSize: 15}} >{props.rating}</Text>
 			
 		</View>
 	</View>

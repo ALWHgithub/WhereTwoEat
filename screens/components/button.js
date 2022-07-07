@@ -27,11 +27,9 @@ const styles = StyleSheet.create({
     paddingVertical: 14,
     paddingHorizontal: 10,
     backgroundColor: 'orange',
-    marginHorizontal: 5,
+    margin: 5,
     alignItems: "center",
     justifyContent: 'center',
-
-    marginVertical: 5,
 
   },
   blue: {
