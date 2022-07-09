@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, SafeAreaView, Button, ScrollView, Dimensions, Image,View } from 'react-native';
+import { StyleSheet, Text, SafeAreaView, Button, ScrollView, Dimensions, Image,View, Linking } from 'react-native';
 import RestaurantItem from './components/RestaurantItem';
 import { localRestaurants } from './components/RestaurantItem';
 import GetLocation from 'react-native-get-location';
 import config from '../config';
 import StdButton from './components/button';
 import RestaurantAbout from './components/RestaurantAbout';
+import { TouchableOpacity } from "react-native-web";
 
 const YELP_API_KEY = config.API_KEY
 
@@ -119,6 +120,9 @@ export default function Reviews({ navigation,route}) {
               <Text>{reviews[8]}</Text>
             </View>
             
+            <View>
+              <StdButton text = "See More!" onPress={() => {Linking.openURL('https://www.yelp.com/biz/' + route.params.alias)}}/>
+            </View>
 
               {/* Keeping this in case the above code with image stops working */}
 

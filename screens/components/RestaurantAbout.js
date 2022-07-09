@@ -4,7 +4,7 @@ import { View, Text, Image } from "react-native";
 
 export default function RestaurantAbout(props) {
   
-  const { restaurant, name, image, price, reviews, rating, categories } =
+  const { restaurant, name, image, price, reviews, rating, categories, alias } =
     props.route.params;
 
   const formattedCategories = categories.map((cat) => cat.title).join(" • ");

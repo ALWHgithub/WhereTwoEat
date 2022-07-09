@@ -28,6 +28,7 @@ export default function RestaurantItem(props) {
 			reviews: restaurant.review_count,
 			rating: restaurant.rating,
 			categories: restaurant.categories,
+			alias: restaurant.alias,
 		})
 	}
 
