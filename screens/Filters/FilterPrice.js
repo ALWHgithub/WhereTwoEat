@@ -37,7 +37,7 @@ function FilterPrice({ navigation,route }) {
         minimumTrackTintColor = 'orange'
       />
 
-      <StdButton text = "Confirm" onPress={() =>handlePrice("$".repeat(range))} />
+      <StdButton text = "Confirm" onPress={() =>handlePrice(range)} />
 
       </View>
     </SafeAreaView>

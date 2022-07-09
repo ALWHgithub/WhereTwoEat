@@ -14,38 +14,31 @@ export default function Restaurants({ navigation,route }) {
     const [restaurantData,setRestaurantData] = useState(localRestaurants)
     const [price, setPrice] = useState(route.params.price);
     const [cat, setCat] = useState(route.params.cat)
+    const [range, setRange] = useState(route.params.range)
+    const [loc, setLoc] = useState(route.params.loc)
     const long = route.params.long
     const lat = route.params.lat
-    const range = route.params.range
-    const loc = route.params.loc
     let term = 'restaurants'
     if (global.vegetarian) {
       term = 'vegetarian'
     }
 
-    let yelpURL = `https://api.yelp.com/v3/businesses/search?term=${term}&location=${loc}&radius=${range}&offset=${offset}&limit=50`
+
+    console.log(term)
+    console.log(loc)
+    console.log(cat)
+
+    let yelpURL = `https://api.yelp.com/v3/businesses/search?term=${cat}&location=${loc}&price=${price}&offset=${offset}&limit=50`
     function refresh() {
       console.log(offset)
       global.offset += 50
-      yelpURL = `https://api.yelp.com/v3/businesses/search?term=${term}&location=${loc}&radius=${range}&offset=${offset}&limit=50`
+      yelpURL = `https://api.yelp.com/v3/businesses/search?term=${cat}&location=${loc}&price=${price}&offset=${offset}&limit=50`
       getDataFromYelp();
     }
 
     const getDataFromYelp = () => {
-      const filter = (business,price,cat) => {
-        let filterPrice = business.price == price;
-        let filterCat =true;
-        if(cat == 'Others'){
-          filterCat = !(business.categories.find(element => element.title == cat) != undefined)
-        } else if (cat != 'Others'){
-            filterCat = business.categories.find(element => element.title == cat) != undefined
-        }
-          return filterPrice && filterCat 
-        }
-        
       const addJson = (json) => {
-        setRestaurantData(pastRestaurantData.concat(json.businesses)
-          .filter((business) =>filter(business,price,cat)))
+        setRestaurantData(pastRestaurantData.concat(json.businesses))
         return json
       }
       const apiOptions = {
@@ -97,3 +90,5 @@ export default function Restaurants({ navigation,route }) {
     },
   });
   
+
+

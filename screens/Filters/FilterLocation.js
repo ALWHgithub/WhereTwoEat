@@ -59,12 +59,12 @@ export default function FilterLoc({navigation,route}) {
   return (
     <View style={styles.container}>
       <Text>Your position is: {long},{lat}</Text>
-      <Text>All restruants in {range} km </Text>
+      <Text>All restruants in {range} m </Text>
       <Slider
         style={{width: 200, height: 40}}
-        minimumValue={1}
-        maximumValue={10}
-        step={1}
+        minimumValue={1000}
+        maximumValue={10000}
+        step={1000}
         thumbTintColor="orange"
         onValueChange={value => setRange(parseInt(value))}
         maximumTrackTintColor="#000000"        
