@@ -7,7 +7,7 @@ import StdButton from './components/button';
 
 import {
   getFirestore,collection,getDocs,
-  addDoc, updateDoc, setDoc,doc
+  addDoc, updateDoc, setDoc,doc, deleteDoc
 } from 'firebase/firestore'
 
 function LoginScreen({ navigation }) {
@@ -15,10 +15,8 @@ function LoginScreen({ navigation }) {
   const [email, setEmail] = useState('');
   const [password, setPassword,] = useState('');
   const db = getFirestore()
-  const colRef = collection(db,'RoomIDs')
   const [code,setCode] = useState()
-
-
+  
   const handleSignUpError = (err) => {
     if (err == "Firebase: Password should be at least 6 characters (auth/weak-password).") {
       return "Password should be at least 6 characters."
@@ -45,14 +43,12 @@ function LoginScreen({ navigation }) {
     }
   }
 
-
-
-  const handleSignUp = () => {
+  const createAccount = () => {
     createUserWithEmailAndPassword(authentication,email,password)
-    .then((userCredential) => {
+      .then((userCredential) => {
       const user = userCredential.user;
       global.user = user
-      setDoc(doc(db,'Users',user.uid),{name: user.uid, vegetarian: false })
+      setDoc(doc(db,'Users',user.uid),{name: user.uid, email:email, vegetarian: false })
       global.vegetarian = false
       sendEmailVerification(authentication.currentUser)
       navigation.navigate('Verification', {user: user, email: email, username: username})
@@ -60,12 +56,34 @@ function LoginScreen({ navigation }) {
     .catch(error => alert(handleSignUpError(error.message)))
   }
 
+  const handleSignUp = () => {
+    signInWithEmailAndPassword(authentication,email,password)
+    .then((userCredential) => {
+      const user = userCredential.user;
+      global.user = user
+      updateDoc(doc(db,'Users',user.uid),{name: user.uid, email:email})
+      if(user.emailVerified) {
+        alert("This email account is already in use")
+      } else {
+        console.log(user.uid)
+        deleteDoc(doc(db,'Users',user.uid)).then(() => {
+          user.delete()
+          createAccount()
+        })
+      }
+    })
+    .catch(error => {
+      createAccount()
+    })
+    
+  }
+
   const handleSignIn = () => {
     signInWithEmailAndPassword(authentication,email,password)
     .then((userCredential) => {
       const user = userCredential.user;
       global.user = user
-      updateDoc(doc(db,'Users',user.uid),{name: user.uid})
+      updateDoc(doc(db,'Users',user.uid),{name: user.uid, email:email})
 
       if(user.emailVerified) {
         navigation.navigate('HomeStack', {user: user, email: email, username: username})
@@ -93,7 +111,7 @@ function LoginScreen({ navigation }) {
           <TextInput placeholder = "Email" value = {email} onChangeText = {text => setEmail(text)} style = {styles.input} />
           <TextInput placeholder = "Password" secureTextEntry value = {password} onChangeText = {text => setPassword(text)} style = {styles.input}/>
           <StdButton text = "Login" onPress={handleSignIn} />
-          <StdButton text = "Im new!" onPress={() => navigation.navigate('Register')} />
+          <StdButton text = "Im new!" onPress={handleSignUp} />
           <StdButton text = "Hackerman" onPress={handleSignInAdmin} />
           </ImageBackground>
         </View>

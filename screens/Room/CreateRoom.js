@@ -12,17 +12,38 @@ export default function App({route,navigation}) {
   const db = getFirestore()
   const colRef = collection(db,'RoomIDs')
   const [code,setCode] = useState()
-  
+  let exists = false
 
   const createRoom = () => {
-    setDoc(doc(db,'RoomIDs',code),{name: code, 1:0, 2:0, 3:0, 4:0, Chinese:0, Japanese:0, Italian:0, Others:0})
-    navigation.navigate('Room',{name: code})
+    const db = getFirestore()
+    const colRef = collection(db,'RoomIDs')
+    getDocs(colRef)
+    .then((snapshot) => {
+    snapshot.docs.forEach((doc) => {
+      if(doc.id == code){
+        alert("A room with that name already exists")
+        exists = true
+        }
+      })
+    })
+    .then( () => {
+      if(!exists) {
+        setDoc(doc(db,'RoomIDs',code),{name: code, 1:0, 2:0, 3:0, 4:0, Chinese:0, Japanese:0, Italian:0, Others:0})
+        navigation.navigate('Room',{name: code})
+      }
+    })
+    
+  }
+
+  const changeText = (text) => {
+    exists = false
+    setCode(text)
   }
 
   return (
     <SafeAreaView style={styles.container}>
         <Text>Pick a Name for your room!</Text>
-        <TextInput placeholder = "Name"  onChangeText = {text => setCode(text)} style = {styles.input} />
+        <TextInput placeholder = "Name"  onChangeText = {text => changeText(text)} style = {styles.input} />
         <StdButton text = "Create Room" onPress={() => createRoom()}/>
     </SafeAreaView>
   );

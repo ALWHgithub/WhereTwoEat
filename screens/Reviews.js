@@ -21,6 +21,8 @@ export default function Reviews({ navigation,route}) {
   }
   let yelpURL = `https://api.yelp.com/v3/businesses/${route.params.restaurant.id}/reviews`
 
+  
+
 
   const getDataFromYelp = () => {
     console.log('test')

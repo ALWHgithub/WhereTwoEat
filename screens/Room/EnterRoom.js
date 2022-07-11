@@ -7,23 +7,39 @@ import {
 } from 'firebase/firestore'
 import StdButton from '../components/button';
 
+
+
+export default function App({route,navigation}) {
+  const [name,setName] = useState()
+  let temp = []
+
 const createRoom = (username,navigation) => {
     navigation.navigate('CreateRoom', {username: username})
 }
 
 const enterRoom = (code,navigation) => {
-  navigation.navigate('Room',{name: code})
+  const db = getFirestore()
+  const colRef = collection(db,'RoomIDs')
+  getDocs(colRef).then((snapshot) => {
+    snapshot.docs.forEach((doc) => {
+      if(doc.id == name){
+        navigation.navigate('Room',{name: code})
+      }
+    })
+    return temp
+  })
+  alert("No room with that name")
+  
 }
 
-export default function App({route,navigation}) {
-  const [code,setCode] = useState()
+
   return (
     <SafeAreaView style={styles.container}>
         <Text>You can create a new room for you and your friends !</Text>
         <StdButton text = "Create Room" onPress={() => createRoom(route.params.username, navigation)}/>
         <Text>Or enter the name of a room you want to enter!</Text>
-        <TextInput placeholder = "Name"  onChangeText = {text => setCode(text)} style = {styles.input} />
-        <StdButton text = "Enter Existing Room" onPress={() => enterRoom(code, navigation)}/>
+        <TextInput placeholder = "Name"  onChangeText = {text => setName(text)} style = {styles.input} />
+        <StdButton text = "Enter Existing Room" onPress={() => enterRoom(name, navigation)}/>
     </SafeAreaView>
   );
 }
