@@ -5,7 +5,7 @@ import StdButton from "../components/button";
  
 
 function FilterCat({ navigation,route }) {
-  const [cat, setCat] = useState('Others')
+  const [cat, setCat] = useState('Restaurant')
   const toLoc = (cat) => {
       navigation.navigate('Loc', {price: route.params.price, cat: cat})
   }
@@ -26,7 +26,7 @@ function FilterCat({ navigation,route }) {
       <StdButton text = "Chinese" onPress={() =>setCat('Chinese')} />
       <StdButton text = "Japanese" onPress={() =>setCat('Japanese')} />
       <StdButton text = "Italian" onPress={() =>setCat('italian')} />
-      <StdButton text = "All" onPress={() =>setCat('Others')} />
+      <StdButton text = "All" onPress={() =>setCat('Restaurant')} />
       </View>
       <View style={styles.nestedViewStyle}><Text>{'     '}</Text></View>
       <StdButton text = "Filter Based on Location" onPress={() =>toLoc(cat)} />

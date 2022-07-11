@@ -58,8 +58,7 @@ export default function FilterLoc({navigation,route}) {
 
   return (
     <View style={styles.container}>
-      <Text>Your position is: {long},{lat}</Text>
-      <Text>All restruants in {range} m </Text>
+      <Text>I am willing to travel {range} m from the location</Text>
       <Slider
         style={{width: 200, height: 40}}
         minimumValue={1000}

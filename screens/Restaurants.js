@@ -38,8 +38,12 @@ export default function Restaurants({ navigation,route }) {
 
     const getDataFromYelp = () => {
       const addJson = (json) => {
-        setRestaurantData(pastRestaurantData.concat(json.businesses))
-        return json
+        if(json.hasOwnProperty('error')){
+          alert(json.error.description)
+        } else {
+          setRestaurantData(pastRestaurantData.concat(json.businesses))
+          return json
+        }
       }
       const apiOptions = {
         headers: {
@@ -65,14 +69,21 @@ export default function Restaurants({ navigation,route }) {
     useEffect(() => {
       updateData();
     }, [restaurantData]);
+
+    const renderRestrauntsText = () => {
+      if(restaurantData.length == 0) {
+        return <Text>Sorry, it dosen't seem like there are any restaurants</Text>
+      } else {
+        return <Text>Here are the Restaurants !</Text>
+      }
+    }
     
 
     return (
       <SafeAreaView style={styles.container}>
-        <Text>Here are the restaurants !</Text>
+        {renderRestrauntsText()}
         <ScrollView showsVerticalScrollIndication = {false}>
-          <RestaurantItem restaurantData = {restaurantData} navigation = {navigation}>
-          </RestaurantItem>
+        <RestaurantItem restaurantData = {restaurantData} navigation = {navigation}></RestaurantItem>
           <Button onPress = {refresh} title = "Refresh"></Button>
         </ScrollView>
         <StatusBar style="auto" />
