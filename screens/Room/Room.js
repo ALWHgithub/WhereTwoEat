@@ -18,6 +18,7 @@ export default function App({route,navigation}) {
   const [votePrice, setVotePrice] = useState(0)
   const [cat, setCat] = useState('Chinese')
 
+  
 
   getDocs(colRef).then((snapshot) => {
     let temp = []
@@ -65,7 +66,6 @@ export default function App({route,navigation}) {
     }
   }
 
-
   const renderCurrentVotePrice = () => {
     if (votePrice == 0) {
       return <Text></Text>
@@ -73,7 +73,6 @@ export default function App({route,navigation}) {
       return <Text>Current Vote:  {"$".repeat(votePrice)}</Text>
     }
   }
-
 
   const castVote = () => {
     let name = global.user.uid
@@ -93,8 +92,6 @@ export default function App({route,navigation}) {
       }
     }
   }
-
-  
 
   const updatePrice = () => {
     let name = global.user.uid
@@ -124,6 +121,62 @@ export default function App({route,navigation}) {
     updateDoc(doc(db,'RoomIDs',rooms[0].id),{ [name] : [range,cat], [range] : priceCount +1, [cat] : catCount +1 })
   }
 
+  const exit = () => {
+    global.room = ''
+    navigation.navigate('EnterRoom')
+  }
+
+  const getHighestCat = () => {
+    let max = 0;
+    let cat = ''
+    if(rooms[0]['Chinese']> max) {
+      max = rooms[0]['Chinese']
+      cat  = 'Chinese'
+    }
+    if(rooms[0]['Japanese']> max) {
+      max = rooms[0]['Japanese']
+      cat  = 'Japanese'
+    }
+    if(rooms[0]['Italian']> max) {
+      max = rooms[0]['Italian']
+      cat  = 'Italian'
+    }
+    if(rooms[0]['Others']> max) {
+      max = rooms[0]['Others']
+      cat  = 'Others'
+    }
+    return cat
+  }
+  const getHighestPrice = () => {
+    let max = 0;
+    let price = 0
+    if(rooms[0][1]> max) {
+      max = rooms[0][1]
+      price  = 1
+    }
+    if(rooms[0][2]> max) {
+      max = rooms[0][2]
+      price  = 2
+    }
+    if(rooms[0][3]> max) {
+      max = rooms[0][3]
+      price  = 3
+    }
+    if(rooms[0][4]> max) {
+      max = rooms[0][4]
+      price  = 4
+    }
+    return price
+  }
+
+  const getResults = () => {
+    let highestCat =  getHighestCat()
+    let highestPrice = getHighestPrice()
+    
+
+    navigation.navigate('Restaurant', {price: highestPrice, cat: highestCat, lat: 1.3521, long:103.8198, range: 10000, loc: 'Singapore'})
+  }
+
 
   return (
     <SafeAreaView style={styles.container}>
@@ -148,6 +201,8 @@ export default function App({route,navigation}) {
       <StdButton text = "Others" onPress={() => setCat('Others')} />
       </View>
       <StdButton text = "Cast Vote!" onPress={() => castVote()} />
+      <StdButton text = "Get Results" onPress={() => getResults()}/>
+      <StdButton text = "Exit Room" onPress={() => exit()}/>
     </SafeAreaView>
     
   );

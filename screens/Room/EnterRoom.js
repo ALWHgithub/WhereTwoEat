@@ -9,7 +9,12 @@ import StdButton from '../components/button';
 
 
 
+
 export default function App({route,navigation}) {
+  if(global.room != '') {
+    navigation.navigate('Room',{name: global.room, navigation})
+  }
+
   const [name,setName] = useState()
   let temp = []
 
@@ -18,19 +23,25 @@ const createRoom = (username,navigation) => {
 }
 
 const enterRoom = (code,navigation) => {
+  let valid = false
   const db = getFirestore()
   const colRef = collection(db,'RoomIDs')
   getDocs(colRef).then((snapshot) => {
     snapshot.docs.forEach((doc) => {
       if(doc.id == name){
+        valid = true
+        global.room = code
         navigation.navigate('Room',{name: code})
       }
     })
     return temp
+  }).then(() => {
+    if(!valid) {
+      alert("No room with that name")
+    }
   })
-  alert("No room with that name")
-  
 }
+
 
 
   return (
@@ -40,6 +51,7 @@ const enterRoom = (code,navigation) => {
         <Text>Or enter the name of a room you want to enter!</Text>
         <TextInput placeholder = "Name"  onChangeText = {text => setName(text)} style = {styles.input} />
         <StdButton text = "Enter Existing Room" onPress={() => enterRoom(name, navigation)}/>
+        
     </SafeAreaView>
   );
 }
