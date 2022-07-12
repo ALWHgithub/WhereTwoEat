@@ -4,7 +4,11 @@ import { View,Text,Image,TouchableOpacity, Dimensions,Linking } from 'react-nati
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons"
 import config from '../../config'
 import StdButton from './button';
-
+import { authentication } from "../../firebase/firebase-config";
+import {
+  getFirestore,collection,getDocs,
+  addDoc, updateDoc, setDoc, doc
+} from 'firebase/firestore'
 
 export const localRestaurants = [
 
@@ -41,7 +45,7 @@ export default function RestaurantItem(props) {
 				activeOpacity={1}
 				style={{ marginBottom: 25 }}>
 				<View>
-					<RestaurantImage image = {restaurant.image_url}/>
+					<RestaurantImage image = {restaurant.image_url} id ={restaurant.id}/>
 					<RestaurantInfo alias = {restaurant.alias} rating = {restaurant.rating} phone = {restaurant.phone} name = {restaurant.name}/>
 					<TouchableOpacity onPress={() =>toReviews(restaurant, props.navigation)}>
 						<Text style={{fontSize: 15, }}>See Reviews</Text>
@@ -66,11 +70,28 @@ const RestaurantImage = (props) => (
 
 			style = {{ width: windowWidth - 10, height : 180, borderRadius: 0, resizeMode: 'cover', }}
 		/>
-		<TouchableOpacity style={{position: 'absolute', right: 20, top: 20}} onPress={() => {}}>
+		<TouchableOpacity style={{position: 'absolute', right: 20, top: 20}} onPress={() => {addtoFav(props.id)}}>
         	<MaterialCommunityIcons name = 'heart-outline' size ={25} color = "#ffffff"/>
 		</TouchableOpacity>
 	</>
 )
+
+const addtoFav = (id) => {
+  console.log("hi")
+  const db = getFirestore()
+  const colRef = collection(db,'Users')
+  getDocs(colRef)
+    .then((snapshot) => {
+    snapshot.docs.forEach((Doc) => {
+      if(Doc.id == global.user.uid){
+		  let updated = Doc.data().fav
+		  updated.push(id)
+		  console.log(updated)
+		  updateDoc(doc(db,'Users',global.user.uid),{fav: updated})
+        }
+      })
+    })
+}
 
 const RestaurantInfo = (props) => (
 	<View style = {{ flexDirection : "row", 
