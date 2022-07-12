@@ -7,39 +7,80 @@ import RestaurantItem from '../components/RestaurantItem';
 import { localRestaurants} from '../components/RestaurantItem';
 import GetLocation from 'react-native-get-location'
 import config from '../../config'
+import { authentication } from "../../firebase/firebase-config";
+import {
+  getFirestore,collection,getDocs,
+  addDoc, updateDoc, setDoc,doc
+} from 'firebase/firestore'
 
 const YELP_API_KEY = config.API_KEY;
 
 
 function Favourites({ navigation }) {
   const [restaurantData,setRestaurantData] = useState(localRestaurants)
-     
-    
-  const getDataFromYelp = () => {
-    const yelpURL = `https://api.yelp.com/v3/businesses/search?term=restaurants&location=Singapore&offset=${offset}&limit=30`
-    const apiOptions = {
-      headers: {
-        Authorization : `Bearer ${YELP_API_KEY}`,
-      },
-    }
-    
-    return fetch(yelpURL, apiOptions)
-    .then((res) => res.json())
-    .then((json) =>setRestaurantData(
-      json.businesses
-      ))
-    .catch(error => alert(error.message));
-  };
+  const [fav,setFav] = useState([])
+  const [favData,setFavData] = useState([])
+  const db = getFirestore()
+  const colRef = collection(db,'Users')
+  const apiOptions = {
+    headers: {
+      Authorization : `Bearer ${YELP_API_KEY}`,
+    },
+  }
 
+  const getFavs = () => {
+    getDocs(colRef)
+    .then((snapshot) => {
+    snapshot.docs.forEach((doc) => {
+      if(doc.id == global.user.uid){
+          setFav(doc.data().fav)
+        }
+      })
+    })
+  }
+  
   useEffect(() => {
-      getDataFromYelp();
-    }, []);
+    getFavs();
+  }, []);
+
+  const getFavsData = () => {
+    let temp = []
+    fav.map((fav) => {
+    let yelpURL = `https://api.yelp.com/v3/businesses/${fav}`
+    fetch(yelpURL, apiOptions)
+    .then((res) => res.json())
+    .then((json) => {
+      temp.push(json)
+    })
+    .catch(error => alert(error.message))
+    .then(() => {
+      setFavData(temp)
+    })
+    
+  })
+
+}
+
+useEffect(() => {
+  getFavsData();
+}, [fav]);
+
+
+
+const renderItems = () => {
+  console.log(favData)
+  if(favData.length == 0) {
+    return <Text>You dont seem to have any Favourites</Text>
+  } else {
+    return <RestaurantItem restaurantData = {favData}/>
+  }
+}
 
 
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView>
-        <RestaurantItem restaurantData = {restaurantData}/>
+        {renderItems()}
       </ScrollView>
       <Text>   </Text>
     </SafeAreaView>

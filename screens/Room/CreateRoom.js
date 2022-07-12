@@ -15,8 +15,6 @@ export default function App({route,navigation}) {
   let exists = false
 
   const createRoom = () => {
-    const db = getFirestore()
-    const colRef = collection(db,'RoomIDs')
     getDocs(colRef)
     .then((snapshot) => {
     snapshot.docs.forEach((doc) => {

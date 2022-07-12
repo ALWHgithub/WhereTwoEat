@@ -66,7 +66,7 @@ const RestaurantImage = (props) => (
 
 			style = {{ width: windowWidth - 10, height : 180, borderRadius: 0, resizeMode: 'cover', }}
 		/>
-		<TouchableOpacity style={{position: 'absolute', right: 20, top: 20}}>
+		<TouchableOpacity style={{position: 'absolute', right: 20, top: 20}} onPress={() => {}}>
         	<MaterialCommunityIcons name = 'heart-outline' size ={25} color = "#ffffff"/>
 		</TouchableOpacity>
 	</>

@@ -25,7 +25,6 @@ export default function Reviews({ navigation,route}) {
 
 
   const getDataFromYelp = () => {
-    console.log('test')
     let data = fetch(yelpURL, apiOptions)
       .then((res) => res.json())
       .then((json) => parseReviews(json))
@@ -75,6 +74,7 @@ export default function Reviews({ navigation,route}) {
     
   }
 
+  
   useEffect(() => {getDataFromYelp()},[])
 
     return (

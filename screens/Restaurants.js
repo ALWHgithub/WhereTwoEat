@@ -23,11 +23,6 @@ export default function Restaurants({ navigation,route }) {
       term = 'vegetarian'
     }
 
-
-    console.log(term)
-    console.log(loc)
-    console.log(cat)
-
     let yelpURL = `https://api.yelp.com/v3/businesses/search?term=${cat}&location=${loc}&price=${price}&offset=${offset}&limit=50`
     function refresh() {
       console.log(offset)
