@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { StatusBar } from 'expo-status-bar';
-import {TextInput, KeyboardAvoidingView,StyleSheet,Text,View, Button ,TouchableOpacity, ImageBackground} from 'react-native';
+import {TextInput, KeyboardAvoidingView,StyleSheet,Text,View, Button ,TouchableOpacity, ImageBackground, ActivityIndicator} from 'react-native';
 import { authentication } from "../firebase/firebase-config";
 import {signInWithEmailAndPassword, createUserWithEmailAndPassword, sendEmailVerification, applyActionCode} from "firebase/auth";
 import StdButton from './components/button';
@@ -43,21 +43,6 @@ function LoginScreen({ navigation }) {
     }
   }
 
-  const updateData = (id,user) => {
-    const colRef = collection(db,'Users')
-    global.user = user
-    updateDoc(doc(db,'Users',id),{name: id, email:email})
-    getDocs(colRef)
-    .then((snapshot) => {
-    snapshot.docs.forEach((doc) => {
-      if(doc.id == id){
-          global.fav = doc.data().fav
-          console.log(global.fav.length)
-        }
-      })
-    })
-  }
-
   const createAccount = () => {
     createUserWithEmailAndPassword(authentication,email,password)
       .then((userCredential) => {
@@ -96,7 +81,9 @@ function LoginScreen({ navigation }) {
     signInWithEmailAndPassword(authentication,email,password)
     .then((userCredential) => {
       const user = userCredential.user;
-      updateData(user.uid,user).then(() => {
+      global.user = user
+      updateDoc(doc(db,'Users',global.user.uid),{name: global.user.uid, email:email})
+      .then(() => {
         if(user.emailVerified) {
           navigation.navigate('HomeStack', {user: user, email: email, username: username})
         } else {
@@ -106,7 +93,7 @@ function LoginScreen({ navigation }) {
       })
       
     })
-    .catch(error => alert(handleSignInError(error.message)))
+    .catch(error => alert(error.message))
   }
 
   const handleSignInAdmin = () => {
@@ -119,6 +106,7 @@ function LoginScreen({ navigation }) {
          behaviour = "padding"
       >
         <View style = {styles.inputContainer}>
+          
           <ImageBackground source={require('../assets/WhereTwoEatLogin.png')} resizeMode="cover" style = {styles.image}>
            {/* <Text style = {{ fontWeight: 'bold', fontSize: 50}} >Where Two Eat!</Text> */}
           <TextInput placeholder = "Nickname"  onChangeText = {text => setUsername(text)} style = {styles.input} />
@@ -135,6 +123,11 @@ function LoginScreen({ navigation }) {
   }
   
   const styles = StyleSheet.create({
+    container2: {
+      flex: 1,
+      justifyContent: "center",
+      opacity: 0.7
+    },
     container: {
       flex: 1,
       backgroundColor: '#fff',

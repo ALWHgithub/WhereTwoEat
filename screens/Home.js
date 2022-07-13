@@ -7,13 +7,27 @@ import RestaurantItem from './components/RestaurantItem';
 import { localRestaurants} from './components/RestaurantItem';
 import GetLocation from 'react-native-get-location'
 import config from '../config'
+import {
+  getFirestore,collection,getDocs,
+  addDoc, updateDoc, setDoc,doc, deleteDoc, getDoc
+} from 'firebase/firestore'
 
 const YELP_API_KEY = config.API_KEY
 global.offset = 0
 
 function HomeScreen({ navigation }) {
   const [restaurantData,setRestaurantData] = useState(localRestaurants)
-     
+  const db = getFirestore()
+	const colRef = collection(db,'Users')
+  getDocs(colRef)
+      .then((snapshot) => {
+      snapshot.docs.forEach((doc) => {
+      if(doc.id == global.user.uid){
+          global.fav = doc.data().fav
+          console.log(global.fav.length)
+        }
+      })
+    })
     
   const getDataFromYelp = () => {
     const yelpURL = `https://api.yelp.com/v3/businesses/search?term=restaurants&location=Singapore&offset=${offset}&limit=30`
@@ -30,6 +44,8 @@ function HomeScreen({ navigation }) {
       ))
     .catch(error => alert(error.message));
   };
+
+  
 
   useEffect(() => {
       getDataFromYelp();
