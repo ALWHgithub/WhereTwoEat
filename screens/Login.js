@@ -7,7 +7,7 @@ import StdButton from './components/button';
 
 import {
   getFirestore,collection,getDocs,
-  addDoc, updateDoc, setDoc,doc, deleteDoc
+  addDoc, updateDoc, setDoc,doc, deleteDoc, getDoc
 } from 'firebase/firestore'
 
 function LoginScreen({ navigation }) {
@@ -43,12 +43,27 @@ function LoginScreen({ navigation }) {
     }
   }
 
+  const updateData = (id,user) => {
+    const colRef = collection(db,'Users')
+    global.user = user
+    updateDoc(doc(db,'Users',id),{name: id, email:email})
+    getDocs(colRef)
+    .then((snapshot) => {
+    snapshot.docs.forEach((doc) => {
+      if(doc.id == id){
+          global.fav = doc.data().fav
+          console.log(global.fav.length)
+        }
+      })
+    })
+  }
+
   const createAccount = () => {
     createUserWithEmailAndPassword(authentication,email,password)
       .then((userCredential) => {
       const user = userCredential.user;
       global.user = user
-      setDoc(doc(db,'Users',user.uid),{name: user.uid, email:email, vegetarian: false })
+      setDoc(doc(db,'Users',user.uid),{name: user.uid, email:email, vegetarian: false, fav:[]})
       global.vegetarian = false
       sendEmailVerification(authentication.currentUser)
       navigation.navigate('Verification', {user: user, email: email, username: username})
@@ -75,22 +90,21 @@ function LoginScreen({ navigation }) {
     .catch(error => {
       createAccount()
     })
-    
   }
 
   const handleSignIn = () => {
     signInWithEmailAndPassword(authentication,email,password)
     .then((userCredential) => {
       const user = userCredential.user;
-      global.user = user
-      updateDoc(doc(db,'Users',user.uid),{name: user.uid, email:email})
-
-      if(user.emailVerified) {
-        navigation.navigate('HomeStack', {user: user, email: email, username: username})
-      } else {
-        sendEmailVerification(authentication.currentUser)
-        navigation.navigate('Verification', {user: user, email: email, username: username})
-      }
+      updateData(user.uid,user).then(() => {
+        if(user.emailVerified) {
+          navigation.navigate('HomeStack', {user: user, email: email, username: username})
+        } else {
+          sendEmailVerification(authentication.currentUser)
+          navigation.navigate('Verification', {user: user, email: email, username: username})
+        }
+      })
+      
     })
     .catch(error => alert(handleSignInError(error.message)))
   }

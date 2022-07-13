@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { render } from "react-dom";
-import { View,Text,Image,TouchableOpacity, Dimensions,Linking } from 'react-native';
+import { View,Text,Image,TouchableOpacity, Dimensions,Linking,use } from 'react-native';
+import { useIsFocused } from '@react-navigation/native';
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons"
 import config from '../../config'
 import StdButton from './button';
@@ -13,15 +14,21 @@ import {
 export const localRestaurants = [
 
 ]
-
+global.fav = global.fav
 export default function RestaurantItem(props) {
+	const isFocused = useIsFocused();
 	const [review, setReview] = useState('')
+	const [state, setState] = useState(0)
 	const YELP_API_KEY = config.API_KEY;
 	const apiOptions = {
         headers: {
           Authorization : `Bearer ${YELP_API_KEY}`,
         },
       }
+
+	  useEffect(() => {
+		isFocused && setState(state+1)
+	  },[isFocused]);
 	
 	const toReviews = (restaurant,navigation) => {
 		console.log(restaurant.alias)
@@ -36,6 +43,108 @@ export default function RestaurantItem(props) {
 			alias: restaurant.alias,
 		})
 	}
+	const RestaurantImage = (props) => (
+		<>
+			<Image
+				source = {{
+					uri : props.image,
+				}}
+	
+				style = {{ width: windowWidth - 10, height : 180, borderRadius: 0, resizeMode: 'cover', }}
+			/>
+			{renderFavIcon(props.id)}
+		</>
+	)
+	
+	const renderFavIcon = (id) => {
+     if(global.fav != undefined && global.fav.find((res) => (res == id)) == undefined) {
+		return <TouchableOpacity style={{position: 'absolute', right: 20, top: 20}} onPress={() => {addToFav(id)}}>
+		<MaterialCommunityIcons name = 'heart-outline' size ={25} color = "#FFFFFF"/>
+		</TouchableOpacity>
+	  } else {
+		return <TouchableOpacity style={{position: 'absolute', right: 20, top: 20}} onPress={() => {removeFromFav(id)}}>
+		<MaterialCommunityIcons name = 'heart' size ={25} color = "#FFFFFF"/>
+		</TouchableOpacity>
+	  }
+	}
+	
+	const addToFav = (id) => {
+	  const db = getFirestore()
+	  const colRef = collection(db,'Users')
+	  getDocs(colRef)
+		.then((snapshot) => {
+		snapshot.docs.forEach((Doc) => {
+		  if(Doc.id == global.user.uid){
+			  let current = global.fav
+			  current.push(id)
+			  global.fav = current
+			  updateDoc(doc(db,'Users',global.user.uid),{fav: current})
+			}
+		  })
+		})
+		.then(() => {
+			setState(state+1)
+		})
+		
+	}
+	
+	const removeFromFav = (id) => {
+	  const db = getFirestore()
+	  const colRef = collection(db,'Users')
+	  getDocs(colRef)
+		.then((snapshot) => {
+		snapshot.docs.forEach((Doc) => {
+		  if(Doc.id == global.user.uid){
+			  let current = global.fav
+			  current = current.filter(data => data != id);
+			  global.fav = current
+			  updateDoc(doc(db,'Users',global.user.uid),{fav: current})
+			}
+		  })
+		})
+		.then(() => {
+			setState(state+1)
+		})
+	}
+	
+	const RestaurantInfo = (props) => (
+		<View style = {{ flexDirection : "row", 
+			justifyContent : "space-between", 
+			alignItems : "center",
+			marginTop: 10,
+		}}>
+	
+			<View>
+			<Text style={{fontSize: 20, textTransform: 'capitalize', fontWeight: 'bold', width: windowWidth - 50}}>
+				{/* {replaceAll(props.alias,"-", " ")}  */}
+				{props.name}
+				</Text>  
+				<TouchableOpacity style ={{ flexDirection : "row"}} onPress={() => {Linking.openURL(`tel:${props.phone}`)}}>
+				<MaterialCommunityIcons  name = 'phone' size ={15} color = 'grey'/>          
+				<Text style={{fontSize: 15, color: 'grey',}}> {props.phone}</Text>
+				</TouchableOpacity>
+				
+			</View>
+	
+			<View style={{
+				flexDirection : "row",
+				backgroundColor: "#eee",
+				height: 34,
+				width: 34,
+				alignItems: "center",
+				justifyContent: "center",
+				borderRadius: 17,
+			}}
+			>  
+				<Text style={{fontSize: 15}} >{props.rating}</Text>
+				
+			</View>
+		</View>
+	)
+	
+	const replaceAll = (str, find, replace) => (
+		str.replace(new RegExp(find, 'g'), replace)
+	)
 
 	return (
 	<>
@@ -51,7 +160,6 @@ export default function RestaurantItem(props) {
 						<Text style={{fontSize: 15, }}>See Reviews</Text>
 					</TouchableOpacity>
 				</View>
-
 			</TouchableOpacity>
 		))}
 	</>
@@ -61,79 +169,11 @@ export default function RestaurantItem(props) {
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
-const RestaurantImage = (props) => (
-	<>
-		<Image
-			source = {{
-				uri : props.image,
-			}}
 
-			style = {{ width: windowWidth - 10, height : 180, borderRadius: 0, resizeMode: 'cover', }}
-		/>
-		<TouchableOpacity style={{position: 'absolute', right: 20, top: 20}} onPress={() => {addtoFav(props.id)}}>
-        	<MaterialCommunityIcons name = 'heart-outline' size ={25} color = "#ffffff"/>
-		</TouchableOpacity>
-	</>
-)
-
-const addtoFav = (id) => {
-  console.log("hi")
-  const db = getFirestore()
-  const colRef = collection(db,'Users')
-  getDocs(colRef)
-    .then((snapshot) => {
-    snapshot.docs.forEach((Doc) => {
-      if(Doc.id == global.user.uid){
-		  let updated = Doc.data().fav
-		  updated.push(id)
-		  console.log(updated)
-		  updateDoc(doc(db,'Users',global.user.uid),{fav: updated})
-        }
-      })
-    })
-}
-
-const RestaurantInfo = (props) => (
-	<View style = {{ flexDirection : "row", 
-		justifyContent : "space-between", 
-		alignItems : "center",
-		marginTop: 10,
-	}}>
-
-		<View>
-		<Text style={{fontSize: 20, textTransform: 'capitalize', fontWeight: 'bold', width: windowWidth - 50}}>
-			{/* {replaceAll(props.alias,"-", " ")}  */}
-			{props.name}
-			</Text>  
-			<TouchableOpacity style ={{ flexDirection : "row"}} onPress={() => {Linking.openURL(`tel:${props.phone}`)}}>
-			<MaterialCommunityIcons  name = 'phone' size ={15} color = 'grey'/>          
-			<Text style={{fontSize: 15, color: 'grey',}}> {props.phone}</Text>
-			</TouchableOpacity>
-			
-		</View>
-
-		<View style={{
-			flexDirection : "row",
-			backgroundColor: "#eee",
-			height: 34,
-			width: 34,
-			alignItems: "center",
-			justifyContent: "center",
-			borderRadius: 17,
-		}}
-		>  
-			<Text style={{fontSize: 15}} >{props.rating}</Text>
-			
-		</View>
-	</View>
-)
-
-const replaceAll = (str, find, replace) => (
-    str.replace(new RegExp(find, 'g'), replace)
-)
 
 
 export function VertRestaurantItem(props) {
+	
 	return (
 		<>
 			{props.restaurantData.map((restaurant,index) => (
@@ -148,7 +188,9 @@ export function VertRestaurantItem(props) {
 const VertRestaurantImage = (props) => (
 	<>
 		<Image
-			source = {{
+		    resizeMethod="scale"
+			resizeMode="cover"
+			defaultSource = {{
 				uri : props.image,
 			}}
 
