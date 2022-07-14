@@ -43,18 +43,15 @@ export default function RestaurantItem(props) {
 			alias: restaurant.alias,
 		})
 	}
-	const RestaurantImage = (props) => (
-		<>
+
+	const RestaurantImage = React.memo(props => {
+		return <>
 			<Image
-				source = {{
-					uri : props.image,
-				}}
-	
+				source = {{uri : props.image,}}
 				style = {{ width: windowWidth - 10, height : 180, borderRadius: 0, resizeMode: 'cover', }}
 			/>
-			{renderFavIcon(props.id)}
 		</>
-	)
+	  });
 	
 	const renderFavIcon = (id) => {
      if(global.fav != undefined && global.fav.find((res) => (res == id)) != undefined) {
@@ -154,7 +151,9 @@ export default function RestaurantItem(props) {
 				activeOpacity={1}
 				style={{ marginBottom: 25 }}>
 				<View>
-					<RestaurantImage image = {restaurant.image_url} id ={restaurant.id}/>
+					
+					<Image source = {{uri : restaurant.image_url,}} style = {{ width: windowWidth - 10, height : 180, borderRadius: 0, resizeMode: 'cover', }}/>
+					{renderFavIcon(restaurant.id)}
 					<RestaurantInfo alias = {restaurant.alias} rating = {restaurant.rating} phone = {restaurant.phone} name = {restaurant.name}/>
 					<TouchableOpacity onPress={() =>toReviews(restaurant, props.navigation)}>
 						<Text style={{fontSize: 15, }}>See Reviews</Text>

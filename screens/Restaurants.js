@@ -25,7 +25,8 @@ export default function Restaurants({ navigation,route }) {
 
 
 
-    let yelpURL = `https://api.yelp.com/v3/businesses/search?location=${loc}&price=` + price + '&categories=' + cat + `&offset=${offset}&limit=50`
+    let yelpURL = `https://api.yelp.com/v3/businesses/search?term=${term}&location=${loc}&price=` + price + '&categories=' + cat + `&offset=${offset}&limit=50`
+    console.log(yelpURL)
     function refresh() {
       console.log(offset)
       global.offset += 50

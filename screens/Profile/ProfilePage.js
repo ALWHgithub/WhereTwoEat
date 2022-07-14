@@ -2,9 +2,12 @@ import React, { useEffect, useState } from "react";
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, SafeAreaView, Button, ScrollView } from 'react-native';
 import StdButton from '../components/button';
+import { authentication } from "../../firebase/firebase-config";
+import {signInWithEmailAndPassword, createUserWithEmailAndPassword, sendEmailVerification, signOut} from "firebase/auth";
 
 export default function Profile({ navigation,route}) {
   const handleSignOut = () => {
+    signOut(authentication)
     route.params.masternav.navigate("Login")
   }
   const handleEditProfilePage = () => {

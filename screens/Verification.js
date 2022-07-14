@@ -23,7 +23,7 @@ export default function Verification({ navigation,route}) {
 
     return (
       <SafeAreaView style = {styles.container}>
-        <Text style={{textAlign:"center",}}>Please verify your email!</Text>
+        <Text style={{textAlign:"center",}}>{route.params.msg}</Text>
         <StdButton text = "Send anther email" onPress={sendEmail} />
         <StdButton text = "I'm verified !" onPress={handleSignIn} />
       </SafeAreaView>

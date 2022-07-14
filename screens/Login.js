@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { StatusBar } from 'expo-status-bar';
 import {TextInput, KeyboardAvoidingView,StyleSheet,Text,View, Button ,TouchableOpacity, ImageBackground, ActivityIndicator} from 'react-native';
 import { authentication } from "../firebase/firebase-config";
-import {signInWithEmailAndPassword, createUserWithEmailAndPassword, sendEmailVerification, applyActionCode} from "firebase/auth";
+import {signInWithEmailAndPassword, createUserWithEmailAndPassword, sendEmailVerification, signOut} from "firebase/auth";
 import StdButton from './components/button';
 
 import {
@@ -49,25 +49,25 @@ function LoginScreen({ navigation }) {
       const user = userCredential.user;
       global.user = user
       setDoc(doc(db,'Users',user.uid),{name: user.uid, email:email, vegetarian: false, fav:[]})
-      global.vegetarian = false
       sendEmailVerification(authentication.currentUser)
-      navigation.navigate('Verification', {user: user, email: email, username: username})
+      navigation.navigate('Verification', {user: user, email: email, username: username, msg: "Please verify your email"})
     })
     .catch(error => alert(handleSignUpError(error.message)))
   }
 
   const handleSignUp = () => {
+    if(password.length < 6) {
+      alert("Password must be at least 6 letters")
+    } else {
     signInWithEmailAndPassword(authentication,email,password)
     .then((userCredential) => {
       const user = userCredential.user;
       global.user = user
-      updateDoc(doc(db,'Users',user.uid),{name: user.uid, email:email})
       if(user.emailVerified) {
         alert("This email account is already in use")
       } else {
         console.log(user.uid)
         deleteDoc(doc(db,'Users',user.uid)).then(() => {
-          user.delete()
           createAccount()
         })
       }
@@ -75,25 +75,27 @@ function LoginScreen({ navigation }) {
     .catch(error => {
       createAccount()
     })
+   }
   }
 
   const handleSignIn = () => {
-    signInWithEmailAndPassword(authentication,email,password)
-    .then((userCredential) => {
-      const user = userCredential.user;
-      global.user = user
-      updateDoc(doc(db,'Users',global.user.uid),{name: global.user.uid, email:email})
-      .then(() => {
+    if(password.length < 6) {
+      alert("Password must be at least 6 letters")
+    } else{
+      signInWithEmailAndPassword(authentication,email,password)
+      .then((userCredential) => {
+        const user = userCredential.user;
+        global.user = user
         if(user.emailVerified) {
           navigation.navigate('HomeStack', {user: user, email: email, username: username})
         } else {
           sendEmailVerification(authentication.currentUser)
-          navigation.navigate('Verification', {user: user, email: email, username: username})
+          navigation.navigate('Verification', {user: user, email: email, username: username, msg: "This email has not been verified."})
         }
-      })
-      
+
     })
-    .catch(error => alert(error.message))
+      .catch(error => alert(error.message))
+    }
   }
 
   const handleSignInAdmin = () => {

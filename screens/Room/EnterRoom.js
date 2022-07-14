@@ -12,6 +12,7 @@ import StdButton from '../components/button';
 
 export default function App({route,navigation}) {
   if(global.room != '') {
+    console.log(global.room)
     navigation.navigate('Room',{name: global.room, navigation})
   }
 

@@ -19,15 +19,24 @@ function HomeScreen({ navigation }) {
   const [restaurantData,setRestaurantData] = useState(localRestaurants)
   const db = getFirestore()
 	const colRef = collection(db,'Users')
+  const [loaded,setLoaded] = useState(false)
+  
   getDocs(colRef)
-      .then((snapshot) => {
+  .then((snapshot) => {
       snapshot.docs.forEach((doc) => {
       if(doc.id == global.user.uid){
           global.fav = doc.data().fav
           console.log(global.fav.length)
+          
         }
       })
     })
+  .then(() => {
+    setLoaded(true)
+  })
+  global.room = ''
+  global.vegetarian = global.user.vegetarian
+
     
   const getDataFromYelp = () => {
     const yelpURL = `https://api.yelp.com/v3/businesses/search?term=restaurants&location=Singapore&offset=${offset}&limit=30`

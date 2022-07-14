@@ -59,27 +59,18 @@ export default function EditProfilePage({ navigation,route}) {
     }
   }
 
-  
-  getDocs(colRef).then((snapshot) => {
-    snapshot.docs.forEach((doc) => {
-      const email = JSON.stringify(doc.data().email)
-      if(email == '"' + global.user.email + '"'){
-        
-      }
-    })
-  })
-  .catch(err => {
-    console.log(err);
-  })
+  const saveChanges = () => {
+    setDoc(doc(db,'Users',global.user.uid),{name: global.user.uid, vegetarian: global.vegetarian })
+  }
   
 
   return (
     <SafeAreaView style = {styles.container}>
-
       <Text style={{paddingLeft:10,paddingTop:10,}}>Any Dietary Restrictions?</Text>
       <View style={{flexDirection:"row",}}>
          {renderVegetarian()}
       </View>
+      <StdButton text = "Save changes" onPress={() =>saveChanges()}/>
     </SafeAreaView>
   );
   }
