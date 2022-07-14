@@ -23,10 +23,10 @@ function FilterCat({ navigation,route }) {
       <Text>What Cuisine ?</Text>
 
       <View style={{flexDirection: 'row'}}>
-      <StdButton text = "Chinese" onPress={() =>setCat('Chinese')} />
-      <StdButton text = "Japanese" onPress={() =>setCat('Japanese')} />
+      <StdButton text = "Chinese" onPress={() =>setCat('chinese')} />
+      <StdButton text = "Japanese" onPress={() =>setCat('japanese')} />
       <StdButton text = "Italian" onPress={() =>setCat('italian')} />
-      <StdButton text = "All" onPress={() =>setCat('Restaurant')} />
+      <StdButton text = "All" onPress={() =>setCat('restaurant')} />
       </View>
       <View style={styles.nestedViewStyle}><Text>{'     '}</Text></View>
       <StdButton text = "Filter Based on Location" onPress={() =>toLoc(cat)} />

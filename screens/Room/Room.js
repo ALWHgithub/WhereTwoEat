@@ -127,44 +127,49 @@ export default function App({route,navigation}) {
   }
 
   const getHighestCat = () => {
-    let max = 0;
+    let max = 0.1;
     let cat = ''
     if(rooms[0]['Chinese']> max) {
       max = rooms[0]['Chinese']
-      cat  = 'Chinese'
+      cat  = 'chinese'
+    } 
+    else if(rooms[0]['Chinese'] ==  max) {
+      cat += ',' + 'chinese'
     }
     if(rooms[0]['Japanese']> max) {
       max = rooms[0]['Japanese']
-      cat  = 'Japanese'
+      cat  = 'japanese'
+    } 
+    else if(rooms[0]['Japanese'] == max) {
+      cat += ',' + 'japanese'
     }
     if(rooms[0]['Italian']> max) {
       max = rooms[0]['Italian']
-      cat  = 'Italian'
+      cat  = 'italian'
+    } 
+    else if(rooms[0]['Italian'] == max) {
+      cat += ',' + 'italian'
     }
     if(rooms[0]['Others']> max) {
       max = rooms[0]['Others']
-      cat  = 'Others'
+      cat  = 'others'
+    }
+    else if(rooms[0]['Others'] == max) {
+      cat += ',' + 'others'
     }
     return cat
   }
+
   const getHighestPrice = () => {
-    let max = 0;
-    let price = 0
-    if(rooms[0][1]> max) {
-      max = rooms[0][1]
-      price  = 1
-    }
-    if(rooms[0][2]> max) {
-      max = rooms[0][2]
-      price  = 2
-    }
-    if(rooms[0][3]> max) {
-      max = rooms[0][3]
-      price  = 3
-    }
-    if(rooms[0][4]> max) {
-      max = rooms[0][4]
-      price  = 4
+    let max = 0.1
+    let price = ""
+    for (let i = 0; i < 4; i++) {
+      if(rooms[0][i]> max) {
+        max = rooms[0][i]
+        price  = JSON.stringify(i)
+      } else if(rooms[0][i] == max) {
+        price += ',' + JSON.stringify(i)
+      }
     }
     return price
   }
@@ -172,6 +177,8 @@ export default function App({route,navigation}) {
   const getResults = () => {
     let highestCat =  getHighestCat()
     let highestPrice = getHighestPrice()
+    console.log(highestCat)
+    console.log(highestPrice)
     
 
     navigation.navigate('Restaurant', {price: highestPrice, cat: highestCat, lat: 1.3521, long:103.8198, range: 10000, loc: 'Singapore'})

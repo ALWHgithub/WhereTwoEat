@@ -12,7 +12,8 @@ function FilterPrice({ navigation,route }) {
   
   const handlePrice = (fig) => {
     setPrice(fig);
-    navigation.navigate('Cat', {price: fig})
+    console.log(JSON.stringify(fig))
+    navigation.navigate('Cat', {price: JSON.stringify(fig)})
   }
 
 

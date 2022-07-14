@@ -57,13 +57,13 @@ export default function RestaurantItem(props) {
 	)
 	
 	const renderFavIcon = (id) => {
-     if(global.fav != undefined && global.fav.find((res) => (res == id)) == undefined) {
-		return <TouchableOpacity style={{position: 'absolute', right: 20, top: 20}} onPress={() => {addToFav(id)}}>
-		<MaterialCommunityIcons name = 'heart-outline' size ={25} color = "#FFFFFF"/>
-		</TouchableOpacity>
-	  } else {
+     if(global.fav != undefined && global.fav.find((res) => (res == id)) != undefined) {
 		return <TouchableOpacity style={{position: 'absolute', right: 20, top: 20}} onPress={() => {removeFromFav(id)}}>
 		<MaterialCommunityIcons name = 'heart' size ={25} color = "#FFFFFF"/>
+		</TouchableOpacity>
+	  } else {
+		return <TouchableOpacity style={{position: 'absolute', right: 20, top: 20}} onPress={() => {addToFav(id)}}>
+		<MaterialCommunityIcons name = 'heart-outline' size ={25} color = "#FFFFFF"/>
 		</TouchableOpacity>
 	  }
 	}
