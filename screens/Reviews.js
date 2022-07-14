@@ -52,17 +52,30 @@ export default function Reviews({ navigation,route}) {
       temp[11] = "Error"
       setReviews(temp)
     } else {
-    temp[0] = JSON.stringify(reviews['reviews'][0]['rating'])
-    temp[1] = JSON.stringify(reviews['reviews'][0]['time_created'])
-    temp[2] = JSON.stringify(reviews['reviews'][0]['text'])
+    // Original code. The lack of JSON.stringify mgiht lead to errors
+    // temp[0] = JSON.stringify(reviews['reviews'][0]['rating'])
+    // temp[1] = JSON.stringify(reviews['reviews'][0]['time_created'])
+    // temp[2] = JSON.stringify(reviews['reviews'][0]['text'])
 
-    temp[3] = JSON.stringify(reviews['reviews'][1]['rating'])
-    temp[4] = JSON.stringify(reviews['reviews'][1]['time_created'])
-    temp[5] = JSON.stringify(reviews['reviews'][1]['text'])
+    // temp[3] = JSON.stringify(reviews['reviews'][1]['rating'])
+    // temp[4] = JSON.stringify(reviews['reviews'][1]['time_created'])
+    // temp[5] = JSON.stringify(reviews['reviews'][1]['text'])
 
-    temp[6] = JSON.stringify(reviews['reviews'][2]['rating'])
-    temp[7] = JSON.stringify(reviews['reviews'][2]['time_created'])
-    temp[8] = JSON.stringify(reviews['reviews'][2]['text'])
+    // temp[6] = JSON.stringify(reviews['reviews'][2]['rating'])
+    // temp[7] = JSON.stringify(reviews['reviews'][2]['time_created'])
+    // temp[8] = JSON.stringify(reviews['reviews'][2]['text'])
+
+    temp[0] = reviews['reviews'][0]['rating']
+    temp[1] = reviews['reviews'][0]['time_created']
+    temp[2] = reviews['reviews'][0]['text']
+
+    temp[3] = reviews['reviews'][1]['rating']
+    temp[4] = reviews['reviews'][1]['time_created']
+    temp[5] = reviews['reviews'][1]['text']
+
+    temp[6] = reviews['reviews'][2]['rating']
+    temp[7] = reviews['reviews'][2]['time_created']
+    temp[8] = reviews['reviews'][2]['text']
 
     // If these doesn't work to comment it out and there shall be no picture
     temp[9] = reviews['reviews'][0]['user']['image_url']
