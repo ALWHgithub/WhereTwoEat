@@ -38,14 +38,12 @@ export default function EditProfilePage({ navigation,route}) {
   
   const setVegetarianTrue = () => {
     global.vegetarian = true;
-    setDoc(doc(db,'Users',global.user.uid),{name: global.user.uid, vegetarian: true })
     console.log(global.vegetarian)
     setState(state+1)
   }
 
   const setVegetarianFalse = () => {
     global.vegetarian = false;
-    setDoc(doc(db,'Users',global.user.uid),{name: global.user.uid, vegetarian: false })
     console.log(global.vegetarian)
     setState(state+1)
   }
@@ -60,7 +58,7 @@ export default function EditProfilePage({ navigation,route}) {
   }
 
   const saveChanges = () => {
-    setDoc(doc(db,'Users',global.user.uid),{name: global.user.uid, vegetarian: global.vegetarian })
+    updateDoc(doc(db,'Users',global.user.uid),{vegetarian: global.vegetarian })
   }
   
 

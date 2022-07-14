@@ -13,6 +13,7 @@ export default function Verification({ navigation,route}) {
   const handleSignIn = () => {
     route.params.user.reload().then(() => {
       if(route.params.user.emailVerified) {
+        global.room = ''
         navigation.navigate('HomeStack', {user: route.params.user, email: route.params.email, username: route.params.username})
       }
     })

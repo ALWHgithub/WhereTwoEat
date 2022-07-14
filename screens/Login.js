@@ -87,6 +87,7 @@ function LoginScreen({ navigation }) {
         const user = userCredential.user;
         global.user = user
         if(user.emailVerified) {
+          global.room = ''
           navigation.navigate('HomeStack', {user: user, email: email, username: username})
         } else {
           sendEmailVerification(authentication.currentUser)

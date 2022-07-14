@@ -19,23 +19,22 @@ function HomeScreen({ navigation }) {
   const [restaurantData,setRestaurantData] = useState(localRestaurants)
   const db = getFirestore()
 	const colRef = collection(db,'Users')
-  const [loaded,setLoaded] = useState(false)
+
   
   getDocs(colRef)
   .then((snapshot) => {
       snapshot.docs.forEach((doc) => {
       if(doc.id == global.user.uid){
           global.fav = doc.data().fav
-          console.log(global.fav.length)
-          
+          global.vegetarian = doc.data().vegetarian
         }
       })
     })
   .then(() => {
-    setLoaded(true)
+    
+    console.log(global.vegetarian)
   })
-  global.room = ''
-  global.vegetarian = global.user.vegetarian
+  
 
     
   const getDataFromYelp = () => {
