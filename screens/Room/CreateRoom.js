@@ -13,6 +13,7 @@ export default function App({route,navigation}) {
   const colRef = collection(db,'RoomIDs')
   const [code,setCode] = useState()
   let exists = false
+  let roomSettings = ''
 
   const createRoom = () => {
     getDocs(colRef)
@@ -26,11 +27,11 @@ export default function App({route,navigation}) {
     })
     .then( () => {
       if(!exists) {
-        setDoc(doc(db,'RoomIDs',code),{name: code, 1:0, 2:0, 3:0, 4:0, Chinese:0, Japanese:0, Italian:0, Others:0})
+        global.room = code
+        setDoc(doc(db,'RoomIDs',code),{name: code, 1:0, 2:0, 3:0, 4:0, Chinese:0, Japanese:0, Italian:0, Others:0, room: roomSettings})
         navigation.navigate('Room',{name: code})
       }
     })
-    
   }
 
   const changeText = (text) => {
@@ -38,11 +39,17 @@ export default function App({route,navigation}) {
     setCode(text)
   }
 
+  const setVegetarian = () => {
+    roomSettings = 'vegetarian'
+  }
+
   return (
     <SafeAreaView style={styles.container}>
         <Text>Pick a Name for your room!</Text>
         <TextInput placeholder = "Name"  onChangeText = {text => changeText(text)} style = {styles.input} />
         <StdButton text = "Create Room" onPress={() => createRoom()}/>
+        <Text>Room Options</Text>
+        <StdButton text = "Vegetarian" onPress={() => setVegetarian()}/>
     </SafeAreaView>
   );
 }

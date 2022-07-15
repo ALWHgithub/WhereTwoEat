@@ -14,38 +14,19 @@ export default function EditProfilePage({ navigation,route}) {
   const colRef = collection(db,'Users')
   const [state, setState] = useState(0)
   const [rooms, setRooms] = useState([])
-
-  getDocs(colRef).then((snapshot) => {
-    let temp = []
-    snapshot.docs.forEach((doc) => {
-      if(doc.id == route.params.name){
-        temp.push({...doc.data(), id: doc.id})
-      }
-    })
-    return temp
-  })
-  .then((temp) => {
-    setRooms(temp)
-  })
-  .catch(err => {
-    console.log(err);
-  })
-
-  if (rooms.length != 0) {
-    global.vegetarian = rooms[0].vegetarian;
-  }
-  
   
   const setVegetarianTrue = () => {
     global.vegetarian = true;
     console.log(global.vegetarian)
     setState(state+1)
+    updateDoc(doc(db,'Users',global.user.uid),{vegetarian: global.vegetarian })
   }
 
   const setVegetarianFalse = () => {
     global.vegetarian = false;
     console.log(global.vegetarian)
     setState(state+1)
+    updateDoc(doc(db,'Users',global.user.uid),{vegetarian: global.vegetarian })
   }
 
 

@@ -20,23 +20,7 @@ function HomeScreen({ navigation }) {
   const db = getFirestore()
 	const colRef = collection(db,'Users')
   const [state, setState] = useState(0)
-  
-  getDocs(colRef)
-  .then((snapshot) => {
-      snapshot.docs.forEach((doc) => {
-      if(doc.id == global.user.uid){
-          global.doc = doc
-          global.fav = doc.data().fav
-          global.vegetarian = doc.data().vegetarian
-        }
-      })
-    })
-  .then(() => {
-    setState(state+1)
-  })
-  
 
-    
   const getDataFromYelp = () => {
     const yelpURL = `https://api.yelp.com/v3/businesses/search?term=restaurants&location=Singapore&offset=${offset}&limit=30`
     const apiOptions = {
@@ -52,7 +36,22 @@ function HomeScreen({ navigation }) {
       ))
     .catch(error => alert(error.message));
   };
-
+  
+  if(global.fav == undefined){
+	  getDocs(colRef)
+      .then((snapshot) => {
+      snapshot.docs.forEach((doc) => {
+      if(doc.id == global.user.uid){
+          global.doc = doc
+          global.fav = doc.data().fav
+          global.vegetarian = doc.data().vegetarian
+        }
+      })
+     })
+	.then(()=>{
+		setState(state+1)
+	 })
+	}
   
 
   useEffect(() => {

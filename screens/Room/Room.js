@@ -18,8 +18,6 @@ export default function App({route,navigation}) {
   const [votePrice, setVotePrice] = useState(0)
   const [cat, setCat] = useState('Chinese')
 
-  
-
   getDocs(colRef).then((snapshot) => {
     let temp = []
     snapshot.docs.forEach((doc) => {

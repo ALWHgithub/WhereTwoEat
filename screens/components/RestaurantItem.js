@@ -14,23 +14,17 @@ import {
 export const localRestaurants = [
 
 ]
-global.fav = global.fav
+
 export default function RestaurantItem(props) {
 	const isFocused = useIsFocused();
 	const [review, setReview] = useState('')
 	const [state, setState] = useState(0)
 	const db = getFirestore()
 	const colRef = collection(db,'Users')
-	const YELP_API_KEY = config.API_KEY;
-	const apiOptions = {
-        headers: {
-          Authorization : `Bearer ${YELP_API_KEY}`,
-        },
-      }
 
 	  useEffect(() => {
 		isFocused && setState(state+1)
-	  },[isFocused]);
+	  },[isFocused,global.fav]);
 	
 	const toReviews = (restaurant,navigation) => {
 		console.log(restaurant.alias)
@@ -45,14 +39,19 @@ export default function RestaurantItem(props) {
 			alias: restaurant.alias,
 		})
 	}
+
 	
 	const renderFavIcon = (id) => {
-	if(global.fav != undefined && global.fav.find((res) => (res == id)) != undefined) {
-		return <TouchableOpacity style={{position: 'absolute', right: 20, top: 20}} onPress={() => {removeFromFav(id)}}>
+	if(global.fav == undefined){
+		return <TouchableOpacity style={{position: 'absolute', right: 20, top: 20}}  activeOpacity={1.0}>
+		<MaterialCommunityIcons name = 'refresh' size ={25} color = "#FFFFFF"/>
+		</TouchableOpacity>
+	} else if(global.fav != undefined && global.fav.find((res) => (res == id)) != undefined) {
+		return <TouchableOpacity style={{position: 'absolute', right: 20, top: 20}} onPress={() => {removeFromFav(id)}} activeOpacity={1.0}>
 		<MaterialCommunityIcons name = 'heart' size ={25} color = "#FFFFFF"/>
 		</TouchableOpacity>
-	  } else {
-		return <TouchableOpacity style={{position: 'absolute', right: 20, top: 20}} onPress={() => {addToFav(id)}}>
+	} else {
+	    return <TouchableOpacity style={{position: 'absolute', right: 20, top: 20}} onPress={() => {addToFav(id)}} activeOpacity={1.0}>
 		<MaterialCommunityIcons name = 'heart-outline' size ={25} color = "#FFFFFF"/>
 		</TouchableOpacity>
 	  }
@@ -72,6 +71,7 @@ export default function RestaurantItem(props) {
 		global.fav = current
 		setState(state+1)
 		updateDoc(doc(db,'Users',global.user.uid),{fav: current})
+		
 	}
 	
 	const RestaurantInfo = (props) => (
