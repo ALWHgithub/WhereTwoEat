@@ -19,20 +19,20 @@ function HomeScreen({ navigation }) {
   const [restaurantData,setRestaurantData] = useState(localRestaurants)
   const db = getFirestore()
 	const colRef = collection(db,'Users')
-
+  const [state, setState] = useState(0)
   
   getDocs(colRef)
   .then((snapshot) => {
       snapshot.docs.forEach((doc) => {
       if(doc.id == global.user.uid){
+          global.doc = doc
           global.fav = doc.data().fav
           global.vegetarian = doc.data().vegetarian
         }
       })
     })
   .then(() => {
-    
-    console.log(global.vegetarian)
+    setState(state+1)
   })
   
 

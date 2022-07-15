@@ -35,21 +35,9 @@ export default function Reviews({ navigation,route}) {
     let temp = []
     if(reviews.error != undefined){
       console.log(reviews.error)
-      temp[0] = "Error"
-      temp[1] = "Error"
-      temp[2] = "Error"
-
-      temp[3] = "Error"
-      temp[4] = "Error"
-      temp[5] = "Error"
-  
-      temp[6] = "Error"
-      temp[7] = "Error"
-      temp[8] = "Error"
-
-      temp[9] = "Error"
-      temp[10] = "Error"
-      temp[11] = "Error"
+      for (let i = 0; i < 12; i++) {
+        temp[i] = "Error"
+      }
       setReviews(temp)
     } else {
     // Original code. The lack of JSON.stringify mgiht lead to errors
@@ -87,6 +75,19 @@ export default function Reviews({ navigation,route}) {
     
   }
 
+  const renderReview = (offset,image) => {
+    return <View style={styles.reviewStyle}>
+
+              <View style ={{ flexDirection : "row"}}>
+                <Image source={{uri : reviews[image] }} style={{height: 60,width: 60, marginBottom: 10, marginRight: 10, borderRadius: 30}}/>
+                <Text>
+                  Rating: {reviews[offset]} {'\n'}
+                  Date Reviewed: {reviews[offset+1]}  {'\n'}
+                </Text>
+              </View>
+              <Text>{reviews[offset+2]}</Text>
+            </View>
+  }
   
   useEffect(() => {getDataFromYelp()},[])
 
@@ -99,41 +100,9 @@ export default function Reviews({ navigation,route}) {
             
             {/* Whats oop? :thinking: */}
             {/* To make this into a ReviewItem class soonTM */}
-            <View style={styles.reviewStyle}>
-
-              <View style ={{ flexDirection : "row"}}>
-                <Image source={{uri : reviews[9] }} style={{height: 60,width: 60, marginBottom: 10, marginRight: 10, borderRadius: 30}}/>
-                <Text>
-                  Rating: {reviews[0]} {'\n'}
-                  Date Reviewed: {reviews[1]}  {'\n'}
-                </Text>
-              </View>
-              <Text>{reviews[2]}</Text>
-            </View>
-
-            <View style={styles.reviewStyle}>
-              {/* <View> */}
-              <View style ={{ flexDirection : "row"}}>
-                <Image source={{uri : reviews[10] }} style={{height: 60,width: 60, marginBottom: 10, marginRight: 10, borderRadius: 30}}/>
-                <Text>
-                  Rating: {reviews[3]} {'\n'}
-                  Date Reviewed: {reviews[4]}  {'\n'}
-                </Text>
-              </View>
-              <Text>{reviews[5]}</Text>
-            </View>
-            
-            <View style={styles.reviewStyle}>
-              {/* <View> */}
-              <View style ={{ flexDirection : "row"}}>
-                <Image source={{uri : reviews[11] }} style={{height: 60,width: 60, marginBottom: 10, marginRight: 10, borderRadius: 30}}/>
-                <Text>
-                  Rating: {reviews[6]} {'\n'}
-                  Date Reviewed: {reviews[7]}  {'\n'}
-                </Text>
-              </View>
-              <Text>{reviews[8]}</Text>
-            </View>
+            {renderReview(0,9)}
+            {renderReview(3,10)}
+            {renderReview(6,11)}
             
             <View>
               <StdButton text = "See More!" onPress={() => {Linking.openURL('https://www.yelp.com/biz/' + route.params.alias)}}/>

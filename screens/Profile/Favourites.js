@@ -29,12 +29,17 @@ function Favourites({ navigation }) {
     },
   }
 
+  function onlyUnique(value, index, self) {
+    return self.indexOf(value) === index;
+  }
+
   const getFavs = () => {
     getDocs(colRef)
     .then((snapshot) => {
     snapshot.docs.forEach((doc) => {
       if(doc.id == global.user.uid){
-          setFavID(doc.data().fav)
+          console.log(doc)
+          setFavID(doc.data().fav.filter(onlyUnique))
         }
       })
     })

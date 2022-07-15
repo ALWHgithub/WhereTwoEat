@@ -19,6 +19,8 @@ export default function RestaurantItem(props) {
 	const isFocused = useIsFocused();
 	const [review, setReview] = useState('')
 	const [state, setState] = useState(0)
+	const db = getFirestore()
+	const colRef = collection(db,'Users')
 	const YELP_API_KEY = config.API_KEY;
 	const apiOptions = {
         headers: {
@@ -43,18 +45,9 @@ export default function RestaurantItem(props) {
 			alias: restaurant.alias,
 		})
 	}
-
-	const RestaurantImage = React.memo(props => {
-		return <>
-			<Image
-				source = {{uri : props.image,}}
-				style = {{ width: windowWidth - 10, height : 180, borderRadius: 0, resizeMode: 'cover', }}
-			/>
-		</>
-	  });
 	
 	const renderFavIcon = (id) => {
-     if(global.fav != undefined && global.fav.find((res) => (res == id)) != undefined) {
+	if(global.fav != undefined && global.fav.find((res) => (res == id)) != undefined) {
 		return <TouchableOpacity style={{position: 'absolute', right: 20, top: 20}} onPress={() => {removeFromFav(id)}}>
 		<MaterialCommunityIcons name = 'heart' size ={25} color = "#FFFFFF"/>
 		</TouchableOpacity>
@@ -66,42 +59,19 @@ export default function RestaurantItem(props) {
 	}
 	
 	const addToFav = (id) => {
-	  const db = getFirestore()
-	  const colRef = collection(db,'Users')
-	  getDocs(colRef)
-		.then((snapshot) => {
-		snapshot.docs.forEach((Doc) => {
-		  if(Doc.id == global.user.uid){
-			  let current = global.fav
-			  current.push(id)
-			  global.fav = current
-			  updateDoc(doc(db,'Users',global.user.uid),{fav: current})
-			}
-		  })
-		})
-		.then(() => {
-			setState(state+1)
-		})
-		
+	    let current = global.fav
+	    current.push(id)
+	    global.fav = current
+		setState(state+1)
+		updateDoc(doc(db,'Users',global.user.uid),{fav: current})
 	}
 	
 	const removeFromFav = (id) => {
-	  const db = getFirestore()
-	  const colRef = collection(db,'Users')
-	  getDocs(colRef)
-		.then((snapshot) => {
-		snapshot.docs.forEach((Doc) => {
-		  if(Doc.id == global.user.uid){
-			  let current = global.fav
-			  current = current.filter(data => data != id);
-			  global.fav = current
-			  updateDoc(doc(db,'Users',global.user.uid),{fav: current})
-			}
-		  })
-		})
-		.then(() => {
-			setState(state+1)
-		})
+		let current = global.fav
+		current = current.filter(data => data != id);
+		global.fav = current
+		setState(state+1)
+		updateDoc(doc(db,'Users',global.user.uid),{fav: current})
 	}
 	
 	const RestaurantInfo = (props) => (
