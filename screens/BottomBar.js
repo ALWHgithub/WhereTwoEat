@@ -23,7 +23,7 @@ const BottomTabs = (props) => {
 
       <TouchableOpacity onPress={() => {
         global.offset = 0
-        navigation.navigate('Price')
+        navigation.navigate('Cat')
         }} ><Icon icon="receipt" text="Order" />
         </TouchableOpacity>
 

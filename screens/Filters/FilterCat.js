@@ -1,25 +1,56 @@
 import React, { useEffect, useState } from "react";
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View,SafeAreaView, Button } from 'react-native';
+import { StyleSheet, Text, View,SafeAreaView, TouchableOpacity, Button } from 'react-native';
 import StdButton from "../components/button";
- 
+import Slider from '@react-native-community/slider'; 
+import FontAwesome5 from "react-native-vector-icons/FontAwesome5";
 
 function FilterCat({ navigation,route }) {
   const [cat, setCat] = useState('Restaurant')
+  const [range, setRange] = useState(1);
+  
+  const handlePrice = (fig) => {
+    setPrice(fig);
+    console.log(JSON.stringify(fig))
+    return JSON.stringify(fig)
+  }
+
   const toLoc = (cat) => {
-      navigation.navigate('Loc', {price: route.params.price, cat: cat})
+      navigation.navigate('Loc', {price:  handlePrice(range), cat: cat})
   }
 
   const toRes = (cat) => {
-      navigation.navigate('Restaurant', {price: route.params.price, cat: cat, lat: 1.3521, long:103.8198, range: 10000, loc: 'Singapore'})
+      navigation.navigate('Restaurant', {price: handlePrice(range), cat: cat, lat: 1.3521, long:103.8198, range: 10000, loc: 'Singapore'})
+  }
+
+
+  const renderButton = (price) => {
+    return <TouchableOpacity  onPress={() => {setRange(price)}} >
+    <FontAwesome5 name="dollar-sign" size ={25} color = "#000000"/>
+		</TouchableOpacity>
   }
 
   return (
     <SafeAreaView style={styles.container}>
-      <View style={{flexDirection: 'row'}}>
-      <Text>You have chosen : {route.params.price} </Text>
+      <Text>What price ? {"$".repeat(range)} </Text>
+      <View>
+      {/* <View style={{flexDirection: 'row'}}>
+      <StdButton text = "$$$$" onPress={() =>handlePrice('$$$$')} />
+      <StdButton text = "$$$" onPress={() =>handlePrice('$$$')} />
+      <StdButton text = "$$" onPress={() =>handlePrice('$$')} />
+      <StdButton text = "$" onPress={() =>handlePrice('$')} /> */}
+      <View style={{flexDirection: 'row',}}>
+      {renderButton(1)}
+      {renderButton(2)}
+      {renderButton(3)}
+      {renderButton(4)}
       </View>
+  
 
+
+      </View>
+      <View style={{flexDirection: 'row'}}>
+      </View>
       <Text>What Cuisine ?</Text>
 
       <View style={{flexDirection: 'row'}}>
@@ -35,7 +66,6 @@ function FilterCat({ navigation,route }) {
     </SafeAreaView>
   );
 }
-
 
 const styles = StyleSheet.create({
   container: {

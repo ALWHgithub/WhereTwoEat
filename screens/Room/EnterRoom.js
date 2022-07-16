@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { StyleSheet, Text, View,SafeAreaView, Button, TextInput } from 'react-native';
+import { StyleSheet, Text, View,SafeAreaView,Dimensions, Button, TextInput } from 'react-native';
 import { authentication } from "../../firebase/firebase-config";
 import {
   getFirestore,collection,getDocs,
@@ -46,35 +46,36 @@ const enterRoom = (code,navigation) => {
 
 
   return (
-    <SafeAreaView style={styles.container}>
-        <Text>You can create a new room for you and your friends !</Text>
-        <StdButton text = "Create Room" onPress={() => createRoom(route.params.username, navigation)}/>
-        <Text>Or enter the name of a room you want to enter!</Text>
-        <TextInput placeholder = "Name"  onChangeText = {text => setName(text)} style = {styles.input} />
+    <SafeAreaView style={styles.parentContainer}>
+        <Text>Enter a room!</Text>
+        <TextInput placeholder = "Name"  onChangeText = {text => setName(text)} style = {styles.roomNameInput} />
         <StdButton text = "Enter Existing Room" onPress={() => enterRoom(name, navigation)}/>
-        
+        <View style={styles.bottomButton}>
+        <StdButton text = "Create a new Room" onPress={() => createRoom(name, navigation)} />
+        </View>
     </SafeAreaView>
   );
 }
 
+const windowWidth = Dimensions.get('window').width;
+const windowHeight = Dimensions.get('window').height;
 const styles = StyleSheet.create({
-    container: {
+    parentContainer: {
       flex: 1,
       backgroundColor: '#fff',
       alignItems: 'center',
       justifyContent: 'center',
     },
-    input: {
+    roomNameInput: {
       backgroundColor: 'white',
-      
       borderColor: '#e8e8e8',
       borderWidth: 1,
-      
-
       borderRadius: 5,
       padding: 10,
       margin: 5,
-
-
     },
+    bottomButton : {
+      position: 'absolute',
+      bottom:30,
+    }
   });

@@ -47,9 +47,12 @@ export default function App({route,navigation}) {
     <SafeAreaView style={styles.container}>
         <Text>Pick a Name for your room!</Text>
         <TextInput placeholder = "Name"  onChangeText = {text => changeText(text)} style = {styles.input} />
-        <StdButton text = "Create Room" onPress={() => createRoom()}/>
+        
         <Text>Room Options</Text>
         <StdButton text = "Vegetarian" onPress={() => setVegetarian()}/>
+        <View style={styles.bottomButton}>
+        <StdButton text = "Create Room" onPress={() => createRoom()}/>
+        </View> 
     </SafeAreaView>
   );
 }
@@ -76,4 +79,8 @@ const styles = StyleSheet.create({
       padding: 10,
       margin: 5,
     },
+    bottomButton : {
+      position: 'absolute',
+      bottom:30,
+    }
   });
