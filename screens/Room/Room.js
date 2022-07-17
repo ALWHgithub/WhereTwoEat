@@ -37,7 +37,6 @@ export default function App({route,navigation}) {
   let sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
 
   useEffect(() => {
-    console.log(state)
     getDocs(colRef).then((snapshot) => {
       snapshot.docs.forEach((doc) => {
         if(doc.id == route.params.name){
@@ -46,7 +45,7 @@ export default function App({route,navigation}) {
       })
     })
     .then(() => {
-      sleep(1500).then(() => {
+      sleep(50000).then(() => {
         setState(state+1)
       })
     })

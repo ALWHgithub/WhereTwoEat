@@ -7,7 +7,7 @@ import {
 } from 'firebase/firestore'
 import StdButton from '../components/button';
 
-
+import * as Location from 'expo-location';
 
 
 export default function App({route,navigation}) {
@@ -17,13 +17,16 @@ export default function App({route,navigation}) {
   }
 
   const [name,setName] = useState()
+  const [location, setLocation] = useState(null);
+  const [errorMsg, setErrorMsg] = useState(null);
+  const [locPerm, setLocPerm] = useState(0);
   let temp = []
 
-const createRoom = (username,navigation) => {
+  const createRoom = (username,navigation) => {
     navigation.navigate('CreateRoom', {username: username})
-}
+  }
 
-const enterRoom = (code,navigation) => {
+ const enterRoom = (code,navigation) => {
   let valid = false
   const db = getFirestore()
   const colRef = collection(db,'RoomIDs')
@@ -41,7 +44,37 @@ const enterRoom = (code,navigation) => {
       alert("No room with that name")
     }
   })
+ }
+
+ useEffect(() => {
+  if(locPerm != 0)
+    (async () => {
+      console.log("perm")
+      let { status } = await Location.requestForegroundPermissionsAsync();
+      if (status !== 'granted') {
+        setErrorMsg('Permission to access location was denied');
+        return;
+      }
+  
+      let location = await Location.getCurrentPositionAsync({});
+      setLocation(location);
+    })();
+}, [locPerm]);
+
+    let long = '';
+    let lat = ''
+    if (errorMsg) {
+       long = errorMsg;
+     } else if (location) {
+      long = JSON.stringify(location.coords.longitude);
+      lat = JSON.stringify(location.coords.latitude);
+      console.log(long)
+  }
+
+const getLocation = () => {
+    setLocPerm(locPerm+1)
 }
+
 
 
 
@@ -51,6 +84,7 @@ const enterRoom = (code,navigation) => {
         <TextInput placeholder = "Name"  onChangeText = {text => setName(text)} style = {styles.roomNameInput} />
         <StdButton text = "Enter Existing Room" onPress={() => enterRoom(name, navigation)}/>
         <View style={styles.bottomButton}>
+        <StdButton text = "Add Location" onPress={() => getLocation()} />
         <StdButton text = "Create a new Room" onPress={() => createRoom(name, navigation)} />
         </View>
     </SafeAreaView>

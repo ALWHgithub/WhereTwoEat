@@ -45,8 +45,6 @@ export default function FilterLoc({navigation,route}) {
     lat = JSON.stringify(location.coords.latitude);
   }
 
-  
-
   const toRestraunt = () => {
     navigation.navigate('Restaurant', {price: route.params.price,
        loc: loc,
