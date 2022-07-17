@@ -4,7 +4,7 @@ import { authentication } from "../../firebase/firebase-config";
 import Slider from '@react-native-community/slider'; 
 import {
   getFirestore,collection,getDocs,
-  addDoc, updateDoc, setDoc,doc
+  addDoc, updateDoc, setDoc,doc,
 } from 'firebase/firestore'
 import StdButton from '../components/button';
 import { clearUpdateCacheExperimentalAsync } from "expo-updates";
@@ -21,7 +21,6 @@ export default function App({route,navigation}) {
 
 
   if(rooms == undefined){
-    console.log("test")
     getDocs(colRef).then((snapshot) => {
       snapshot.docs.forEach((doc) => {
         if(doc.id == route.params.name){
@@ -34,8 +33,11 @@ export default function App({route,navigation}) {
     })
   }
 
+
+  let sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
+
   useEffect(() => {
-    console.log("hi")
+    console.log(state)
     getDocs(colRef).then((snapshot) => {
       snapshot.docs.forEach((doc) => {
         if(doc.id == route.params.name){
@@ -44,13 +46,15 @@ export default function App({route,navigation}) {
       })
     })
     .then(() => {
+      sleep(1500).then(() => {
+        setState(state+1)
+      })
     })
     .catch(err => {
-      console.log(err);
+      alert(err);
     })
   }, [state])
   
-
   const renderCountPrice = () => {    
     if(rooms == undefined) {
       return <Text>Please Wait!</Text>
@@ -152,6 +156,9 @@ export default function App({route,navigation}) {
       })
     })
     updateDoc(doc(db,'RoomIDs',rooms["name"]),{ [name] : [range,cat], [range] :curPriceCount +1, [cat] : curCatCount +1 })
+    .then(() => {
+      setState(state+1)
+    })
   }
 
   const exit = () => {

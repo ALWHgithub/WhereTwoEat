@@ -121,7 +121,6 @@ export default function RestaurantItem(props) {
 				activeOpacity={1}
 				style={{ marginBottom: 25 }}>
 				<View>
-					
 					<Image source = {{uri : restaurant.image_url,}} style = {{ width: windowWidth - 10, height : 180, borderRadius: 0, resizeMode: 'cover', }}/>
 					{renderFavIcon(restaurant.id)}
 					<RestaurantInfo alias = {restaurant.alias} rating = {restaurant.rating} phone = {restaurant.phone} name = {restaurant.name}/>
