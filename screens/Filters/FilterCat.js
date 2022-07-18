@@ -14,7 +14,7 @@ function FilterCat({ navigation,route }) {
   }
 
   const toLoc = (cat) => {
-      navigation.navigate('Loc', {price:  handlePrice(range), cat: cat})
+      navigation.navigate('Loc', {price: handlePrice(range), cat: cat})
   }
 
   const toRes = (cat) => {

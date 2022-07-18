@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, SafeAreaView, Button, ScrollView, FlatList } from 'react-native';
+import { StyleSheet, Text, SafeAreaView, Button, ScrollView, FlatList, View } from 'react-native';
 import RestaurantItem from './components/RestaurantItem';
 import { localRestaurants } from './components/RestaurantItem';
 import GetLocation from 'react-native-get-location'
@@ -12,6 +12,7 @@ const YELP_API_KEY = config.API_KEY
 export default function Restaurants({ navigation,route }) {
     const [pastRestaurantData,setPastRestaurantData] = useState(localRestaurants)
     const [restaurantData,setRestaurantData] = useState(localRestaurants)
+    const [state,setState] = useState(0)
     const price = route.params.price
     let cat = route.params.cat
     const [range, setRange] = useState(route.params.range)
@@ -34,12 +35,11 @@ export default function Restaurants({ navigation,route }) {
     }
     
 
-    console.log(loc)
     let yelpURL = `https://api.yelp.com/v3/businesses/search?term=${term}${loc}&price=` + price + '&categories=' + cat + `&offset=${offset}&limit=50`
-    console.log(yelpURL)
+    
     function refresh() {
       global.offset += 50
-      yelpURL = `https://api.yelp.com/v3/businesses/search?term=${term}&location=${loc}&price=` + price + '&categories=' + cat + `&offset=${offset}&limit=50`
+      yelpURL = `https://api.yelp.com/v3/businesses/search?term=${term}${loc}&price=` + price + '&categories=' + cat + `&offset=${offset}&limit=50`
       getDataFromYelp();
     }
 
@@ -84,11 +84,12 @@ export default function Restaurants({ navigation,route }) {
         return <Text>Here are the Restaurants !</Text>
       }
     }
-    
 
     return (
       <SafeAreaView style={styles.container}>
         {renderRestrauntsText()}
+        <View style={{flexDirection: 'row',}}>
+      </View>
         <ScrollView showsVerticalScrollIndication = {false}>
         <RestaurantItem restaurantData = {restaurantData} navigation = {navigation}></RestaurantItem>
           <Button onPress = {refresh} title = "Refresh"></Button>
