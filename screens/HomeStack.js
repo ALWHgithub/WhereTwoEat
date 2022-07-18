@@ -17,7 +17,7 @@ import FilterLoc from "./Filters/FilterLocation"
 import EnterRoom from "./Room/EnterRoom"
 import CreateRoom from "./Room/CreateRoom"
 import Room from "./Room/Room"
-
+import Password from "./Profile/ChangePassword"
 
 import { LogBox } from "react-native"
 import BottomBar from './BottomBar'
@@ -48,6 +48,7 @@ export default function App({route,navigation}) {
         <Stack.Screen name="EnterRoom" component={EnterRoom} />
         <Stack.Screen name="CreateRoom" component={CreateRoom} />
         <Stack.Screen name="Room" component={Room} />
+        <Stack.Screen name="Password" component={Password} />
       </Stack.Navigator>
       <BottomBar navigation={HomeScreen.navigation} email = {route.params.email} username = {route.params.username} user = {route.params.user} masternav = {navigation}/>
     </NavigationContainer>
