@@ -19,7 +19,7 @@ function FilterPrice({ navigation,route }) {
 
   return (
     <SafeAreaView style={styles.container}>
-      <Text>What price ? {"$".repeat(range)} </Text>
+      <Text style={{fontSize:18, textAlign: 'center'}}>What price ? {"$".repeat(range)} </Text>
       <View>
       {/* <View style={{flexDirection: 'row'}}>
       <StdButton text = "$$$$" onPress={() =>handlePrice('$$$$')} />
