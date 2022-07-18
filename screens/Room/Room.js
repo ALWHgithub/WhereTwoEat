@@ -21,6 +21,7 @@ export default function App({route,navigation}) {
   const [done,setDone] = useState(0)
   const [highestCat,setHighestCat] = useState('')
   const [highestPrice,setHighestPrice] = useState('')
+  let loading = false;
 
   if(rooms == undefined){
     getDocs(colRef).then((snapshot) => {
@@ -87,6 +88,7 @@ export default function App({route,navigation}) {
   }
 
   const castVote = () => {
+    loading = true;
     let name = global.user.uid
     let first = rooms[name] == undefined
     if(first) {
@@ -96,54 +98,73 @@ export default function App({route,navigation}) {
     } else {
       let prevPrice = rooms[name][0]
       let prevCat = rooms[name][1]
-      if(prevPrice != range || prevCat != cat){
-        update(setState(state+1))
+      if(prevCat != cat){
+        updateCat()
+      }
+      if(prevPrice != range ){
+        updatePrice()
       }
     }
   }
 
-  const update = (func) => {
+  const updateCat = () => {
     let name = global.user.uid
     let thisDoc = 0
-    let prevPrice = 0
     let prevCat = ""
-    let prevPriceCount = 0
     let prevCatCount = 0
-    let curPriceCount = 0
     let curCatCount = 0
     getDocs(colRef)
     .then((snapshot) => {
       snapshot.docs.forEach((doc) => {
         if(doc.id == route.params.name){
           thisDoc = doc.data()
-          prevPrice = doc.data()[name][0]
           prevCat = doc.data()[name][1]
-          prevPriceCount = doc.data()[prevPrice]
           prevCatCount = doc.data()[prevCat]
+          curCatCount = doc.data()[cat]
         }
       })
     })
     .then(() => {
-      updateDoc(doc(db,'RoomIDs',rooms["name"]),{[prevCat] : prevCatCount -1, [prevPrice] : prevPriceCount -1  })
-      .then(() => {
-        getDocs(colRef)
-       .then((snapshot) => {
+      let temp = rooms
+      temp[cat] = curCatCount +1
+      temp[prevCat] = prevCatCount -1
+      temp[name] = [range,cat]
+      setRooms(temp)
+      setState(state+1)
+      updateDoc(doc(db,'RoomIDs',rooms["name"]),{[name] : [range,cat], [cat] : curCatCount +1, [prevCat] : prevCatCount -1})
+       })
+    }
+
+    const updatePrice= () => {
+      let name = global.user.uid
+      let thisDoc = 0
+      let prevPrice = 0
+      let prevPriceCount = 0
+      let curPriceCount = 0
+      getDocs(colRef)
+      .then((snapshot) => {
         snapshot.docs.forEach((doc) => {
-        if(doc.id == route.params.name){
-          curPriceCount = doc.data()[range]
-          curCatCount = doc.data()[cat]
-         }
-       })
-       })
-       .then(() => {
-        updateDoc(doc(db,'RoomIDs',rooms["name"]),{[name] : [range,cat], [cat] : curCatCount +1, [range] : curPriceCount +1 })
-        .then(() => {
-          func()
+          if(doc.id == route.params.name){
+            thisDoc = doc.data()
+            prevPrice = doc.data()[name][0]
+            prevPriceCount = doc.data()[prevPrice]
+            curPriceCount = doc.data()[range]
+          }
         })
-       })
       })
-    })
-  }
+      .then(() => {
+        let temp = rooms
+        temp[range] = curPriceCount +1
+        temp[prevPrice] = prevPriceCount -1
+        temp[name] = [range,cat]
+        setRooms(temp)
+        setState(state+1)
+        updateDoc(doc(db,'RoomIDs',rooms["name"]),{[name] : [range,cat], [range] : curPriceCount +1, [prevPrice] : prevPriceCount -1})
+         })
+      }
+  
+
+  
 
   const updateLoc = () => {
     if(route.params.long != undefined && route.params.lat != undefined && route.params.long != 0 && route.params.lat !=0){
@@ -256,17 +277,27 @@ export default function App({route,navigation}) {
   }
 
   const getResults = () => {
-    let p = getHighestPrice()
+      let p = getHighestPrice()
       let c = getHighestCat()
       if(p == '' || c == ''){
         alert("Something went wrong. Did you remember to put at least one vote?")
       } else {
        navigation.navigate('Restaurant', {room:true, term: rooms.term, price: p, cat: c, lat: 0, long:0, range: 10000, loc: 'Singapore'})
       }
+    
+  }
+
+  const renderLoading = () => {
+    if(loading){
+      return <Text>Loading</Text>
+    } else {
+      return 
+    }
   }
 
   return (
     <SafeAreaView style={styles.container}>
+        {renderLoading()}
         {renderCountPrice()}
         {renderCountCat()}
         {renderCurrentVotePrice()}
