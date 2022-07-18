@@ -21,6 +21,9 @@ export default function FilterLoc({navigation,route}) {
   const [location, setLocation] = useState(null);
   const [errorMsg, setErrorMsg] = useState(null);
   const [loc, setLoc] = useState('Singapore');
+  let useLoc = false;
+  let long = '';
+  let lat = ''
   
   useEffect(() => {
     (async () => {
@@ -35,8 +38,7 @@ export default function FilterLoc({navigation,route}) {
     })();
   }, []);
 
-  let long = '';
-  let lat = ''
+  
   if (errorMsg) {
     long = errorMsg;
   } else if (location) {
@@ -44,19 +46,22 @@ export default function FilterLoc({navigation,route}) {
     lat = JSON.stringify(location.coords.latitude);
   }
 
+  const useMyLocation = () => {
+    let curLoc = `&longitude=${JSON.stringify(location.coords.longitude)}&latitude=${JSON.stringify(location.coords.latitude)}`
+    navigation.navigate('Restaurant', {price: route.params.price,cat: route.params.cat, loc:curLoc})
+  }
+
+
   const toRestraunt = () => {
-    navigation.navigate('Restaurant', {price: route.params.price,
-       loc: loc,
-       cat: route.params.cat,
-       long: JSON.stringify(location.coords.longitude),
-       lat: JSON.stringify(location.coords.latitude),
-      })
+    let curLoc = `&location=${loc}`
+    navigation.navigate('Restaurant', {price: route.params.price, loc: curLoc, cat: route.params.cat,})
   }
 
   return (
     <View style={styles.container}>
       <TextInput placeholder = "Name of Place"  onChangeText = {text => setLoc('Singapore,' + text)} style = {styles.input} />
-      <StdButton text = "Confirm" onPress={() => toRestraunt()} />
+      <StdButton text = "Search Location" onPress={() => toRestraunt()} />
+      <StdButton text = "Proceed" onPress={() => useMyLocation()} />
     </View>
   );
 }

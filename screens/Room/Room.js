@@ -258,23 +258,13 @@ export default function App({route,navigation}) {
     return price
   }
 
-  const goToResult =() => {
-      let p = getHighestPrice()
-      let c = getHighestCat()
-      if(p == '' || c == ''){
-        alert("Something went wrong. Did you remember to put at least one vote?")
-      } else {
-       navigation.navigate('Restaurant', {room:true, term: rooms[room], price: p, cat: c, lat: rooms.lat, long:rooms.long, range: 10000, loc: 'Singapore'})
-      }
-  }
-
   const getResults = () => {
       let p = getHighestPrice()
       let c = getHighestCat()
       if(p == '' || c == ''){
         alert("Something went wrong. Did you remember to put at least one vote?")
       } else {
-       navigation.navigate('Restaurant', {room:true, term: rooms.term, price: p, cat: c, lat: 0, long:0, range: 10000, loc: 'Singapore'})
+       navigation.navigate('Restaurant', {room:true, term: rooms.term, price: p, cat: c, loc: '&location=Singapore'})
       }
     
   }
