@@ -20,8 +20,7 @@ import * as Location from 'expo-location';
 export default function FilterLoc({navigation,route}) {
   const [location, setLocation] = useState(null);
   const [errorMsg, setErrorMsg] = useState(null);
-  const [range, setRange] = useState(1);
-  const [loc, setLoc] = useState('');
+  const [loc, setLoc] = useState('Singapore');
   
   useEffect(() => {
     (async () => {
@@ -36,7 +35,7 @@ export default function FilterLoc({navigation,route}) {
     })();
   }, []);
 
-  let long = 'Waiting..';
+  let long = '';
   let lat = ''
   if (errorMsg) {
     long = errorMsg;
@@ -51,23 +50,12 @@ export default function FilterLoc({navigation,route}) {
        cat: route.params.cat,
        long: JSON.stringify(location.coords.longitude),
        lat: JSON.stringify(location.coords.latitude),
-        range: range})
+      })
   }
 
   return (
     <View style={styles.container}>
-      <Text>I am willing to travel {range} m from the location</Text>
-      <Slider
-        style={{width: 200, height: 40}}
-        minimumValue={1000}
-        maximumValue={10000}
-        step={1000}
-        thumbTintColor="orange"
-        onValueChange={value => setRange(parseInt(value))}
-        maximumTrackTintColor="#000000"        
-        minimumTrackTintColor = 'orange'
-      />
-      <TextInput placeholder = "Name of Place"  onChangeText = {text => setLoc(text)} style = {styles.input} />
+      <TextInput placeholder = "Name of Place"  onChangeText = {text => setLoc('Singapore,' + text)} style = {styles.input} />
       <StdButton text = "Confirm" onPress={() => toRestraunt()} />
     </View>
   );
@@ -97,5 +85,7 @@ const styles = StyleSheet.create({
     margin: 5,
   }, 
 });
+ 
+  
  
   

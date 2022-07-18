@@ -27,12 +27,16 @@ export default function Restaurants({ navigation,route }) {
       term += 'vegetarian'
     }
 
-  if(long != undefined && long != 0 && lat != undefined && lat !=0){
-    coord = `&latitude=${lat}&longitude=${long}`
-  }
+    {
+      //if(long != undefined && long != 0 && lat != undefined && lat !=0){
+      //coord = `&latitude=${lat}&longitude=${long}`
+      //}
+    }
+    
 
-
+    console.log(loc)
     let yelpURL = `https://api.yelp.com/v3/businesses/search?term=${term}&location=${loc}${coord}&price=` + price + '&categories=' + cat + `&offset=${offset}&limit=50`
+    console.log(yelpURL)
     function refresh() {
       global.offset += 50
       yelpURL = `https://api.yelp.com/v3/businesses/search?term=${term}&location=${loc}&price=` + price + '&categories=' + cat + `&offset=${offset}&limit=50`

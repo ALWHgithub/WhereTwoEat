@@ -10,8 +10,6 @@ function FilterCat({ navigation,route }) {
   const [range, setRange] = useState(1);
   
   const handlePrice = (fig) => {
-    setPrice(fig);
-    console.log(JSON.stringify(fig))
     return JSON.stringify(fig)
   }
 
