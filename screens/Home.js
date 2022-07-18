@@ -1,6 +1,6 @@
 import React, { useEffect, useState, Component } from 'react';
 import { StatusBar } from 'expo-status-bar';
-import {StyleSheet,Text,SafeAreaView, Divider, ScrollView } from 'react-native';
+import {StyleSheet,Text,SafeAreaView, Divider, ScrollView, View } from 'react-native';
 import StdButton from './components/button';
 import BottomTabs from './BottomBar';
 import RestaurantItem from './components/RestaurantItem';
@@ -71,10 +71,12 @@ function HomeScreen({ navigation }) {
         <VertRestaurantItem restaurantData = {restaurantData}/>
       </ScrollView> */}
       <ScrollView>
-      <RestaurantItem restaurantData = {restaurantData} navigation = {navigation}/>
+        <RestaurantItem restaurantData = {restaurantData} navigation = {navigation}/>
       </ScrollView>
 
-      <Text>   </Text>
+      {/* <View style={{justifyContent: 'center', alignItems:'center', backgroundColor: 'rgba(255, 255, 255, 0.8)'}}> */}
+      <View style={{position: 'absolute', bottom: 0, }}>
+      
       <StdButton
         text="Start New Order ?" 
         onPress={() => {
@@ -84,6 +86,7 @@ function HomeScreen({ navigation }) {
           
         }
       />
+      </View>
       <StatusBar style="auto" />
     </SafeAreaView>
   );
@@ -94,7 +97,7 @@ const styles = StyleSheet.create({
   container: {
     paddingTop: 20,
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: '#E9E9E9',
     alignItems: 'center',
     justifyContent: 'center',
   },
