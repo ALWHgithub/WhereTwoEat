@@ -39,23 +39,7 @@ export default function App({route,navigation}) {
 
   let sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
 
-  useEffect(() => {
-    getDocs(colRef).then((snapshot) => {
-      snapshot.docs.forEach((doc) => {
-        if(doc.id == route.params.name){
-          setRooms(doc.data())
-        }
-      })
-    })
-    .then(() => {
-      sleep(1500).then(() => {
-        setState(state+1)
-      })
-    })
-    .catch(err => {
-      alert(err);
-    })
-  }, [state])
+  
   
   const renderCountPrice = () => {    
     if(rooms == undefined) {
@@ -67,6 +51,8 @@ export default function App({route,navigation}) {
       </View>
     }
   }
+
+  
 
   const renderCountCat = () => {
     if(rooms == undefined) {
@@ -87,6 +73,16 @@ export default function App({route,navigation}) {
     }
   }
 
+  useEffect(() => {
+    sleep(100).then(() => {
+      setState(state+1)
+    })
+    .catch(err => {
+      alert(err);
+    })
+  }, [state])
+  
+
   const castVote = () => {
     loading = true;
     let name = global.user.uid
@@ -94,22 +90,21 @@ export default function App({route,navigation}) {
     if(first) {
       firstTime()
       updateLoc()
-      
     } else {
       let prevPrice = rooms[name][0]
       let prevCat = rooms[name][1]
-      if(prevCat != cat){
-        updateCat()
-      }
       if(prevPrice != range ){
         updatePrice()
       }
+      if(prevCat != cat){
+        updateCat()
+      }
+      setState(state+1)
     }
   }
 
   const updateCat = () => {
     let name = global.user.uid
-    let thisDoc = 0
     let prevCat = ""
     let prevCatCount = 0
     let curCatCount = 0
@@ -117,7 +112,6 @@ export default function App({route,navigation}) {
     .then((snapshot) => {
       snapshot.docs.forEach((doc) => {
         if(doc.id == route.params.name){
-          thisDoc = doc.data()
           prevCat = doc.data()[name][1]
           prevCatCount = doc.data()[prevCat]
           curCatCount = doc.data()[cat]
@@ -130,14 +124,13 @@ export default function App({route,navigation}) {
       temp[prevCat] = prevCatCount -1
       temp[name] = [range,cat]
       setRooms(temp)
-      setState(state+1)
+      
       updateDoc(doc(db,'RoomIDs',rooms["name"]),{[name] : [range,cat], [cat] : curCatCount +1, [prevCat] : prevCatCount -1})
        })
     }
 
-    const updatePrice= () => {
+  const updatePrice= () => {
       let name = global.user.uid
-      let thisDoc = 0
       let prevPrice = 0
       let prevPriceCount = 0
       let curPriceCount = 0
@@ -145,7 +138,6 @@ export default function App({route,navigation}) {
       .then((snapshot) => {
         snapshot.docs.forEach((doc) => {
           if(doc.id == route.params.name){
-            thisDoc = doc.data()
             prevPrice = doc.data()[name][0]
             prevPriceCount = doc.data()[prevPrice]
             curPriceCount = doc.data()[range]
@@ -158,13 +150,9 @@ export default function App({route,navigation}) {
         temp[prevPrice] = prevPriceCount -1
         temp[name] = [range,cat]
         setRooms(temp)
-        setState(state+1)
         updateDoc(doc(db,'RoomIDs',rooms["name"]),{[name] : [range,cat], [range] : curPriceCount +1, [prevPrice] : prevPriceCount -1})
          })
-      }
-  
-
-  
+    }
 
   const updateLoc = () => {
     if(route.params.long != undefined && route.params.lat != undefined && route.params.long != 0 && route.params.lat !=0){
@@ -176,7 +164,6 @@ export default function App({route,navigation}) {
       snapshot.docs.forEach((doc) => {
         if(doc.id == route.params.name){
           console.log("update")
-          thisDoc = doc.data()
           curNum = doc.data().num
           curLong = (doc.data().long)*curNum
           curLat = (doc.data().lat)*curNum
@@ -207,6 +194,11 @@ export default function App({route,navigation}) {
         }
       })
     })
+    let temp = rooms
+        temp[range] = curPriceCount +1
+        temp[cat] = curCatCount +1
+        temp[name] = [range,cat]
+        setRooms(temp)
     updateDoc(doc(db,'RoomIDs',rooms["name"]),{ [name] : [range,cat], [range] :curPriceCount +1, [cat] : curCatCount +1 })
     .then(() => {
       setState(state+1)
