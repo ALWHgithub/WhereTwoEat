@@ -23,23 +23,23 @@ export function StdButtonBlue({ text, onPress}) {
 
 const styles = StyleSheet.create({
   button: {
-    borderRadius: 5,
+    borderRadius: 50,
     paddingVertical: 14,
-    paddingHorizontal: 10,
+    paddingHorizontal: 18,
     backgroundColor: 'orange',
-    margin: 5,
     alignItems: "center",
     justifyContent: 'center',
-
+    marginHorizontal: 5,
+    marginVertical: 5,
   },
   blue: {
-    borderRadius: 5,
+    borderRadius: 50,
     paddingVertical: 14,
-    paddingHorizontal: 10,
+    paddingHorizontal: 18,
     backgroundColor: '#ADD8E6',
-    marginHorizontal: 5,
     alignItems: "center",
     justifyContent: 'center',
+    marginHorizontal: 5,
     marginVertical: 5,
   },
   buttonText: {

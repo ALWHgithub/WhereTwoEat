@@ -119,9 +119,11 @@ export default function RestaurantItem(props) {
 			<TouchableOpacity
 				key={index}
 				activeOpacity={1}
-				style={{ marginBottom: 25 }}>
-				<View>
-					<Image source = {{uri : restaurant.image_url,}} style = {{ width: windowWidth - 10, height : 180, borderRadius: 0, resizeMode: 'cover', }}/>
+				style={{ marginBottom: 15 }}>
+				<View style ={{backgroundColor:'white', padding: 10 }}>
+					<TouchableOpacity onPress={() =>toReviews(restaurant, props.navigation)} activeOpacity={0.7} >
+						<Image source = {{uri : restaurant.image_url,}} style = {{ width: windowWidth - 20, height : 180, borderRadius: 0, resizeMode: 'cover', }}/>
+					</TouchableOpacity>
 					{renderFavIcon(restaurant.id)}
 					<RestaurantInfo alias = {restaurant.alias} rating = {restaurant.rating} phone = {restaurant.phone} name = {restaurant.name}/>
 					<TouchableOpacity onPress={() =>toReviews(restaurant, props.navigation)}>
