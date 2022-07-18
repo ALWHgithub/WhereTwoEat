@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, SafeAreaView, Button, ScrollView } from 'react-native';
+import { StyleSheet, Text, SafeAreaView, Button, ScrollView, FlatList } from 'react-native';
 import RestaurantItem from './components/RestaurantItem';
 import { localRestaurants } from './components/RestaurantItem';
 import GetLocation from 'react-native-get-location'
@@ -89,7 +89,7 @@ export default function Restaurants({ navigation,route }) {
   const styles = StyleSheet.create({
     container: {
       flex: 1,
-      backgroundColor: '#fff',
+      backgroundColor: '#E9E9E9',
       alignItems: 'center',
       justifyContent: 'center',
       paddingTop: 20,

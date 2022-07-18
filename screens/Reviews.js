@@ -104,7 +104,7 @@ export default function Reviews({ navigation,route}) {
             {renderReview(3,10)}
             {renderReview(6,11)}
             
-            <View>
+            <View style={{paddingHorizontal: 10}}>
               <StdButton text = "See More!" onPress={() => {Linking.openURL('https://www.yelp.com/biz/' + route.params.alias)}}/>
             </View>
 
