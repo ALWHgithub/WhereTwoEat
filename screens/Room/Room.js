@@ -18,7 +18,9 @@ export default function App({route,navigation}) {
   const [votePrice, setVotePrice] = useState(0)
   const [cat, setCat] = useState('Others')
   const [state,setState] = useState(0)
-
+  const [done,setDone] = useState(0)
+  const [highestCat,setHighestCat] = useState('')
+  const [highestPrice,setHighestPrice] = useState('')
 
   if(rooms == undefined){
     getDocs(colRef).then((snapshot) => {
@@ -45,7 +47,7 @@ export default function App({route,navigation}) {
       })
     })
     .then(() => {
-      sleep(50000).then(() => {
+      sleep(1500).then(() => {
         setState(state+1)
       })
     })
@@ -89,16 +91,18 @@ export default function App({route,navigation}) {
     let first = rooms[name] == undefined
     if(first) {
       firstTime()
+      updateLoc()
+      
     } else {
       let prevPrice = rooms[name][0]
       let prevCat = rooms[name][1]
       if(prevPrice != range || prevCat != cat){
-        update()
+        update(setState(state+1))
       }
     }
   }
 
-  const update = () => {
+  const update = (func) => {
     let name = global.user.uid
     let thisDoc = 0
     let prevPrice = 0
@@ -134,11 +138,39 @@ export default function App({route,navigation}) {
        .then(() => {
         updateDoc(doc(db,'RoomIDs',rooms["name"]),{[name] : [range,cat], [cat] : curCatCount +1, [range] : curPriceCount +1 })
         .then(() => {
-          setState(state+1)
+          func()
         })
        })
       })
     })
+  }
+
+  const updateLoc = () => {
+    if(route.params.long != undefined && route.params.lat != undefined && route.params.long != 0 && route.params.lat !=0){
+      let curLong = 0
+      let curLat = 0
+      let curNum = 0
+     getDocs(colRef)
+    .then((snapshot) => {
+      snapshot.docs.forEach((doc) => {
+        if(doc.id == route.params.name){
+          console.log("update")
+          thisDoc = doc.data()
+          curNum = doc.data().num
+          curLong = (doc.data().long)*curNum
+          curLat = (doc.data().lat)*curNum
+        }
+      })
+    }).then(()=>
+     {
+      curLong+=route.params.long
+      curLat+=route.params.lat
+      curLong = curLong/(curNum+1)
+      curLat = curLat/(curNum+1)
+      updateDoc(doc(db,'RoomIDs',rooms["name"]),{long:curLong, lat:curLat, num: curNum+1})
+     }
+    )
+    }
   }
   
   const firstTime = () => {
@@ -202,7 +234,7 @@ export default function App({route,navigation}) {
   const getHighestPrice = () => {
     let max = 0.1
     let price = ""
-    for (let i = 0; i < 4; i++) {
+    for (let i = 0; i < 5; i++) {
       if(rooms[i]> max) {
         max = rooms[i]
         price  = JSON.stringify(i)
@@ -213,12 +245,25 @@ export default function App({route,navigation}) {
     return price
   }
 
-  const getResults = () => {
-    let highestCat =  getHighestCat()
-    let highestPrice = getHighestPrice()
-    navigation.navigate('Restaurant', {room:true, term: rooms[room], price: highestPrice, cat: highestCat, lat: 1.3521, long:103.8198, range: 10000, loc: 'Singapore'})
+  const goToResult =() => {
+      let p = getHighestPrice()
+      let c = getHighestCat()
+      if(p == '' || c == ''){
+        alert("Something went wrong. Did you remember to put at least one vote?")
+      } else {
+       navigation.navigate('Restaurant', {room:true, term: rooms[room], price: p, cat: c, lat: rooms.lat, long:rooms.long, range: 10000, loc: 'Singapore'})
+      }
   }
 
+  const getResults = () => {
+    let p = getHighestPrice()
+      let c = getHighestCat()
+      if(p == '' || c == ''){
+        alert("Something went wrong. Did you remember to put at least one vote?")
+      } else {
+       navigation.navigate('Restaurant', {room:true, term: rooms.term, price: p, cat: c, lat: 0, long:0, range: 10000, loc: 'Singapore'})
+      }
+  }
 
   return (
     <SafeAreaView style={styles.container}>

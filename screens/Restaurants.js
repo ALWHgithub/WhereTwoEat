@@ -15,21 +15,25 @@ export default function Restaurants({ navigation,route }) {
     const price = route.params.price
     let cat = route.params.cat
     const [range, setRange] = useState(route.params.range)
-    const loc = route.params.loc
+    let loc = route.params.loc
     const long = route.params.long
     const lat = route.params.lat
     let term = route.params.term
+    let coord = ''
     if(term == undefined){
-      term = ''
+      term = ' '
     }
     if (global.vegetarian) {
       term += 'vegetarian'
     }
 
-    let yelpURL = `https://api.yelp.com/v3/businesses/search?term=${term}&location=${loc}&price=` + price + '&categories=' + cat + `&offset=${offset}&limit=50`
-    console.log(yelpURL)
+  if(long != undefined && long != 0 && lat != undefined && lat !=0){
+    coord = `&latitude=${lat}&longitude=${long}`
+  }
+
+
+    let yelpURL = `https://api.yelp.com/v3/businesses/search?term=${term}&location=${loc}${coord}&price=` + price + '&categories=' + cat + `&offset=${offset}&limit=50`
     function refresh() {
-      console.log(offset)
       global.offset += 50
       yelpURL = `https://api.yelp.com/v3/businesses/search?term=${term}&location=${loc}&price=` + price + '&categories=' + cat + `&offset=${offset}&limit=50`
       getDataFromYelp();

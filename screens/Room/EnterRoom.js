@@ -3,7 +3,7 @@ import { StyleSheet, Text, View,SafeAreaView,Dimensions, Button, TextInput } fro
 import { authentication } from "../../firebase/firebase-config";
 import {
   getFirestore,collection,getDocs,
-  addDoc, updateDoc
+  addDoc, updateDoc,doc
 } from 'firebase/firestore'
 import StdButton from '../components/button';
 
@@ -25,19 +25,21 @@ export default function App({route,navigation}) {
   let temp = []
 
   const createRoom = (username,navigation) => {
-    navigation.navigate('CreateRoom', {username: username})
+    navigation.navigate('CreateRoom', {username: username,long:long, lat:lat})
   }
 
- const enterRoom = (code,navigation) => {
+ const enterRoom = (name,navigation) => {
   let valid = false
   const db = getFirestore()
   const colRef = collection(db,'RoomIDs')
   getDocs(colRef).then((snapshot) => {
-    snapshot.docs.forEach((doc) => {
-      if(doc.id == name){
+    snapshot.docs.forEach((Doc) => {
+      if(Doc.id == name){
         valid = true
-        global.room = code
-        navigation.navigate('Room',{name: code})
+        global.room = name
+        console.log(long)
+        console.log(lat)
+        navigation.navigate('Room',{name: name, long:long, lat:lat})
       }
     })
     return temp
@@ -51,7 +53,6 @@ export default function App({route,navigation}) {
  useEffect(() => {
   if(locPerm != 0)
     (async () => {
-      console.log("perm")
       let { status } = await Location.requestForegroundPermissionsAsync();
       if (status !== 'granted') {
         setErrorMsg('Permission to access location was denied');
@@ -70,7 +71,6 @@ export default function App({route,navigation}) {
     } else if (location) {
      setLong(location.coords.longitude)
      setLat(location.coords.latitude)
-     
     }
   },[location])
   
@@ -86,7 +86,6 @@ const getLocation = () => {
         <TextInput placeholder = "Name"  onChangeText = {text => setName(text)} style = {styles.roomNameInput} />
         <StdButton text = "Enter Existing Room" onPress={() => enterRoom(name, navigation)}/>
         <View style={styles.bottomButton}>
-        <StdButton text = "Add Location" onPress={() => getLocation()} />
         <StdButton text = "Create a new Room" onPress={() => createRoom(name, navigation)} />
         </View>
     </SafeAreaView>
