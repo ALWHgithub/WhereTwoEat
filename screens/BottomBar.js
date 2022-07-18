@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, TouchableOpacity } from "react-native";
+import { View, Text, TouchableOpacity,Alert } from "react-native";
 import FontAwesome5 from "react-native-vector-icons/FontAwesome5";
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { useNavigation } from '@react-navigation/native';
@@ -8,7 +8,10 @@ const Tab = createBottomTabNavigator();
 
 const BottomTabs = (props) => {
 
+  
+
   const navigation = useNavigation();
+
   return (
 
     <View

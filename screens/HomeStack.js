@@ -7,6 +7,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import HomeScreen from './Home'
 import FilterScreen from './FilterStart'
 import Restaurtants from './Restaurants'
+import RestaurtantsRoom from './RestaurantsRoom'
 import Reviews from './Reviews'
 import Profile from "./Profile/ProfilePage"
 import EditProfile from "./Profile/EditProfilePage"
@@ -38,6 +39,7 @@ export default function App({route,navigation}) {
         <Stack.Screen name="Home" component={HomeScreen}/>
         <Stack.Screen name="Filter" component={FilterScreen} />
         <Stack.Screen name="Restaurant" component={Restaurtants} />
+        <Stack.Screen name="RestaurantRoom" component={Restaurtants} />
         <Stack.Screen name="Reviews" component={Reviews} />
         <Stack.Screen name="Profile" component={Profile} />
         <Stack.Screen name="EditProfile" component={EditProfile} />

@@ -1,6 +1,7 @@
-import React, { useEffect, useState, Component } from 'react';
+import React, { useEffect, useState, Component,useFocusEffect} from 'react';
 import { StatusBar } from 'expo-status-bar';
 import {StyleSheet,Text,SafeAreaView, Divider, ScrollView, View } from 'react-native';
+import { useIsFocused } from '@react-navigation/native';
 import StdButton from './components/button';
 import BottomTabs from './BottomBar';
 import RestaurantItem from './components/RestaurantItem';

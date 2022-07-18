@@ -18,7 +18,7 @@ function FilterCat({ navigation,route }) {
   }
 
   const toRes = (cat) => {
-      navigation.navigate('Restaurant', {price: handlePrice(range), cat: cat, range: 10000, loc: `&location=Singapore`})
+      navigation.navigate('Restaurant', {room:false , price: handlePrice(range), cat: cat, loc: `&location=Singapore`})
   }
 
 

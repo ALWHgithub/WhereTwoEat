@@ -22,6 +22,7 @@ export default function App({route,navigation}) {
   const [highestCat,setHighestCat] = useState('')
   const [highestPrice,setHighestPrice] = useState('')
   let loading = false;
+  let sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
 
   if(rooms == undefined){
     getDocs(colRef).then((snapshot) => {
@@ -37,8 +38,7 @@ export default function App({route,navigation}) {
   }
 
 
-  let sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
-
+  
   
   
   const renderCountPrice = () => {    
@@ -74,7 +74,7 @@ export default function App({route,navigation}) {
   }
 
   useEffect(() => {
-    sleep(100).then(() => {
+    sleep(10000).then(() => {
       setState(state+1)
     })
     .catch(err => {
@@ -84,6 +84,7 @@ export default function App({route,navigation}) {
   
 
   const castVote = () => {
+    try {
     loading = true;
     let name = global.user.uid
     let first = rooms[name] == undefined
@@ -99,7 +100,11 @@ export default function App({route,navigation}) {
       if(prevCat != cat){
         updateCat()
       }
-      setState(state+1)
+      
+    }
+    setState(state+1)
+    } catch (error) {
+      alert("Something went wrong. Please wait a bit for the data to load")
     }
   }
 
@@ -259,14 +264,17 @@ export default function App({route,navigation}) {
   }
 
   const getResults = () => {
+    try {
       let p = getHighestPrice()
       let c = getHighestCat()
       if(p == '' || c == ''){
         alert("Something went wrong. Did you remember to put at least one vote?")
       } else {
-       navigation.navigate('Restaurant', {room:true, term: rooms.term, price: p, cat: c, loc: '&location=Singapore'})
+       navigation.navigate('RestaurantRoom', {room:true, term: rooms.term, price: p, cat: c, loc: '&location=Singapore'})
       }
-    
+      } catch (error) {
+        alert("Something went wrong. Please wait a bit for the data to load")
+      }
   }
 
   const renderLoading = () => {
