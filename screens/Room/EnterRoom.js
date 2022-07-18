@@ -20,6 +20,8 @@ export default function App({route,navigation}) {
   const [location, setLocation] = useState(null);
   const [errorMsg, setErrorMsg] = useState(null);
   const [locPerm, setLocPerm] = useState(0);
+  const [long,setLong] =useState(0)
+  const [lat,setLat] = useState(0)
   let temp = []
 
   const createRoom = (username,navigation) => {
@@ -61,22 +63,22 @@ export default function App({route,navigation}) {
     })();
 }, [locPerm]);
 
-    let long = '';
-    let lat = ''
+
+  useEffect(()=> {
     if (errorMsg) {
-       long = errorMsg;
-     } else if (location) {
-      long = JSON.stringify(location.coords.longitude);
-      lat = JSON.stringify(location.coords.latitude);
-      console.log(long)
-  }
+      long = errorMsg;
+    } else if (location) {
+     setLong(location.coords.longitude)
+     setLat(location.coords.latitude)
+     
+    }
+  },[location])
+  
+  console.log(long)
 
 const getLocation = () => {
     setLocPerm(locPerm+1)
 }
-
-
-
 
   return (
     <SafeAreaView style={styles.parentContainer}>
