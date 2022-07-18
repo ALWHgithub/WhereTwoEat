@@ -30,7 +30,8 @@ function FilterCat({ navigation,route }) {
 
   return (
     <SafeAreaView style={styles.container}>
-      <Text>What price ? {"$".repeat(range)} </Text>
+      {/* <Text style={{fontSize:18, textAlign: 'center'}}>You have chosen : {"$".repeat(route.params.price)}> */}
+      <Text  style={{fontSize:18,}}>What price ? {"$".repeat(range)} {'\n'} </Text>
       <View>
       {/* <View style={{flexDirection: 'row'}}>
       <StdButton text = "$$$$" onPress={() =>handlePrice('$$$$')} />
@@ -49,7 +50,7 @@ function FilterCat({ navigation,route }) {
       </View>
       <View style={{flexDirection: 'row'}}>
       </View>
-      <Text>What Cuisine ?</Text>
+      <Text style={{fontSize:18,}}>{'\n'}What Cuisine ?</Text>
 
       <View style={{flexDirection: 'row'}}>
       <StdButton text = "Chinese" onPress={() =>setCat('chinese')} />
