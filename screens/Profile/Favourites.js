@@ -38,7 +38,6 @@ function Favourites({ navigation }) {
     .then((snapshot) => {
     snapshot.docs.forEach((doc) => {
       if(doc.id == global.user.uid){
-          console.log(doc)
           setFavID(doc.data().fav.filter(onlyUnique))
         }
       })
@@ -75,8 +74,6 @@ function Favourites({ navigation }) {
   useEffect(() => {
     updateAllData();
   }, [newfavData]);
-
-  console.log(allFavData.length)
 
   const renderData = () => {
     if(allFavData == undefined || favID == undefined || allFavData.length != favID.length) {

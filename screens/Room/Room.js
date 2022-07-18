@@ -4,7 +4,7 @@ import { authentication } from "../../firebase/firebase-config";
 import Slider from '@react-native-community/slider'; 
 import {
   getFirestore,collection,getDocs,
-  addDoc, updateDoc, setDoc,doc
+  addDoc, updateDoc, setDoc,doc,
 } from 'firebase/firestore'
 import StdButton from '../components/button';
 import { clearUpdateCacheExperimentalAsync } from "expo-updates";
@@ -13,53 +13,54 @@ import { clearUpdateCacheExperimentalAsync } from "expo-updates";
 export default function App({route,navigation}) {
   const db = getFirestore()
   const colRef = collection(db,'RoomIDs')
-  const [rooms, setRooms] = useState([])
+  const [rooms, setRooms] = useState()
   const [range, setRange] = useState(1);
   const [votePrice, setVotePrice] = useState(0)
-  const [cat, setCat] = useState('Chinese')
+  const [cat, setCat] = useState('Others')
+  const [state,setState] = useState(0)
+  const [done,setDone] = useState(0)
+  const [highestCat,setHighestCat] = useState('')
+  const [highestPrice,setHighestPrice] = useState('')
+  let loading = false;
 
-  getDocs(colRef).then((snapshot) => {
-    let temp = []
-    snapshot.docs.forEach((doc) => {
-      if(doc.id == route.params.name){
-        temp.push({...doc.data(), id: doc.id})
-      }
+  if(rooms == undefined){
+    getDocs(colRef).then((snapshot) => {
+      snapshot.docs.forEach((doc) => {
+        if(doc.id == route.params.name){
+          setRooms(doc.data())
+        }
+      })
     })
-    return temp
-  })
-  .then((temp) => {
-    setRooms(temp)
-  })
-  .catch(err => {
-    console.log(err);
-  })
-
-  const renderRoomName = () => {
-    if (rooms.length == 0) {
-      return <Text>Please Wait!</Text>
-    } else {
-      return <Text>{JSON.stringify(rooms[0].id)}</Text>
-    }
+    .catch(err => {
+      console.log(err);
+    })
   }
 
+
+  let sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
+
+  
+  
   const renderCountPrice = () => {    
-    if(rooms.length == 0) {
+    if(rooms == undefined) {
       return <Text>Please Wait!</Text>
     } else {
       return <View style = {styles.cat}>
       <Text>Current Tally: </Text>
-      <Text>$: {rooms[0][1]} $$: {rooms[0][2]} $$$: {rooms[0][3]} $$$$: {rooms[0][4]}</Text>
+      <Text>$: {rooms[1]} $$: {rooms[2]} $$$: {rooms[3]} $$$$: {rooms[4]}</Text>
       </View>
     }
   }
 
+  
+
   const renderCountCat = () => {
-    if(rooms.length == 0) {
+    if(rooms == undefined) {
       return <Text>Please Wait!</Text>
     } else {
       return <View style = {styles.cat}>
       <Text>Current Tally: </Text>
-      <Text>Chinese: {rooms[0]['Chinese']} Japanese: {rooms[0]['Japanese']} Italian: {rooms[0]['Italian']} Others: {rooms[0]['Others']}</Text>
+      <Text>Chinese: {rooms['Chinese']} Japanese: {rooms['Japanese']} Italian: {rooms['Italian']} Others: {rooms['Others']}</Text>
       </View>
     }
   }
@@ -72,51 +73,136 @@ export default function App({route,navigation}) {
     }
   }
 
+  useEffect(() => {
+    sleep(100).then(() => {
+      setState(state+1)
+    })
+    .catch(err => {
+      alert(err);
+    })
+  }, [state])
+  
+
   const castVote = () => {
+    loading = true;
     let name = global.user.uid
-    let first = rooms[0][name] == undefined
+    let first = rooms[name] == undefined
     if(first) {
       firstTime()
-      setVotePrice(range)
-      setRooms(rooms)
+      updateLoc()
     } else {
-      let prevPrice = rooms[0][name][0]
-      let prevCat = rooms[0][name][1]
-      if(prevPrice != range){
+      let prevPrice = rooms[name][0]
+      let prevCat = rooms[name][1]
+      if(prevPrice != range ){
         updatePrice()
       }
       if(prevCat != cat){
         updateCat()
       }
+      setState(state+1)
     }
-  }
-
-  const updatePrice = () => {
-    let name = global.user.uid
-    let prev = rooms[0][name][0]
-    let prevCount = rooms[0][prev]
-    let priceCount = rooms[0][range]
-    updateDoc(doc(db,'RoomIDs',rooms[0].id),{  [prev] : prevCount -1 })
-    updateDoc(doc(db,'RoomIDs',rooms[0].id),{ [name] : [range,cat] , [range] : priceCount +1})
-    setVotePrice(range)
-    setRooms(rooms)
   }
 
   const updateCat = () => {
     let name = global.user.uid
-    let prev = rooms[0][name][1]
-    let prevCount = rooms[0][prev]
-    let catCount = rooms[0][cat]
-    updateDoc(doc(db,'RoomIDs',rooms[0].id),{  [prev] : prevCount -1 })
-    updateDoc(doc(db,'RoomIDs',rooms[0].id),{ [name] : [range,cat] , [cat] : catCount +1})
-    setRooms(rooms)
-  }
+    let prevCat = ""
+    let prevCatCount = 0
+    let curCatCount = 0
+    getDocs(colRef)
+    .then((snapshot) => {
+      snapshot.docs.forEach((doc) => {
+        if(doc.id == route.params.name){
+          prevCat = doc.data()[name][1]
+          prevCatCount = doc.data()[prevCat]
+          curCatCount = doc.data()[cat]
+        }
+      })
+    })
+    .then(() => {
+      let temp = rooms
+      temp[cat] = curCatCount +1
+      temp[prevCat] = prevCatCount -1
+      temp[name] = [range,cat]
+      setRooms(temp)
+      
+      updateDoc(doc(db,'RoomIDs',rooms["name"]),{[name] : [range,cat], [cat] : curCatCount +1, [prevCat] : prevCatCount -1})
+       })
+    }
 
+  const updatePrice= () => {
+      let name = global.user.uid
+      let prevPrice = 0
+      let prevPriceCount = 0
+      let curPriceCount = 0
+      getDocs(colRef)
+      .then((snapshot) => {
+        snapshot.docs.forEach((doc) => {
+          if(doc.id == route.params.name){
+            prevPrice = doc.data()[name][0]
+            prevPriceCount = doc.data()[prevPrice]
+            curPriceCount = doc.data()[range]
+          }
+        })
+      })
+      .then(() => {
+        let temp = rooms
+        temp[range] = curPriceCount +1
+        temp[prevPrice] = prevPriceCount -1
+        temp[name] = [range,cat]
+        setRooms(temp)
+        updateDoc(doc(db,'RoomIDs',rooms["name"]),{[name] : [range,cat], [range] : curPriceCount +1, [prevPrice] : prevPriceCount -1})
+         })
+    }
+
+  const updateLoc = () => {
+    if(route.params.long != undefined && route.params.lat != undefined && route.params.long != 0 && route.params.lat !=0){
+      let curLong = 0
+      let curLat = 0
+      let curNum = 0
+     getDocs(colRef)
+    .then((snapshot) => {
+      snapshot.docs.forEach((doc) => {
+        if(doc.id == route.params.name){
+          console.log("update")
+          curNum = doc.data().num
+          curLong = (doc.data().long)*curNum
+          curLat = (doc.data().lat)*curNum
+        }
+      })
+    }).then(()=>
+     {
+      curLong+=route.params.long
+      curLat+=route.params.lat
+      curLong = curLong/(curNum+1)
+      curLat = curLat/(curNum+1)
+      updateDoc(doc(db,'RoomIDs',rooms["name"]),{long:curLong, lat:curLat, num: curNum+1})
+     }
+    )
+    }
+  }
+  
   const firstTime = () => {
     let name = global.user.uid
-    let priceCount = rooms[0][range]
-    let catCount = rooms[0][cat]
-    updateDoc(doc(db,'RoomIDs',rooms[0].id),{ [name] : [range,cat], [range] : priceCount +1, [cat] : catCount +1 })
+    let curPriceCount = 0
+    let curCatCount = 0
+    getDocs(colRef)
+    .then((snapshot) => {
+      snapshot.docs.forEach((doc) => {
+        if(doc.id == route.params.name){
+          curPriceCount = doc.data()[range]
+          curCatCount = doc.data()[cat]
+        }
+      })
+    })
+    let temp = rooms
+        temp[range] = curPriceCount +1
+        temp[cat] = curCatCount +1
+        temp[name] = [range,cat]
+        setRooms(temp)
+    updateDoc(doc(db,'RoomIDs',rooms["name"]),{ [name] : [range,cat], [range] :curPriceCount +1, [cat] : curCatCount +1 })
+    .then(() => {
+      setState(state+1)
+    })
   }
 
   const exit = () => {
@@ -127,32 +213,32 @@ export default function App({route,navigation}) {
   const getHighestCat = () => {
     let max = 0.1;
     let cat = ''
-    if(rooms[0]['Chinese']> max) {
-      max = rooms[0]['Chinese']
+    if(rooms['Chinese']> max) {
+      max = rooms['Chinese']
       cat  = 'chinese'
     } 
-    else if(rooms[0]['Chinese'] ==  max) {
+    else if(rooms['Chinese'] ==  max) {
       cat += ',' + 'chinese'
     }
-    if(rooms[0]['Japanese']> max) {
-      max = rooms[0]['Japanese']
+    if(rooms['Japanese']> max) {
+      max = rooms['Japanese']
       cat  = 'japanese'
     } 
-    else if(rooms[0]['Japanese'] == max) {
+    else if(rooms['Japanese'] == max) {
       cat += ',' + 'japanese'
     }
-    if(rooms[0]['Italian']> max) {
-      max = rooms[0]['Italian']
+    if(rooms['Italian']> max) {
+      max = rooms['Italian']
       cat  = 'italian'
     } 
-    else if(rooms[0]['Italian'] == max) {
+    else if(rooms['Italian'] == max) {
       cat += ',' + 'italian'
     }
-    if(rooms[0]['Others']> max) {
-      max = rooms[0]['Others']
+    if(rooms['Others']> max) {
+      max = rooms['Others']
       cat  = 'others'
     }
-    else if(rooms[0]['Others'] == max) {
+    else if(rooms['Others'] == max) {
       cat += ',' + 'others'
     }
     return cat
@@ -161,30 +247,49 @@ export default function App({route,navigation}) {
   const getHighestPrice = () => {
     let max = 0.1
     let price = ""
-    for (let i = 0; i < 4; i++) {
-      if(rooms[0][i]> max) {
-        max = rooms[0][i]
+    for (let i = 0; i < 5; i++) {
+      if(rooms[i]> max) {
+        max = rooms[i]
         price  = JSON.stringify(i)
-      } else if(rooms[0][i] == max) {
+      } else if(rooms[i] == max) {
         price += ',' + JSON.stringify(i)
       }
     }
     return price
   }
 
-  const getResults = () => {
-    let highestCat =  getHighestCat()
-    let highestPrice = getHighestPrice()
-    console.log(highestCat)
-    console.log(highestPrice)
-    
-
-    navigation.navigate('Restaurant', {price: highestPrice, cat: highestCat, lat: 1.3521, long:103.8198, range: 10000, loc: 'Singapore'})
+  const goToResult =() => {
+      let p = getHighestPrice()
+      let c = getHighestCat()
+      if(p == '' || c == ''){
+        alert("Something went wrong. Did you remember to put at least one vote?")
+      } else {
+       navigation.navigate('Restaurant', {room:true, term: rooms[room], price: p, cat: c, lat: rooms.lat, long:rooms.long, range: 10000, loc: 'Singapore'})
+      }
   }
 
+  const getResults = () => {
+      let p = getHighestPrice()
+      let c = getHighestCat()
+      if(p == '' || c == ''){
+        alert("Something went wrong. Did you remember to put at least one vote?")
+      } else {
+       navigation.navigate('Restaurant', {room:true, term: rooms.term, price: p, cat: c, lat: 0, long:0, range: 10000, loc: 'Singapore'})
+      }
+    
+  }
+
+  const renderLoading = () => {
+    if(loading){
+      return <Text>Loading</Text>
+    } else {
+      return 
+    }
+  }
 
   return (
     <SafeAreaView style={styles.container}>
+        {renderLoading()}
         {renderCountPrice()}
         {renderCountCat()}
         {renderCurrentVotePrice()}
@@ -205,7 +310,11 @@ export default function App({route,navigation}) {
       <StdButton text = "Italian" onPress={() => setCat('Italian')} />
       <StdButton text = "Others" onPress={() => setCat('Others')} />
       </View>
-      <StdButton text = "Cast Vote!" onPress={() => castVote()} />
+      <StdButton text = "Cast Vote!" onPress={() => 
+        {
+          castVote()
+        }
+        } />
       <StdButton text = "Get Results" onPress={() => getResults()}/>
       <StdButton text = "Exit Room" onPress={() => exit()}/>
     </SafeAreaView>

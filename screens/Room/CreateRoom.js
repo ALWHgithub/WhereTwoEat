@@ -13,7 +13,9 @@ export default function App({route,navigation}) {
   const colRef = collection(db,'RoomIDs')
   const [code,setCode] = useState()
   let exists = false
-  let roomSettings = ''
+  let roomSettings = ' '
+  const long = route.params.long
+  const lat = route.params.lat
 
   const createRoom = () => {
     getDocs(colRef)
@@ -28,8 +30,8 @@ export default function App({route,navigation}) {
     .then( () => {
       if(!exists) {
         global.room = code
-        setDoc(doc(db,'RoomIDs',code),{name: code, 1:0, 2:0, 3:0, 4:0, Chinese:0, Japanese:0, Italian:0, Others:0, room: roomSettings})
-        navigation.navigate('Room',{name: code})
+        setDoc(doc(db,'RoomIDs',code),{name: code, 1:0, 2:0, 3:0, 4:0, Chinese:0, Japanese:0, Italian:0, Others:0, term:roomSettings, long:0 ,lat:0, num:0,})
+        navigation.navigate('Room',{name: code, long:long, lat:lat})
       }
     })
   }
@@ -47,9 +49,12 @@ export default function App({route,navigation}) {
     <SafeAreaView style={styles.container}>
         <Text>Pick a Name for your room!</Text>
         <TextInput placeholder = "Name"  onChangeText = {text => changeText(text)} style = {styles.input} />
-        <StdButton text = "Create Room" onPress={() => createRoom()}/>
+        
         <Text>Room Options</Text>
         <StdButton text = "Vegetarian" onPress={() => setVegetarian()}/>
+        <View style={styles.bottomButton}>
+        <StdButton text = "Create Room" onPress={() => createRoom()}/>
+        </View> 
     </SafeAreaView>
   );
 }
@@ -76,4 +81,8 @@ const styles = StyleSheet.create({
       padding: 10,
       margin: 5,
     },
+    bottomButton : {
+      position: 'absolute',
+      bottom:30,
+    }
   });

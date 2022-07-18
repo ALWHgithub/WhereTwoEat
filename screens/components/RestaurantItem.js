@@ -24,7 +24,7 @@ export default function RestaurantItem(props) {
 
 	  useEffect(() => {
 		isFocused && setState(state+1)
-	  },[isFocused,global.fav]);
+	  },[isFocused]);
 	
 	const toReviews = (restaurant,navigation) => {
 		console.log(restaurant.alias)
