@@ -37,10 +37,6 @@ export default function App({route,navigation}) {
     })
   }
 
-
-  
-  
-  
   const renderCountPrice = () => {    
     if(rooms == undefined) {
       return <Text>Please Wait!</Text>

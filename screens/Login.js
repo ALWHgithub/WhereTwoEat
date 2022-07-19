@@ -11,7 +11,7 @@ import {
 } from 'firebase/firestore'
 
 function LoginScreen({ navigation }) {
-  const [username, setUsername] = useState('Anonymous User');
+  const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword,] = useState('');
   const db = getFirestore()
@@ -58,6 +58,9 @@ function LoginScreen({ navigation }) {
   const handleSignUp = () => {
     if(password.length < 6) {
       alert("Password must be at least 6 letters")
+    } 
+    else if(username.length < 4) {
+      alert("Please make your username at least 4 letters")
     } else {
     signInWithEmailAndPassword(authentication,email,password)
     .then((userCredential) => {
@@ -81,7 +84,9 @@ function LoginScreen({ navigation }) {
   const handleSignIn = () => {
     if(password.length < 6) {
       alert("Password must be at least 6 letters")
-    } else{
+    } else if(username.length < 4) {
+      alert("Please make your username at least 4 letters")
+    }else{
       signInWithEmailAndPassword(authentication,email,password)
       .then((userCredential) => {
         const user = userCredential.user;

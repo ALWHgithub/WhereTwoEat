@@ -14,22 +14,22 @@ const YELP_API_KEY = config.API_KEY
 export default function Restaurants({ navigation,route }) {
     const [pastRestaurantData,setPastRestaurantData] = useState(localRestaurants)
     const [restaurantData,setRestaurantData] = useState(localRestaurants)
-    const [state,setState] = useState(0)
     const price = route.params.price
     let cat = route.params.cat
-    const [range, setRange] = useState(route.params.range)
     let loc = route.params.loc
-    const long = route.params.long
-    const lat = route.params.lat
     let term = route.params.term
-    let room = route.params.room
-    let coord = ''
-    const isFocused = useIsFocused()
+    
     if(term == undefined){
-      term = ' '
+      term = 'restaurant'
     }
     if (global.vegetarian) {
-      term += 'vegetarian'
+      term = 'vegetarian'
+    }
+    if (global.vegan) {
+      term = 'vegan'
+    }
+    if (global.halal) {
+      term = 'halal'
     }
 
     let yelpURL = `https://api.yelp.com/v3/businesses/search?term=${term}${loc}&price=` + price + '&categories=' + cat + `&offset=${offset}&limit=50`

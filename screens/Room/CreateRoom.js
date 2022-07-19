@@ -13,7 +13,7 @@ export default function App({route,navigation}) {
   const colRef = collection(db,'RoomIDs')
   const [code,setCode] = useState()
   let exists = false
-  let roomSettings = ' '
+  let roomSettings = 'restaurant'
   const long = route.params.long
   const lat = route.params.lat
 

@@ -79,7 +79,7 @@ function Favourites({ navigation }) {
     if(allFavData == undefined || favID == undefined || allFavData.length != favID.length) {
       return <Text>You dont seem to have any Favourites</Text>
     } else {
-      return <RestaurantItem restaurantData = {allFavData}/>
+      return <RestaurantItem restaurantData = {allFavData} navigation = {navigation}/>
     }
   }
 
