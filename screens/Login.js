@@ -62,6 +62,7 @@ function LoginScreen({ navigation }) {
     else if(username.length < 4) {
       alert("Please make your username at least 4 letters")
     } else {
+    global.username = username
     signInWithEmailAndPassword(authentication,email,password)
     .then((userCredential) => {
       const user = userCredential.user;
@@ -87,12 +88,14 @@ function LoginScreen({ navigation }) {
     } else if(username.length < 4) {
       alert("Please make your username at least 4 letters")
     }else{
+      
       signInWithEmailAndPassword(authentication,email,password)
       .then((userCredential) => {
         const user = userCredential.user;
         global.user = user
         if(user.emailVerified) {
           global.room = ''
+          global.username = username
           navigation.navigate('HomeStack', {user: user, email: email, username: username})
         } else {
           sendEmailVerification(authentication.currentUser)

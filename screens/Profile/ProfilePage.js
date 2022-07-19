@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, SafeAreaView, Button, ScrollView,Image,View } from 'react-native';
+import { StyleSheet, Text, SafeAreaView, Button, ScrollView,Image,View, TouchableOpacity} from 'react-native';
 import StdButton from '../components/button';
 import { authentication } from "../../firebase/firebase-config";
 import {signInWithEmailAndPassword, createUserWithEmailAndPassword, sendEmailVerification, signOut} from "firebase/auth";
 import Favourites from "./Favourites";
 
 export default function Profile({ navigation,route}) {
+
   const handleSignOut = () => {
     signOut(authentication)
     route.params.masternav.navigate("Login")
@@ -24,6 +25,7 @@ export default function Profile({ navigation,route}) {
     return (
     <SafeAreaView style={styles.container}>
       <Text style= {{fontSize:25, padding: 20, fontWeight:'bold'}}>Hey there, {route.params.username} !</Text>
+              
       <View style={{flexDirection: 'row', flexWrap: 'wrap' }}>
         <StdButton text = "Edit Profile" onPress={handleEditProfilePage} />
         {/* <StdButton text = "See Favourites" onPress={handleFavourites} /> */}

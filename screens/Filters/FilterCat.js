@@ -5,6 +5,7 @@ import StdButton from "../components/button";
 import {StdButtonBlue} from '../components/button'; 
 import Slider from '@react-native-community/slider'; 
 import FontAwesome5 from "react-native-vector-icons/FontAwesome5";
+import FontAwesome from "react-native-vector-icons/FontAwesome";
 
 function FilterCat({ navigation,route }) {
   const [cat, setCat] = useState('Restaurant')
@@ -24,8 +25,12 @@ function FilterCat({ navigation,route }) {
 
 
   const renderButton = (price) => {
-    return <TouchableOpacity  onPress={() => {setRange(price)}} >
-    <FontAwesome5 name="dollar-sign" size ={25} color = "#000000"/>
+    let op = 0.5;
+    if(price <= range){
+      op = 1;
+    }
+    return <TouchableOpacity  onPress={() => {setRange(price)}}>
+    <FontAwesome name="dollar" size ={55} color = "#000000" style ={{opacity : op , borderWidth: 10, borderColor: 'white'}}/>
 		</TouchableOpacity>
   }
 
@@ -48,7 +53,7 @@ function FilterCat({ navigation,route }) {
       <StdButton text = "$$$" onPress={() =>handlePrice('$$$')} />
       <StdButton text = "$$" onPress={() =>handlePrice('$$')} />
       <StdButton text = "$" onPress={() =>handlePrice('$')} /> */}
-      <View style={{flexDirection: 'row',}}>
+      <View style={{flexDirection: 'row', alignItems: 'center',}}>
       {renderButton(1)}
       {renderButton(2)}
       {renderButton(3)}

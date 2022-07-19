@@ -39,12 +39,7 @@ export default function EditProfilePage({ navigation,route}) {
       return <StdButton text = {name} onPress={() =>setSettingTrue(setting)} />
     }
   }
-
-  const saveChanges = () => {
-    updateDoc(doc(db,'Users',global.user.uid),{vegetarian: global.vegetarian ,vegan:false, halal:false })
-  }
   
-
   return (
     <SafeAreaView style = {styles.container}>
       <Text style={{paddingLeft:10,paddingTop:10,}}>Any Dietary Restrictions?</Text>
@@ -54,7 +49,6 @@ export default function EditProfilePage({ navigation,route}) {
          {renderSwitchButton("halal","Halal")}
       </View>
       <Password/>
-      <StdButton text = "Save changes" onPress={() =>saveChanges()}/>
     </SafeAreaView>
   );
   }

@@ -281,6 +281,7 @@ export default function App({route,navigation}) {
 
   return (
     <SafeAreaView style={styles.container}>
+        <Text>{route.params.name}</Text>
         {renderLoading()}
         {renderCountPrice()}
         {renderCountCat()}

@@ -45,10 +45,18 @@ export default function App({route,navigation}) {
     setRoomSettings('vegetarian')
   }
 
+  const defaultValue = () => {
+    if(global.username == undefined){
+      return "Your room!"
+    } else {
+      return global.username + '\'s Room'
+    }
+  }
+
   return (
     <SafeAreaView style={styles.container}>
         <Text>Pick a Name for your room!</Text>
-        <TextInput placeholder = "Name"  onChangeText = {text => changeText(text)} style = {styles.input} />
+        <TextInput  defaultValue={defaultValue()}  onChangeText = {text => changeText(text)} style = {styles.input} />
         
         <Text>Room Options</Text>
         <StdButton text = "Vegetarian" onPress={() => setVegetarian()}/>
