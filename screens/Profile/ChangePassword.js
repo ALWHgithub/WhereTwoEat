@@ -16,7 +16,7 @@ export default function Password({ navigation,route}) {
 
     return (
     <SafeAreaView style={styles.container}>
-      <Text>{msg}</Text>
+      <Text style={{paddingHorizontal: 10, paddingTop: 10}}>{msg}</Text>
       <StdButton text = "Change Password" onPress={changePassword} />
     </SafeAreaView>
       );
@@ -24,9 +24,10 @@ export default function Password({ navigation,route}) {
 
 const styles = StyleSheet.create({
     container: {
-      flex: 1,
+      // flex: 1,
       backgroundColor: '#fff',
-      alignItems: 'center',
-      justifyContent: 'center',
+      paddingBottom: 20,
+      // alignItems: 'center',
+      // justifyContent: 'center',
     },
   });
