@@ -82,7 +82,7 @@ function HomeScreen({ navigation }) {
         text="Start New Order ?" 
         onPress={() => {
           global.offset = 0
-          navigation.navigate('Price')
+          navigation.navigate('Cat')
         }
           
         }
