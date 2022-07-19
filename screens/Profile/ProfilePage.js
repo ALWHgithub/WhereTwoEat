@@ -26,8 +26,8 @@ export default function Profile({ navigation,route}) {
       <Text style= {{fontSize:25, padding: 20, fontWeight:'bold'}}>Hey there, {route.params.username} !</Text>
       <View style={{flexDirection: 'row', flexWrap: 'wrap' }}>
         <StdButton text = "Edit Profile" onPress={handleEditProfilePage} />
-        <StdButton text = "See Favourites" onPress={handleFavourites} />
-        <StdButton text = "Change Password" onPress={changePassword} />
+        {/* <StdButton text = "See Favourites" onPress={handleFavourites} /> */}
+        {/* <StdButton text = "Change Password" onPress={changePassword} /> */}
         <StdButton text = "Logout ?" onPress={handleSignOut} />
       </View>
       <Text style= {{fontSize:14, padding:10, color:'orange', fontWeight:'bold'}}>Favourites</Text>

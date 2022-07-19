@@ -1,6 +1,6 @@
 import React, { useEffect, useState, Component, useCallback } from 'react';
 import { StatusBar } from 'expo-status-bar';
-import {StyleSheet,Text,SafeAreaView, Divider, ScrollView } from 'react-native';
+import {StyleSheet,Text,SafeAreaView, Divider, ScrollView,Dimensions } from 'react-native';
 import StdButton from '../components/button';
 import BottomTabs from '../BottomBar';
 import RestaurantItem from '../components/RestaurantItem';
@@ -93,6 +93,8 @@ function Favourites({ navigation }) {
   );
 }
 
+const windowWidth = Dimensions.get('window').width;
+
 const styles = StyleSheet.create({
   container: {
     paddingTop: 20,
@@ -100,6 +102,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#e9e9e9',
     alignItems: 'center',
     justifyContent: 'center',
+    width: windowWidth,
   },
 });
 

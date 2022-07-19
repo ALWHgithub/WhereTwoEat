@@ -4,6 +4,8 @@ import React, { useEffect, useState } from "react";
 import {SafeAreaView,Text,StyleSheet,Alert, View,Button } from 'react-native';
 import StdButton from '../components/button';
 import {StdButtonBlue} from '../components/button'; 
+import Password from '../Profile/ChangePassword'; 
+
 import {
   getFirestore,collection,getDocs,
   addDoc, updateDoc,setDoc,doc
@@ -51,6 +53,7 @@ export default function EditProfilePage({ navigation,route}) {
          {renderSwitchButton("vegan","Vegan")}
          {renderSwitchButton("halal","Halal")}
       </View>
+      <Password/>
       <StdButton text = "Save changes" onPress={() =>saveChanges()}/>
     </SafeAreaView>
   );
