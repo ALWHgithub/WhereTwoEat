@@ -8,7 +8,7 @@ import LoginScreen from './screens/Login'
 import Verification from "./screens/Verification";
 import Register from "./screens/Register"
 import { LogBox } from "react-native"
-
+import ResetPasswordLogin from "./screens/ResetPasswordLogin"
 
 
 
@@ -26,6 +26,7 @@ export default function App() {
         <Stack.Screen name="HomeStack" component={HomeStack}/>
         <Stack.Screen name="Verification" component={Verification} />
         <Stack.Screen name="Register" component={Register} />
+        <Stack.Screen name = "ResetPasswordLogin" component={ResetPasswordLogin} />
       </Stack.Navigator>
     </NavigationContainer>
   );

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { StatusBar } from 'expo-status-bar';
-import {TextInput, KeyboardAvoidingView,StyleSheet,Text,View, Button ,TouchableOpacity, ImageBackground, ActivityIndicator} from 'react-native';
+import {TextInput, KeyboardAvoidingView,StyleSheet,Text,View, Button ,TouchableOpacity, ImageBackground, ActivityIndicator,Dimensions} from 'react-native';
 import { authentication } from "../firebase/firebase-config";
 import {signInWithEmailAndPassword, createUserWithEmailAndPassword, sendEmailVerification, signOut} from "firebase/auth";
 import StdButton from './components/button';
@@ -104,6 +104,10 @@ function LoginScreen({ navigation }) {
     }
   }
 
+  const resetPassword = () => {
+    navigation.navigate('ResetPasswordLogin', {})
+  }
+
   const handleSignInAdmin = () => {
     navigation.navigate('HomeStack', {user: user, email: email, username: username})
   }
@@ -123,18 +127,28 @@ function LoginScreen({ navigation }) {
           <StdButton text = "Login" onPress={handleSignIn} />
           <StdButton text = "Im new!" onPress={handleSignUp} />
           <StdButton text = "Hackerman" onPress={handleSignInAdmin} />
+          <View style = {styles.bottomButton}>
+          <StdButton text = "Forgot Password" onPress={resetPassword}/>
+          </View>
           </ImageBackground>
         </View>
         
       </KeyboardAvoidingView>
     );
   }
-  
+  const windowWidth = Dimensions.get('window').width;
+  const windowHeight = Dimensions.get('window').height;
   const styles = StyleSheet.create({
     container2: {
       flex: 1,
       justifyContent: "center",
       opacity: 0.7
+    },
+    bottomButton : {
+      width:200,
+      position: 'absolute',
+      bottom:30,
+      right: (windowWidth-200)/2,
     },
     container: {
       flex: 1,

@@ -20,6 +20,7 @@ import CreateRoom from "./Room/CreateRoom"
 import Room from "./Room/Room"
 import Password from "./Profile/ChangePassword"
 
+
 import { LogBox } from "react-native"
 import BottomBar from './BottomBar'
 
@@ -39,7 +40,7 @@ export default function App({route,navigation}) {
         <Stack.Screen name="Home" component={HomeScreen}/>
         <Stack.Screen name="Filter" component={FilterScreen} />
         <Stack.Screen name="Restaurant" component={Restaurtants} />
-        <Stack.Screen name="RestaurantRoom" component={Restaurtants} />
+        <Stack.Screen name="RestaurantRoom" component={RestaurtantsRoom} />
         <Stack.Screen name="Reviews" component={Reviews} />
         <Stack.Screen name="Profile" component={Profile} />
         <Stack.Screen name="EditProfile" component={EditProfile} />
@@ -51,6 +52,7 @@ export default function App({route,navigation}) {
         <Stack.Screen name="CreateRoom" component={CreateRoom} />
         <Stack.Screen name="Room" component={Room} />
         <Stack.Screen name="Password" component={Password} />
+        
       </Stack.Navigator>
       <BottomBar navigation={HomeScreen.navigation} email = {route.params.email} username = {route.params.username} user = {route.params.user} masternav = {navigation}/>
     </NavigationContainer>
