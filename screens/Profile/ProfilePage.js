@@ -5,6 +5,8 @@ import StdButton from '../components/button';
 import { authentication } from "../../firebase/firebase-config";
 import {signInWithEmailAndPassword, createUserWithEmailAndPassword, sendEmailVerification, signOut} from "firebase/auth";
 import Favourites from "./Favourites";
+import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons"
+
 
 export default function Profile({ navigation,route}) {
 
@@ -24,13 +26,15 @@ export default function Profile({ navigation,route}) {
 
     return (
     <SafeAreaView style={styles.container}>
-      <Text style= {{fontSize:25, padding: 20, fontWeight:'bold'}}>Hey there, {route.params.username} !</Text>
-              
+      <Text style= {{fontSize:25, padding: 20, fontWeight:'bold', paddingRight: 50,}}>Hey there, {route.params.username} !</Text>
+      <TouchableOpacity style={{position: 'absolute', right: 20, top: 40}} onPress={handleSignOut} activeOpacity={1.0}>
+		    <MaterialCommunityIcons name = 'logout' size ={25} color = "orange"/>
+		  </TouchableOpacity>
       <View style={{flexDirection: 'row', flexWrap: 'wrap' }}>
         <StdButton text = "Edit Profile" onPress={handleEditProfilePage} />
         {/* <StdButton text = "See Favourites" onPress={handleFavourites} /> */}
         {/* <StdButton text = "Change Password" onPress={changePassword} /> */}
-        <StdButton text = "Logout ?" onPress={handleSignOut} />
+        {/* <StdButton text = "Logout ?" onPress={handleSignOut} /> */}
       </View>
       <Text style= {{fontSize:14, padding:10, color:'orange', fontWeight:'bold'}}>Favourites</Text>
       <View style={{backgroundColor:'orange', width:150, height:2}}></View>

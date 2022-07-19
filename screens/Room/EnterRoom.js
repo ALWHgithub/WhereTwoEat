@@ -80,8 +80,8 @@ const getLocation = () => {
     <SafeAreaView style={styles.parentContainer}>
       {/* <ImageBackground source={require('../../assets/WhereTwoEatGroupOrderSimple.png')} resizeMode="cover" style = {styles.image}> */}
         
-        <Text style={{ textAlign: "center", fontSize:50, fontWeight:'bold',}}>WHERE TWO EAT GROUP ORDER {'\n'}</Text>
-        <Text style={{ textAlign: "center", fontSize:20}}>Enter existing room!</Text>
+        {/* <Text style={{ textAlign: "center", fontSize:50, fontWeight:'b old',}}>WHERE TWO EAT GROUP ORDER {'\n'}</Text> */}
+        <Text style={{ textAlign: "center", fontSize:20}}>Enter an existing room!</Text>
 
         <View style={{ padding:5, margin: 10, borderRadius: 5, flexDirection: 'row'}}>
         <TextInput placeholder = "Name"  onChangeText = {text => setName(text)} style = {styles.roomNameInput} />
