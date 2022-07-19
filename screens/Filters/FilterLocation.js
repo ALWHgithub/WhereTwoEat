@@ -48,13 +48,13 @@ export default function FilterLoc({navigation,route}) {
 
   const useMyLocation = () => {
     let curLoc = `&longitude=${JSON.stringify(location.coords.longitude)}&latitude=${JSON.stringify(location.coords.latitude)}`
-    navigation.navigate('Restaurant', {room:false, term:restaurant, price: route.params.price, loc:curLoc, cat: route.params.cat})
+    navigation.navigate('Restaurant', {room:false, term:'restaurant', price: route.params.price, loc:curLoc, cat: route.params.cat})
   }
 
 
   const toRestraunt = () => {
     let curLoc = `&location=${loc}`
-    navigation.navigate('Restaurant', {room:false, term:restaurant, price: route.params.price, loc: curLoc, cat: route.params.cat,})
+    navigation.navigate('Restaurant', {room:false, term:'restaurant', price: route.params.price, loc: curLoc, cat: route.params.cat,})
   }
 
   return (
