@@ -23,15 +23,12 @@ export default function Restaurants({ navigation,route }) {
 
     if (global.vegetarian) {
       term += ',vegetarian'
-      cat += ',vegetarian'
     }
     if (global.vegan) {
       term += ',vegan'
-      cat += ',vegan'
     }
     if (global.halal) {
       term += ',halal'
-      cat += ',halal'
     }
 
     if(term.length > 1){

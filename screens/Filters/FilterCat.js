@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View,SafeAreaView, TouchableOpacity, Button } from 'react-native';
 import StdButton from "../components/button";
+import {StdButtonBlue} from '../components/button'; 
 import Slider from '@react-native-community/slider'; 
 import FontAwesome5 from "react-native-vector-icons/FontAwesome5";
 
@@ -26,6 +27,15 @@ function FilterCat({ navigation,route }) {
     return <TouchableOpacity  onPress={() => {setRange(price)}} >
     <FontAwesome5 name="dollar-sign" size ={25} color = "#000000"/>
 		</TouchableOpacity>
+  }
+
+  const catButton = (thisCat,name) => {
+    if(cat == thisCat){
+      return <StdButtonBlue text = {name} onPress={() =>setCat(thisCat)} />
+    } else {
+      return <StdButton text = {name} onPress={() =>setCat(thisCat)} />
+    }
+    
   }
 
   return (
@@ -53,10 +63,10 @@ function FilterCat({ navigation,route }) {
       <Text style={{fontSize:18,}}>{'\n'}What Cuisine ?</Text>
 
       <View style={{flexDirection: 'row'}}>
-      <StdButton text = "Chinese" onPress={() =>setCat('chinese')} />
-      <StdButton text = "Japanese" onPress={() =>setCat('japanese')} />
-      <StdButton text = "Italian" onPress={() =>setCat('italian')} />
-      <StdButton text = "All" onPress={() =>setCat('restaurant')} />
+       {catButton('chinese','Chinese')}
+       {catButton('japanese','Japanese')}
+       {catButton('italian','Italian')}
+       {catButton('restaurant','All')}
       </View>
       <View style={styles.nestedViewStyle}><Text>{'     '}</Text></View>
       <StdButton text = "Filter Based on Location" onPress={() =>toLoc(cat)} />
