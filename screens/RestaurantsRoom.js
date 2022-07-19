@@ -21,7 +21,10 @@ export default function Restaurants({ navigation,route }) {
     if(term == undefined){
       term = 'restaurant'
     }
-    
+    if(term == 'vegetarian'){
+      cat += ',vegetarian'
+    }
+
     let yelpURL = `https://api.yelp.com/v3/businesses/search?term=${term}${loc}&price=` + price + '&categories=' + cat + `&offset=${offset}&limit=50`
 
     function refresh() {

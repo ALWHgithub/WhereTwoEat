@@ -48,8 +48,6 @@ export default function App({route,navigation}) {
     }
   }
 
-  
-
   const renderCountCat = () => {
     if(rooms == undefined) {
       return <Text>Please Wait!</Text>
@@ -70,7 +68,7 @@ export default function App({route,navigation}) {
   }
 
   useEffect(() => {
-    sleep(10000).then(() => {
+    sleep(100).then(() => {
       setState(state+1)
     })
     .catch(err => {

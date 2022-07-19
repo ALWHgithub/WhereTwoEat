@@ -12,8 +12,8 @@ export default function App({route,navigation}) {
   const db = getFirestore()
   const colRef = collection(db,'RoomIDs')
   const [code,setCode] = useState()
+  const [roomSettings,setRoomSettings] = useState('restaurant')
   let exists = false
-  let roomSettings = 'restaurant'
   const long = route.params.long
   const lat = route.params.lat
 
@@ -42,7 +42,7 @@ export default function App({route,navigation}) {
   }
 
   const setVegetarian = () => {
-    roomSettings = 'vegetarian'
+    setRoomSettings('vegetarian')
   }
 
   return (

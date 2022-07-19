@@ -15,7 +15,7 @@ export default function Restaurants({ navigation,route }) {
     const [pastRestaurantData,setPastRestaurantData] = useState(localRestaurants)
     const [restaurantData,setRestaurantData] = useState(localRestaurants)
     const price = route.params.price
-    let cat = route.params.cat
+    let cat = route.params.cat + ',vegetarian'
     let loc = route.params.loc
     let term = route.params.term
     
@@ -32,7 +32,12 @@ export default function Restaurants({ navigation,route }) {
       term = 'halal'
     }
 
+  
+
+    
+
     let yelpURL = `https://api.yelp.com/v3/businesses/search?term=${term}${loc}&price=` + price + '&categories=' + cat + `&offset=${offset}&limit=50`
+    console.log("hi")
 
     function refresh() {
       global.offset += 50

@@ -73,6 +73,14 @@ export default function RestaurantItem(props) {
 		updateDoc(doc(db,'Users',global.user.uid),{fav: current})
 		
 	}
+
+	const renderIcons= (cat) => {
+		for(let i =0; i< cat.length; i++){
+			if(cat[i].alias == 'vegetarian' ){
+				return <MaterialCommunityIcons name = 'food-drumstick-off' size ={20} color = "green"/>
+			}
+		}
+	}
 	
 	const RestaurantInfo = (props) => (
 		<View style = {{ flexDirection : "row", 
@@ -82,15 +90,16 @@ export default function RestaurantItem(props) {
 		}}>
 	
 			<View>
-			<Text style={{fontSize: 20, textTransform: 'capitalize', fontWeight: 'bold', width: windowWidth - 50}}>
-				{/* {replaceAll(props.alias,"-", " ")}  */}
-				{props.name}
-				</Text>  
-				<TouchableOpacity style ={{ flexDirection : "row"}} onPress={() => {Linking.openURL(`tel:${props.phone}`)}}>
+			<View style={{flexDirection: 'row'}}>
+			<Text style={{fontSize: 20, textTransform: 'capitalize', fontWeight: 'bold',width: windowWidth - 50}}>{/* {replaceAll(props.alias,"-", " ")}  */}{props.name}</Text>
+			</View> 
+			<View style={{flexDirection: 'row'}}>
+			<TouchableOpacity style ={{ flexDirection : "row"}} onPress={() => {Linking.openURL(`tel:${props.phone}`)}}>
 				<MaterialCommunityIcons  name = 'phone' size ={15} color = 'grey'/>          
 				<Text style={{fontSize: 15, color: 'grey',}}> {props.phone}</Text>
 				</TouchableOpacity>
-				
+				{renderIcons(props.res.categories)}
+			</View>
 			</View>
 	
 			<View style={{
@@ -125,7 +134,7 @@ export default function RestaurantItem(props) {
 						<Image source = {{uri : restaurant.image_url,}} style = {{ width: windowWidth - 20, height : 180, borderRadius: 0, resizeMode: 'cover', }}/>
 					</TouchableOpacity>
 					{renderFavIcon(restaurant.id)}
-					<RestaurantInfo alias = {restaurant.alias} rating = {restaurant.rating} phone = {restaurant.phone} name = {restaurant.name}/>
+					<RestaurantInfo alias = {restaurant.alias} rating = {restaurant.rating} phone = {restaurant.phone} name = {restaurant.name} res = {restaurant}/>
 					<TouchableOpacity onPress={() =>toReviews(restaurant, props.navigation)}>
 						<Text style={{fontSize: 15, }}>See Reviews</Text>
 					</TouchableOpacity>

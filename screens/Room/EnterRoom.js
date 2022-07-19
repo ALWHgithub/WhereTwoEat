@@ -12,7 +12,6 @@ import * as Location from 'expo-location';
 
 export default function App({route,navigation}) {
   if(global.room != '') {
-    console.log(global.room)
     navigation.navigate('Room',{name: global.room, navigation})
   }
 
@@ -37,8 +36,6 @@ export default function App({route,navigation}) {
       if(Doc.id == name){
         valid = true
         global.room = name
-        console.log(long)
-        console.log(lat)
         navigation.navigate('Room',{name: name, long:long, lat:lat})
       }
     })
@@ -74,7 +71,6 @@ export default function App({route,navigation}) {
     }
   },[location])
   
-  console.log(long)
 
 const getLocation = () => {
     setLocPerm(locPerm+1)
