@@ -15,24 +15,31 @@ export default function Restaurants({ navigation,route }) {
     const [pastRestaurantData,setPastRestaurantData] = useState(localRestaurants)
     const [restaurantData,setRestaurantData] = useState(localRestaurants)
     const price = route.params.price
-    let cat = route.params.cat + ',vegetarian'
+    let cat = route.params.cat
     let loc = route.params.loc
     let term = route.params.term
     
-    if(term == undefined){
-      term = 'restaurant'
-    }
+    term = ''
+
     if (global.vegetarian) {
-      term = 'vegetarian'
+      term += ',vegetarian'
+      cat += ',vegetarian'
     }
     if (global.vegan) {
-      term = 'vegan'
+      term += ',vegan'
+      cat += ',vegan'
     }
     if (global.halal) {
-      term = 'halal'
+      term += ',halal'
+      cat += ',halal'
     }
 
-  
+    if(term.length > 1){
+      term = term.substring(1);
+    } else {
+      term = 'restaurant'
+    }
+    
 
     
 

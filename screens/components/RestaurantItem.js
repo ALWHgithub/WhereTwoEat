@@ -74,31 +74,67 @@ export default function RestaurantItem(props) {
 		
 	}
 
-	const renderIcons= (cat) => {
+	const renderVegIcon= (cat) => {
 		for(let i =0; i< cat.length; i++){
 			if(cat[i].alias == 'vegetarian' ){
-				return <MaterialCommunityIcons name = 'food-drumstick-off' size ={20} color = "green"/>
+				return <MaterialCommunityIcons name = 'food-drumstick-off' size ={20} color = "green" />
+			}
+		}
+	}
+
+	const renderHalalIcon= (cat) => {
+		for(let i =0; i< cat.length; i++){
+			if(cat[i].alias == 'halal' ){
+				return <View style={{flexDirection: 'row'}}>
+					<MaterialCommunityIcons name = 'food-halal' size ={20} color = "orange" />
+					<Text style ={{ color : "orange"}}> Halal</Text>
+					</View>
 			}
 		}
 	}
 	
+
+	const renderRating = (rating) => {
+		if(rating ==1 || rating == 2 || rating == 3 || rating == 4 || rating == 5) {
+			return <Text style={{fontSize: 15}} >{rating}.0 </Text> 
+		} else {
+			return <Text style={{fontSize: 15}} >{rating}</Text> 
+		}
+		
+	}
+
+	const star = () => {
+		return <MaterialCommunityIcons name = 'star' size ={20} color = "yellow"/>
+	}
+
+	const renderPhone = (number) => {
+		if(number == ''){
+			return 
+		} else {
+			return <TouchableOpacity style ={{ flexDirection : "row"}} onPress={() => {Linking.openURL(`tel:${number}`)}}>
+			<MaterialCommunityIcons  name = 'phone' size ={15} color = 'grey'/>          
+			<Text style={{fontSize: 15, color: 'grey',}}> {number} </Text>
+	         </TouchableOpacity>
+		}
+
+	}
+	
 	const RestaurantInfo = (props) => (
 		<View style = {{ flexDirection : "row", 
-			justifyContent : "space-between", 
-			alignItems : "center",
+		justifyContent : "space-between", 
+		alignItems : "center",
 			marginTop: 10,
 		}}>
 	
 			<View>
 			<View style={{flexDirection: 'row'}}>
-			<Text style={{fontSize: 20, textTransform: 'capitalize', fontWeight: 'bold',width: windowWidth - 50}}>{/* {replaceAll(props.alias,"-", " ")}  */}{props.name}</Text>
+			<Text style={{fontSize: 20, textTransform: 'capitalize', fontWeight: 'bold',width: windowWidth - 80}}>{/* {replaceAll(props.alias,"-", " ")}  */}{props.name}</Text>
 			</View> 
 			<View style={{flexDirection: 'row'}}>
-			<TouchableOpacity style ={{ flexDirection : "row"}} onPress={() => {Linking.openURL(`tel:${props.phone}`)}}>
-				<MaterialCommunityIcons  name = 'phone' size ={15} color = 'grey'/>          
-				<Text style={{fontSize: 15, color: 'grey',}}> {props.phone}</Text>
-				</TouchableOpacity>
-				{renderIcons(props.res.categories)}
+			    {renderPhone(props.phone)}
+				{renderVegIcon(props.res.categories)}
+				<Text> </Text>
+				{renderHalalIcon(props.res.categories)}
 			</View>
 			</View>
 	
@@ -106,15 +142,16 @@ export default function RestaurantItem(props) {
 				flexDirection : "row",
 				backgroundColor: "#eee",
 				height: 34,
-				width: 34,
+				width: 60,
 				alignItems: "center",
 				justifyContent: "center",
 				borderRadius: 17,
 			}}
 			>  
-				<Text style={{fontSize: 15}} >{props.rating}</Text>
-				
+				{renderRating(props.rating)}
+				{star()}
 			</View>
+			
 		</View>
 	)
 	

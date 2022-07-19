@@ -15,31 +15,31 @@ export default function EditProfilePage({ navigation,route}) {
   const [state, setState] = useState(0)
   const [rooms, setRooms] = useState([])
   
-  const setVegetarianTrue = () => {
-    global.vegetarian = true;
-    console.log(global.vegetarian)
+  const setSettingTrue = (setting) => {
+    global[setting] = true;
+    console.log(global[setting])
     setState(state+1)
-    updateDoc(doc(db,'Users',global.user.uid),{vegetarian: global.vegetarian })
+    updateDoc(doc(db,'Users',global.user.uid),{[setting]: global[setting] })
   }
 
-  const setVegetarianFalse = () => {
-    global.vegetarian = false;
-    console.log(global.vegetarian)
+  const setSettingFalse = (setting) => {
+    global[setting] = false;
+    console.log(global[setting])
     setState(state+1)
-    updateDoc(doc(db,'Users',global.user.uid),{vegetarian: global.vegetarian })
+    updateDoc(doc(db,'Users',global.user.uid),{[setting]: global[setting] })
   }
 
 
-  const renderVegetarian = () => {
-    if (global.vegetarian) {
-      return <StdButtonBlue text = "Vegetarian" onPress={setVegetarianFalse} />
+  const renderSwitchButton = (setting,name) => {
+    if (global[setting]) {
+      return <StdButtonBlue text = {name} onPress={() =>setSettingFalse(setting)} />
     } else {
-      return <StdButton text = "Vegetarian" onPress={setVegetarianTrue} />
+      return <StdButton text = {name} onPress={() =>setSettingTrue(setting)} />
     }
   }
 
   const saveChanges = () => {
-    updateDoc(doc(db,'Users',global.user.uid),{vegetarian: global.vegetarian })
+    updateDoc(doc(db,'Users',global.user.uid),{vegetarian: global.vegetarian ,vegan:false, halal:false })
   }
   
 
@@ -47,7 +47,9 @@ export default function EditProfilePage({ navigation,route}) {
     <SafeAreaView style = {styles.container}>
       <Text style={{paddingLeft:10,paddingTop:10,}}>Any Dietary Restrictions?</Text>
       <View style={{flexDirection:"row",}}>
-         {renderVegetarian()}
+         {renderSwitchButton("vegetarian","Vegetarian")}
+         {renderSwitchButton("vegan","Vegan")}
+         {renderSwitchButton("halal","Halal")}
       </View>
       <StdButton text = "Save changes" onPress={() =>saveChanges()}/>
     </SafeAreaView>
