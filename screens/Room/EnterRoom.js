@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { StyleSheet, Text, View,SafeAreaView,Dimensions, Button, TextInput } from 'react-native';
+import { StyleSheet, Text, View,SafeAreaView,Dimensions, Button, TextInput, ImageBackground } from 'react-native';
 import { authentication } from "../../firebase/firebase-config";
 import {
   getFirestore,collection,getDocs,
@@ -78,12 +78,19 @@ const getLocation = () => {
 
   return (
     <SafeAreaView style={styles.parentContainer}>
-        <Text>Enter a room!</Text>
+      {/* <ImageBackground source={require('../../assets/WhereTwoEatGroupOrderSimple.png')} resizeMode="cover" style = {styles.image}> */}
+        
+        <Text style={{ textAlign: "center", fontSize:50, fontWeight:'bold',}}>WHERE TWO EAT GROUP ORDER {'\n'}</Text>
+        <Text style={{ textAlign: "center", fontSize:20}}>Enter existing room!</Text>
+
+        <View style={{ padding:5, margin: 10, borderRadius: 5, flexDirection: 'row'}}>
         <TextInput placeholder = "Name"  onChangeText = {text => setName(text)} style = {styles.roomNameInput} />
-        <StdButton text = "Enter Existing Room" onPress={() => enterRoom(name, navigation)}/>
+        <StdButton text = "Enter" onPress={() => enterRoom(name, navigation)}/>
+        </View>
         <View style={styles.bottomButton}>
         <StdButton text = "Create a new Room" onPress={() => createRoom(name, navigation)} />
         </View>
+      {/* </ImageBackground> */}
     </SafeAreaView>
   );
 }
@@ -98,15 +105,26 @@ const styles = StyleSheet.create({
       justifyContent: 'center',
     },
     roomNameInput: {
-      backgroundColor: 'white',
-      borderColor: '#e8e8e8',
-      borderWidth: 1,
-      borderRadius: 5,
-      padding: 10,
+      backgroundColor: '#e9e9e9',
+      // borderColor: '#e8e8e8',
+      // borderWidth: 1,
+      width: windowWidth - 150,
+      borderRadius: 50,
+      paddingVertical: 10,
+      paddingHorizontal: 15,
       margin: 5,
     },
     bottomButton : {
       position: 'absolute',
       bottom:30,
-    }
+      left: 0,
+      right: 0,
+      justifyContent: "center",
+      alignItems: 'center',
+    },
+    image: {
+      flex: 1,
+      justifyContent: "center",
+      width: windowWidth,
+    },
   });
