@@ -55,7 +55,6 @@ export default function App({route,navigation}) {
         setErrorMsg('Permission to access location was denied');
         return;
       }
-  
       let location = await Location.getCurrentPositionAsync({});
       setLocation(location);
     })();
@@ -80,12 +79,13 @@ const getLocation = () => {
     <SafeAreaView style={styles.parentContainer}>
       {/* <ImageBackground source={require('../../assets/WhereTwoEatGroupOrderSimple.png')} resizeMode="cover" style = {styles.image}> */}
         
-        <Text style={{ textAlign: "center", fontSize:50, fontWeight:'bold',}}>WHERE TWO EAT GROUP ORDER {'\n'}</Text>
-        <Text style={{ textAlign: "center", fontSize:20}}>Enter existing room!</Text>
+        <Text style={{ textAlign: "center", fontSize:30, fontWeight:'bold',}}>Join the room! {'\n'}</Text>
 
-        <View style={{ padding:5, margin: 10, borderRadius: 5, flexDirection: 'row'}}>
+        <View style={{ padding:5, margin: 10, borderRadius: 5, flexDirection: 'row', }}>
         <TextInput placeholder = "Name"  onChangeText = {text => setName(text)} style = {styles.roomNameInput} />
+        <View style={{ left: windowWidth - 245, padding:5, margin: 5, position: `absolute` }}>
         <StdButton text = "Enter" onPress={() => enterRoom(name, navigation)}/>
+        </View>
         </View>
         <View style={styles.bottomButton}>
         <StdButton text = "Create a new Room" onPress={() => createRoom(name, navigation)} />
@@ -108,6 +108,7 @@ const styles = StyleSheet.create({
       backgroundColor: '#e9e9e9',
       // borderColor: '#e8e8e8',
       // borderWidth: 1,
+      height: 60,
       width: windowWidth - 150,
       borderRadius: 50,
       paddingVertical: 10,
