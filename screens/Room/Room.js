@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { StyleSheet, Text, View,SafeAreaView, Button, TextInput} from 'react-native';
+import { StyleSheet, Text, View,SafeAreaView, Button, TextInput, TouchableOpacity} from 'react-native';
 import { authentication } from "../../firebase/firebase-config";
 import Slider from '@react-native-community/slider'; 
 import {
@@ -8,6 +8,7 @@ import {
 } from 'firebase/firestore'
 import StdButton from '../components/button';
 import { clearUpdateCacheExperimentalAsync } from "expo-updates";
+import FontAwesome from "react-native-vector-icons/FontAwesome";
 
 
 export default function App({route,navigation}) {
@@ -42,8 +43,8 @@ export default function App({route,navigation}) {
       return <Text>Please Wait!</Text>
     } else {
       return <View style = {styles.cat}>
-      <Text>Current Tally: </Text>
-      <Text>$: {rooms[1]} $$: {rooms[2]} $$$: {rooms[3]} $$$$: {rooms[4]}</Text>
+      <Text style = {styles.text}>Current Tally: </Text>
+      <Text style = {styles.text}>$: {rooms[1]} $$: {rooms[2]} $$$: {rooms[3]} $$$$: {rooms[4]}</Text>
       </View>
     }
   }
@@ -53,8 +54,8 @@ export default function App({route,navigation}) {
       return <Text>Please Wait!</Text>
     } else {
       return <View style = {styles.cat}>
-      <Text>Current Tally: </Text>
-      <Text>Chinese: {rooms['Chinese']} Japanese: {rooms['Japanese']} Italian: {rooms['Italian']} Others: {rooms['Others']}</Text>
+      <Text style = {styles.text}>Current Tally: </Text>
+      <Text style = {styles.text}>Chinese: {rooms['Chinese']} Japanese: {rooms['Japanese']} Italian: {rooms['Italian']} Others: {rooms['Others']}</Text>
       </View>
     }
   }
@@ -279,24 +280,46 @@ export default function App({route,navigation}) {
     }
   }
 
+  const renderButton = (price) => {
+    let op = 0.5;
+    if(price <= range){
+      op = 1;
+    }
+    return <TouchableOpacity  onPress={() => {setRange(price)}}>
+    <FontAwesome name="dollar" size ={55} color = "#000000" style ={{opacity : op , borderWidth: 10, borderColor: 'white'}}/>
+		</TouchableOpacity>
+  }
+
+
   return (
     <SafeAreaView style={styles.container}>
-        <Text>{route.params.name}</Text>
-        {renderLoading()}
-        {renderCountPrice()}
-        {renderCountCat()}
-        {renderCurrentVotePrice()}
-        <Text>Currently Selected:  {"$".repeat(range)}, {cat}</Text>
-        <Slider
-        style={{width: 200, height: 40}}
-        minimumValue={1}
-        maximumValue={4}
-        step={1}
-        thumbTintColor="orange"
-        onValueChange={value => setRange(parseInt(value))}
-        maximumTrackTintColor="#000000"        
-        minimumTrackTintColor = 'orange'
-      />
+      <Text style={styles.text}>{route.params.name}</Text>
+      {renderLoading()}
+      <View>
+      {renderCountPrice()}
+      {renderCountCat()}
+      </View>
+      {renderCurrentVotePrice()}
+      <Text style={styles.text}>Currently Selected:  {"$".repeat(range)}, {cat}</Text>
+
+      {/* <Slider
+      style={{width: 200, height: 40}}
+      minimumValue={1}
+      maximumValue={4}
+      step={1}
+      thumbTintColor="orange"
+      onValueChange={value => setRange(parseInt(value))}
+      maximumTrackTintColor="#000000"        
+      minimumTrackTintColor = 'orange'
+      /> */}
+
+      <View style={{flexDirection: 'row', alignItems: 'center', padding: 10}}>
+      {renderButton(1)}
+      {renderButton(2)}
+      {renderButton(3)}
+      {renderButton(4)}
+      </View>
+
       <View style={{flexDirection: 'row'}}>
       <StdButton text = "Chinese" onPress={() => setCat('Chinese')} />
       <StdButton text = "Japanese" onPress={() => setCat('Japanese')} />
@@ -330,17 +353,21 @@ const styles = StyleSheet.create({
       justifyContent: 'center',
     },
     input: {
-      backgroundColor: 'white',
-      borderColor: '#e8e8e8',
-      borderWidth: 1,
+      backgroundColor: '#e9e9e9',
+      // borderColor: '#e8e8e8',
+      // borderWidth: 1,
       borderRadius: 5,
       padding: 10,
       margin: 5,
     },
     cat: {
-      borderWidth: 1,
+      backgroundColor: '#e9e9e9',
+      // borderWidth: 1,
       borderRadius: 5,
       padding: 10,
       margin: 5,
     },
+    text: {
+      fontSize: 18,
+    }
   });

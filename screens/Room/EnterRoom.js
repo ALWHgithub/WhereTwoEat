@@ -83,7 +83,7 @@ const getLocation = () => {
 
         <View style={{ padding:5, margin: 10, borderRadius: 5, flexDirection: 'row', }}>
         <TextInput placeholder = "Name"  onChangeText = {text => setName(text)} style = {styles.roomNameInput} />
-        <View style={{ left: windowWidth - 245, padding:5, margin: 5, position: `absolute` }}>
+        <View style={{ left: windowWidth - 245, padding:5.7, margin: 5, position: `absolute` }}>
         <StdButton text = "Enter" onPress={() => enterRoom(name, navigation)}/>
         </View>
         </View>
