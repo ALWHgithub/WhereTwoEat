@@ -15,7 +15,7 @@ export default function App({route,navigation}) {
     navigation.navigate('Room',{name: global.room, navigation})
   }
 
-  const [name,setName] = useState()
+  const [name,setName] = useState('')
   const [location, setLocation] = useState(null);
   const [errorMsg, setErrorMsg] = useState(null);
   const [locPerm, setLocPerm] = useState(0);

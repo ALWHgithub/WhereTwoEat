@@ -11,7 +11,7 @@ import StdButton from '../components/button';
 export default function App({route,navigation}) {
   const db = getFirestore()
   const colRef = collection(db,'RoomIDs')
-  const [code,setCode] = useState()
+  const [code,setCode] = useState('Your room!')
   const [roomSettings,setRoomSettings] = useState('restaurant')
   let exists = false
   const long = route.params.long
