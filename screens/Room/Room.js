@@ -20,9 +20,7 @@ export default function App({route,navigation}) {
   const [votePrice, setVotePrice] = useState(0)
   const [cat, setCat] = useState('Others')
   const [state,setState] = useState(0)
-  const [done,setDone] = useState(0)
-  const [highestCat,setHighestCat] = useState('')
-  const [highestPrice,setHighestPrice] = useState('')
+  const [loc,setLoc] = useState(0)
   let loading = false;
   let sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
 
@@ -31,6 +29,7 @@ export default function App({route,navigation}) {
       snapshot.docs.forEach((doc) => {
         if(doc.id == route.params.name){
           setRooms(doc.data())
+          
         }
       })
     })
@@ -40,7 +39,7 @@ export default function App({route,navigation}) {
   }
 
   
-
+  
   useEffect(() => {
     sleep(100).then(() => {
       setState(state+1)
@@ -59,15 +58,15 @@ export default function App({route,navigation}) {
     <FontAwesome name="dollar" size ={55} color = "#000000" style ={{opacity : op , borderWidth: 10, borderColor: 'white'}}/>
 		</TouchableOpacity>
   }
-  
+
   const castVote = () => {
+    console.log(rooms.num)
     try {
     loading = true;
     let name = global.user.uid
     let first = rooms[name] == undefined
     if(first) {
       firstTime()
-      updateLoc()
     } else {
       let prevPrice = rooms[name][0]
       let prevCat = rooms[name][1]
@@ -239,15 +238,17 @@ export default function App({route,navigation}) {
     }
     return price
   }
-
+  
   const getResults = () => {
+    
     try {
       let p = getHighestPrice()
       let c = getHighestCat()
       if(p == '' || c == ''){
         alert("Something went wrong. Did you remember to put at least one vote?")
       } else {
-       navigation.navigate('RestaurantRoom', {room:true, term: rooms.term, price: p, cat: c, loc: '&location=Singapore'})
+        
+       navigation.navigate('RestaurantRoom', {room:true, term: rooms.term, price: p, cat: c, loc: `&location=${rooms.loc}`})
       }
       } catch (error) {
         alert("Something went wrong. Please wait a bit for the data to load")

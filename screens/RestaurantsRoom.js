@@ -3,10 +3,7 @@ import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, SafeAreaView, Button, ScrollView, FlatList, View,Alert } from 'react-native';
 import RestaurantItem from './components/RestaurantItem';
 import { localRestaurants } from './components/RestaurantItem';
-import GetLocation from 'react-native-get-location'
 import config from '../config'
-import StdButton from './components/button';
-import { useIsFocused } from '@react-navigation/native';
 import {renderRestrauntsText} from './components/RestaurantComponents'
   
 const YELP_API_KEY = config.API_KEY
@@ -16,17 +13,23 @@ export default function Restaurants({ navigation,route }) {
     const [restaurantData,setRestaurantData] = useState(localRestaurants)
     const price = route.params.price
     let cat = route.params.cat
-    let loc = route.params.loc
+    let loc =  route.params.loc
     let term = route.params.term
-    if(term == undefined){
+    
+    if(loc != '&location=Singapore') {
+      loc = loc+',Singapore'
+    }
+
+    if(term.length == 0){
       term = 'restaurant'
     }
-    if(term == 'vegetarian'){
-      cat += ',vegetarian'
-    }
+
+
+
+   
 
     let yelpURL = `https://api.yelp.com/v3/businesses/search?term=${term}${loc}&price=` + price + '&categories=' + cat + `&offset=${offset}&limit=50`
-
+    console.log(yelpURL)
     function refresh() {
       global.offset += 50
       yelpURL = `https://api.yelp.com/v3/businesses/search?term=${term}${loc}&price=` + price + '&categories=' + cat + `&offset=${offset}&limit=50`

@@ -14,9 +14,9 @@ export default function Restaurants({ navigation,route }) {
     const price = route.params.price
     let cat = route.params.cat
     let loc = route.params.loc
-    let term = route.params.term
+  
     
-    term = ''
+    let term = ''
     if (global.vegetarian) {
       term += ',vegetarian'
     }
@@ -35,7 +35,7 @@ export default function Restaurants({ navigation,route }) {
     
 
     let yelpURL = `https://api.yelp.com/v3/businesses/search?term=${term}${loc}&price=` + price + '&categories=' + cat + `&offset=${offset}&limit=50`
-    console.log("hi")
+    console.log(yelpURL)
 
     function refresh() {
       global.offset += 50
