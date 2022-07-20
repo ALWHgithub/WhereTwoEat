@@ -25,7 +25,7 @@ export default function App({route,navigation}) {
   const [highestPrice,setHighestPrice] = useState('')
   let loading = false;
   let sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
-  console.log(rooms)
+
   if(rooms == undefined){
     getDocs(colRef).then((snapshot) => {
       snapshot.docs.forEach((doc) => {
@@ -49,8 +49,17 @@ export default function App({route,navigation}) {
       alert(err);
     })
   }, [state])
-  
 
+  const renderButton = (price) => {
+    let op = 0.5;
+    if(price <= range){
+      op = 1;
+    }
+    return <TouchableOpacity  onPress={() => {setRange(price)}}>
+    <FontAwesome name="dollar" size ={55} color = "#000000" style ={{opacity : op , borderWidth: 10, borderColor: 'white'}}/>
+		</TouchableOpacity>
+  }
+  
   const castVote = () => {
     try {
     loading = true;
@@ -247,22 +256,32 @@ export default function App({route,navigation}) {
 
   return (
     <SafeAreaView style={styles.container}>
-        <Text>{route.params.name}</Text>
-        {renderLoading(loading)}
-        {renderCountPrice(rooms)}
-        {renderCountCat(rooms)}
-        {renderCurrentVotePrice(votePrice)}
-        <Text>Currently Selected:  {"$".repeat(range)}, {cat}</Text>
-        <Slider
-        style={{width: 200, height: 40}}
-        minimumValue={1}
-        maximumValue={4}
-        step={1}
-        thumbTintColor="orange"
-        onValueChange={value => setRange(parseInt(value))}
-        maximumTrackTintColor="#000000"        
-        minimumTrackTintColor = 'orange'
-      />
+        <Text style={styles.text}>{route.params.name}</Text>
+      {renderLoading(loading)}
+      <View>
+      {renderCountPrice(rooms)}
+      {renderCountCat(rooms)}
+      </View>
+      {renderCurrentVotePrice(votePrice)}
+      <Text style={styles.text}>Currently Selected:  {"$".repeat(range)}, {cat}</Text>
+
+      {/* <Slider
+      style={{width: 200, height: 40}}
+      minimumValue={1}
+      maximumValue={4}
+      step={1}
+      thumbTintColor="orange"
+      onValueChange={value => setRange(parseInt(value))}
+      maximumTrackTintColor="#000000"        
+      minimumTrackTintColor = 'orange'
+      /> */}
+
+      <View style={{flexDirection: 'row', alignItems: 'center', padding: 10}}>
+      {renderButton(1)}
+      {renderButton(2)}
+      {renderButton(3)}
+      {renderButton(4)}
+      </View>
       <View style={{flexDirection: 'row'}}>
       <StdButton text = "Chinese" onPress={() => setCat('Chinese')} />
       <StdButton text = "Japanese" onPress={() => setCat('Japanese')} />
@@ -282,35 +301,39 @@ export default function App({route,navigation}) {
 }
 
 const styles = StyleSheet.create({
-    container: {
-      flex: 1,
-      backgroundColor: '#fff',
-      alignItems: 'center',
-      justifyContent: 'center',
-    },
-    priceButton: {
-      flex: 1,
-      color: 'orange',
-      borderRadius: '25px',
-      alignItems: 'center',
-      justifyContent: 'center',
-    },
-    input: {
-      backgroundColor: '#e9e9e9',
-      // borderColor: '#e8e8e8',
-      // borderWidth: 1,
-      borderRadius: 5,
-      padding: 10,
-      margin: 5,
-    },
-    cat: {
-      backgroundColor: '#e9e9e9',
-      // borderWidth: 1,
-      borderRadius: 5,
-      padding: 10,
-      margin: 5,
-    },
-    text: {
-      fontSize: 18,
-    }
-  });
+  container: {
+    flex: 1,
+    backgroundColor: '#fff',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  priceButton: {
+    flex: 1,
+    color: 'orange',
+    borderRadius: '25px',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  input: {
+    backgroundColor: 'white',
+    borderColor: '#e8e8e8',
+    borderWidth: 1,
+    backgroundColor: '#e9e9e9',
+    // borderColor: '#e8e8e8',
+    // borderWidth: 1,
+    borderRadius: 5,
+    padding: 10,
+    margin: 5,
+  },
+  cat: {
+    borderWidth: 1,
+    backgroundColor: '#e9e9e9',
+    // borderWidth: 1,
+    borderRadius: 5,
+    padding: 10,
+    margin: 5,
+  },
+  text: {
+    fontSize: 18,
+  }
+}); 
