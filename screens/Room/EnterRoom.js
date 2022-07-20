@@ -113,6 +113,8 @@ const styles = StyleSheet.create({
       borderRadius: 50,
       paddingVertical: 10,
       paddingHorizontal: 15,
+      // specifically for text to not clash with enter button
+      paddingRight: 100,
       margin: 5,
     },
     bottomButton : {
