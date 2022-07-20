@@ -42,7 +42,7 @@ export default function EditProfilePage({ navigation,route}) {
   
   return (
     <SafeAreaView style = {styles.container}>
-      <Text style={{paddingLeft:10,paddingTop:10,}}>Any Dietary Restrictions?</Text>
+      <Text style={{fontSize:18}}>Any Dietary Restrictions?</Text>
       <View style={{flexDirection:"row",}}>
          {renderSwitchButton("vegetarian","Vegetarian")}
          {renderSwitchButton("vegan","Vegan")}
@@ -60,6 +60,8 @@ export default function EditProfilePage({ navigation,route}) {
       // alignItems: 'center',
       justifyContent: 'center',
       paddingTop: 20,
+      paddingVertical: 14,
+      paddingHorizontal: 10,
     },
     blue: {
       borderRadius: 5,
@@ -71,4 +73,7 @@ export default function EditProfilePage({ navigation,route}) {
       justifyContent: 'center',
       marginVertical: 5,
     },
+    text: {
+
+    }
   });

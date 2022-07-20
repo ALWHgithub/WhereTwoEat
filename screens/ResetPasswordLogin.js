@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, SafeAreaView, Button, ScrollView,Image,TextInput } from 'react-native';
+import { StyleSheet, Text, SafeAreaView, Button, View,TextInput } from 'react-native';
 import StdButton from './components/button';
 import { authentication } from "../firebase/firebase-config";
 import {sendPasswordResetEmail} from "firebase/auth";
@@ -17,9 +17,11 @@ export default function Password({ navigation,route}) {
 
     return (
     <SafeAreaView style={styles.container}>
-      <Text>Please enter your email. A password reset email will be sent to you.</Text>
+      <Text style={{fontSize:18, textAlign:'center'}}>Please enter your email. {'\n'}A password reset email will be sent to you.</Text>
+      <View style={{width: '90%'}}>
       <TextInput placeholder = "Email"  onChangeText = {text => setEmail(text)} style = {styles.input} />
       <StdButton text = "Send email" onPress={changePassword} />
+      </View>
     </SafeAreaView>
       );
 }
@@ -31,13 +33,11 @@ const styles = StyleSheet.create({
       alignItems: 'center',
       justifyContent: 'center',
     },
-    inputContainer: {
-      flex: 1,
-      backgroundColor: '#FFDA84', // to put an image here
-      width: '100%',
-
-      justifyContent: 'center',
-      // paddingHorizontal: 10,
-      // marginVertical: 5,
-    }, 
+    input: {
+      fontSize: 15,
+      margin: 10,
+      marginBottom: 3,
+      borderBottomColor: "grey",
+      borderBottomWidth: 1,
+    }
   });

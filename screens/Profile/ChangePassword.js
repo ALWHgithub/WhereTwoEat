@@ -16,7 +16,7 @@ export default function Password({ navigation,route}) {
 
     return (
     <SafeAreaView style={styles.container}>
-      <Text style={{paddingHorizontal: 10, paddingTop: 10}}>{msg}</Text>
+      <Text style={{fontSize:18}}>{msg}</Text>
       <StdButton text = "Change Password" onPress={changePassword} />
     </SafeAreaView>
       );

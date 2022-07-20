@@ -155,14 +155,14 @@ function LoginScreen({ navigation }) {
     },
     container: {
       flex: 1,
-      backgroundColor: '#fff',
+      backgroundColor: 'rgba(0,0,0,0)',
       
       alignItems: 'center',
       justifyContent: 'center',
     }, 
     inputContainer: {
       flex: 1,
-      backgroundColor: '#FFDA84', // to put an image here
+      backgroundColor: 'rgba(0,0,0,0)', // to put an image here
       width: '100%',
 
       justifyContent: 'center',
@@ -171,7 +171,12 @@ function LoginScreen({ navigation }) {
     }, 
     image: {
       flex: 1,
-      justifyContent: "center"
+      justifyContent: "center",
+      position: 'absolute',
+      left: 0,
+      top: 0,
+      width: windowWidth,
+      height: windowHeight,
     },
     input: {
       backgroundColor: 'rgba(255, 255, 255, 0.8)',
