@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { StyleSheet, Text, View,SafeAreaView, Button, TextInput} from 'react-native';
+import { StyleSheet, Text, View,SafeAreaView, Button, TextInput, TouchableOpacity} from 'react-native';
 import { authentication } from "../../firebase/firebase-config";
 import Slider from '@react-native-community/slider'; 
 import {
@@ -9,6 +9,8 @@ import {
 import StdButton from '../components/button';
 import { clearUpdateCacheExperimentalAsync } from "expo-updates";
 import {renderLoading,renderCountPrice,renderCountCat,renderCurrentVotePrice} from '../components/RoomComponents'
+import FontAwesome from "react-native-vector-icons/FontAwesome";
+
 
 export default function App({route,navigation}) {
   const db = getFirestore()
@@ -294,17 +296,21 @@ const styles = StyleSheet.create({
       justifyContent: 'center',
     },
     input: {
-      backgroundColor: 'white',
-      borderColor: '#e8e8e8',
-      borderWidth: 1,
+      backgroundColor: '#e9e9e9',
+      // borderColor: '#e8e8e8',
+      // borderWidth: 1,
       borderRadius: 5,
       padding: 10,
       margin: 5,
     },
     cat: {
-      borderWidth: 1,
+      backgroundColor: '#e9e9e9',
+      // borderWidth: 1,
       borderRadius: 5,
       padding: 10,
       margin: 5,
     },
+    text: {
+      fontSize: 18,
+    }
   });
