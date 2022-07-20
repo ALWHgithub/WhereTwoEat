@@ -58,9 +58,13 @@ export default function FilterLoc({navigation,route}) {
 
   return (
     <View style={styles.container}>
-      <TextInput placeholder = "Name of Place"  onChangeText = {text => setLoc('Singapore,' + text)} style = {styles.input} />
+      <View style={{width:'90%'}}>
+      <Text style={{fontSize: 18, textAlign:'center'}}>Please fill in the name of the location below {'\n'}(eg. Yishun)</Text>
+      
+      <TextInput placeholder = "Name of Location"  onChangeText = {text => setLoc('Singapore,' + text)} style = {styles.input} />
       <StdButton text = "Search Location" onPress={() => toRestraunt()} />
-      <StdButton text = "Proceed" onPress={() => useMyLocation()} />
+      <StdButton text = "Use Current Location" onPress={() => useMyLocation()} />
+      </View>
     </View>
   );
 }
@@ -81,13 +85,16 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   input: {
-    backgroundColor: 'white',
-    borderColor: '#e8e8e8',
-    borderWidth: 1,
-    borderRadius: 5,
-    padding: 10,
+    backgroundColor: '#e9e9e9',
+    // borderColor: '#e8e8e8',
+    // borderWidth: 1,
+    height: 50,
+    borderRadius: 50,
+    paddingVertical: 10,
+    paddingHorizontal: 15,
     margin: 5,
   }, 
+
 });
  
   
