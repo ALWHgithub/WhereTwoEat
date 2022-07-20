@@ -9,13 +9,23 @@ import StdButton from '../components/button';
 
 
 export default function App({route,navigation}) {
+  const defaultValue = () => {
+    if(global.username == undefined){
+      return "Your room!"
+    } else {
+      return global.username + '\'s Room'
+    }
+  }
+
+
   const db = getFirestore()
   const colRef = collection(db,'RoomIDs')
-  const [code,setCode] = useState('Your room!')
-  const [roomSettings,setRoomSettings] = useState('restaurant')
+  const [code,setCode] = useState(defaultValue())
+  const [roomSettings,setRoomSettings] = useState('')
   let exists = false
   const long = route.params.long
   const lat = route.params.lat
+  const [loc,setLoc] = useState('Singapore')
 
   const createRoom = () => {
     getDocs(colRef)
@@ -30,7 +40,7 @@ export default function App({route,navigation}) {
     .then( () => {
       if(!exists) {
         global.room = code
-        setDoc(doc(db,'RoomIDs',code),{name: code, 1:0, 2:0, 3:0, 4:0, Chinese:0, Japanese:0, Italian:0, Others:0, term:roomSettings, long:0 ,lat:0, num:0,})
+        setDoc(doc(db,'RoomIDs',code),{name: code, 1:0, 2:0, 3:0, 4:0, Chinese:0, Japanese:0, Italian:0, Others:0, term:roomSettings, loc: loc, num:0,})
         navigation.navigate('Room',{name: code, long:long, lat:lat})
       }
     })
@@ -45,14 +55,7 @@ export default function App({route,navigation}) {
     setRoomSettings('vegetarian')
   }
 
-  const defaultValue = () => {
-    if(global.username == undefined){
-      return "Your room!"
-    } else {
-      return global.username + '\'s Room'
-    }
-  }
-
+  
   return (
     <SafeAreaView style={styles.container}>
         <Text style={styles.text}>Pick a Name for your room!</Text>
@@ -60,6 +63,7 @@ export default function App({route,navigation}) {
         
         <Text style={styles.text}>Room Options</Text>
         <StdButton text = "Vegetarian" onPress={() => setVegetarian()}/>
+        <TextInput  defaultValue="Singapore"  onChangeText = {text => setLoc(text)} style = {styles.input} />
         <View style={styles.bottomButton}>
         <StdButton text = "Create Room" onPress={() => createRoom()}/>
         </View> 
