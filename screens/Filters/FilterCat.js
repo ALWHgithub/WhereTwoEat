@@ -65,7 +65,7 @@ function FilterCat({ navigation,route }) {
       </View>
       <Text style={{fontSize:18,}}>{'\n'}What Cuisine ?</Text>
 
-      <View style={{flexDirection: 'row'}}>
+      <View style={{flexDirection: 'row', flexWrap: 'wrap', justifyContent:'center'}}>
        {catButton('chinese','Chinese')}
        {catButton('japanese','Japanese')}
        {catButton('italian','Italian')}
