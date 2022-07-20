@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View,SafeAreaView, TouchableOpacity, Button } from 'react-native';
 import StdButton from "../components/button";
-import {StdButtonBlue} from '../components/button';
+import {StdButtonBlue, StdButtonRandomColor} from '../components/button';
 import catButton from '../components/button';
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 
@@ -37,7 +37,7 @@ function FilterCat({ navigation,route }) {
     if(cat == thisCat){
       return <StdButtonBlue text = {name} onPress={() =>setCat(thisCat)} />
     } else {
-      return <StdButton text = {name} onPress={() =>setCat(thisCat)} />
+      return <StdButtonRandomColor text = {name} onPress={() =>setCat(thisCat)} />
     }
   }
 
@@ -66,13 +66,22 @@ function FilterCat({ navigation,route }) {
       <Text style={{fontSize:18,}}>{'\n'}What Cuisine ?</Text>
 
       <View style={{flexDirection: 'row', flexWrap: 'wrap', justifyContent:'center'}}>
-       {catButton('chinese','Chinese')}
-       {catButton('japanese','Japanese')}
-       {catButton('italian','Italian')}
-       {catButton('restaurant','All')}
+        {catButton('chinese','Chinese')}
+        {catButton('japanese','Japanese')}
+        {catButton('italian','Italian')}
+        {catButton('cafes','Cafes')}
+        {catButton('hotdogs','Fast food')}
+        {catButton('indian','Indian')}
+        {catButton('kopitiam','Kopitiam')}
+        {catButton('korean','Korean')}
+        {catButton('malaysian','Malaysian')}
+        {catButton('mexican','Mexican')}
+        {catButton('thai','Thai')}
+        {catButton('vietnamese','Vietnamese')}
+        {catButton('restaurant','All')}
       </View>
       <View style={styles.nestedViewStyle}><Text>{'     '}</Text></View>
-      <StdButton text = "Filter Based on Location" onPress={() =>toLoc(cat)} />
+      <StdButton text = "Filter Based on Location" onPress={() =>toLoc(cat)} icon = "map-marker"/>
       <StdButton text = "Apply Filter !" onPress={() =>toRes(cat)} />
       <StatusBar style="auto" />
     </SafeAreaView>

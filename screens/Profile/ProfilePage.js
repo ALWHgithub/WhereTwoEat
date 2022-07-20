@@ -31,7 +31,7 @@ export default function Profile({ navigation,route}) {
 		    <MaterialCommunityIcons name = 'logout' size ={25} color = "orange"/>
 		  </TouchableOpacity>
       <View style={{flexDirection: 'row', flexWrap: 'wrap' }}>
-        <StdButton text = "Edit Profile" onPress={handleEditProfilePage} />
+        <StdButton text = "Edit Profile" onPress={handleEditProfilePage} icon = "account-circle" />
         {/* <StdButton text = "See Favourites" onPress={handleFavourites} /> */}
         {/* <StdButton text = "Change Password" onPress={changePassword} /> */}
         {/* <StdButton text = "Logout ?" onPress={handleSignOut} /> */}
