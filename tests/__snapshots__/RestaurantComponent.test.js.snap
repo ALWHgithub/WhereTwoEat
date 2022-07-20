@@ -1,0 +1,38 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`test for no restaurants 1`] = `
+<Text>
+  Sorry, it dosen't seem like there are any restaurants
+</Text>
+`;
+
+exports[`test for non-whole number rating  1`] = `
+<Text
+  style={
+    Object {
+      "fontSize": 15,
+    }
+  }
+>
+  4.5
+</Text>
+`;
+
+exports[`test for some restaurants 1`] = `
+<Text>
+  Here are the Restaurants !
+</Text>
+`;
+
+exports[`test for whole number rating  1`] = `
+<Text
+  style={
+    Object {
+      "fontSize": 15,
+    }
+  }
+>
+  4
+  .0 
+</Text>
+`;

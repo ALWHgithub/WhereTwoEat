@@ -1,0 +1,185 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders correctly 1`] = `
+<View
+  accessible={true}
+  collapsable={false}
+  focusable={false}
+  onClick={[Function]}
+  onResponderGrant={[Function]}
+  onResponderMove={[Function]}
+  onResponderRelease={[Function]}
+  onResponderTerminate={[Function]}
+  onResponderTerminationRequest={[Function]}
+  onStartShouldSetResponder={[Function]}
+  style={
+    Object {
+      "opacity": 1,
+    }
+  }
+>
+  <View
+    style={
+      Object {
+        "alignItems": "center",
+        "backgroundColor": "orange",
+        "borderRadius": 50,
+        "justifyContent": "center",
+        "marginHorizontal": 5,
+        "marginVertical": 5,
+        "paddingHorizontal": 18,
+        "paddingVertical": 14,
+      }
+    }
+  >
+    <Text
+      style={
+        Object {
+          "color": "white",
+          "fontWeight": "bold",
+          "textAlign": "center",
+          "textTransform": "uppercase",
+        }
+      }
+    />
+  </View>
+</View>
+`;
+
+exports[`renders correctly 2`] = `
+<View
+  accessible={true}
+  collapsable={false}
+  focusable={false}
+  onClick={[Function]}
+  onResponderGrant={[Function]}
+  onResponderMove={[Function]}
+  onResponderRelease={[Function]}
+  onResponderTerminate={[Function]}
+  onResponderTerminationRequest={[Function]}
+  onStartShouldSetResponder={[Function]}
+  style={
+    Object {
+      "opacity": 1,
+    }
+  }
+>
+  <View
+    style={
+      Object {
+        "alignItems": "center",
+        "backgroundColor": "orange",
+        "borderRadius": 50,
+        "justifyContent": "center",
+        "marginHorizontal": 5,
+        "marginVertical": 5,
+        "paddingHorizontal": 18,
+        "paddingVertical": 14,
+      }
+    }
+  >
+    <Text
+      style={
+        Object {
+          "color": "white",
+          "fontWeight": "bold",
+          "textAlign": "center",
+          "textTransform": "uppercase",
+        }
+      }
+    />
+  </View>
+</View>
+`;
+
+exports[`renders correctly for false 1`] = `
+<View
+  accessible={true}
+  collapsable={false}
+  focusable={false}
+  onClick={[Function]}
+  onResponderGrant={[Function]}
+  onResponderMove={[Function]}
+  onResponderRelease={[Function]}
+  onResponderTerminate={[Function]}
+  onResponderTerminationRequest={[Function]}
+  onStartShouldSetResponder={[Function]}
+  style={
+    Object {
+      "opacity": 1,
+    }
+  }
+>
+  <View
+    style={
+      Object {
+        "alignItems": "center",
+        "backgroundColor": "orange",
+        "borderRadius": 50,
+        "justifyContent": "center",
+        "marginHorizontal": 5,
+        "marginVertical": 5,
+        "paddingHorizontal": 18,
+        "paddingVertical": 14,
+      }
+    }
+  >
+    <Text
+      style={
+        Object {
+          "color": "white",
+          "fontWeight": "bold",
+          "textAlign": "center",
+          "textTransform": "uppercase",
+        }
+      }
+    />
+  </View>
+</View>
+`;
+
+exports[`renders correctly for true 1`] = `
+<View
+  accessible={true}
+  collapsable={false}
+  focusable={false}
+  onClick={[Function]}
+  onResponderGrant={[Function]}
+  onResponderMove={[Function]}
+  onResponderRelease={[Function]}
+  onResponderTerminate={[Function]}
+  onResponderTerminationRequest={[Function]}
+  onStartShouldSetResponder={[Function]}
+  style={
+    Object {
+      "opacity": 1,
+    }
+  }
+>
+  <View
+    style={
+      Object {
+        "alignItems": "center",
+        "backgroundColor": "orange",
+        "borderRadius": 50,
+        "justifyContent": "center",
+        "marginHorizontal": 5,
+        "marginVertical": 5,
+        "paddingHorizontal": 18,
+        "paddingVertical": 14,
+      }
+    }
+  >
+    <Text
+      style={
+        Object {
+          "color": "white",
+          "fontWeight": "bold",
+          "textAlign": "center",
+          "textTransform": "uppercase",
+        }
+      }
+    />
+  </View>
+</View>
+`;

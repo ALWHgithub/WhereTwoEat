@@ -1,11 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { render } from "react-dom";
 import { View,Text,Image,TouchableOpacity, Dimensions,Linking,use } from 'react-native';
 import { useIsFocused } from '@react-navigation/native';
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons"
-import config from '../../config'
-import StdButton from './button';
-import { authentication } from "../../firebase/firebase-config";
+import {renderRating} from "./RestaurantComponents";
+
 import {
   getFirestore,collection,getDocs,
   addDoc, updateDoc, setDoc, doc
@@ -14,6 +12,8 @@ import {
 export const localRestaurants = [
 
 ]
+
+
 
 export default function RestaurantItem(props) {
 	const isFocused = useIsFocused();
@@ -92,16 +92,6 @@ export default function RestaurantItem(props) {
 			}
 		}
 	}
-	
-
-	const renderRating = (rating) => {
-		if(rating ==1 || rating == 2 || rating == 3 || rating == 4 || rating == 5) {
-			return <Text style={{fontSize: 15}} >{rating}.0 </Text> 
-		} else {
-			return <Text style={{fontSize: 15}} >{rating}</Text> 
-		}
-		
-	}
 
 	const star = () => {
 		return <MaterialCommunityIcons name = 'star' size ={20} color = "yellow"/>
@@ -153,10 +143,6 @@ export default function RestaurantItem(props) {
 			</View>
 			
 		</View>
-	)
-	
-	const replaceAll = (str, find, replace) => (
-		str.replace(new RegExp(find, 'g'), replace)
 	)
 
 	return (

@@ -1,13 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, SafeAreaView, Button, ScrollView, FlatList, View,Alert } from 'react-native';
+import { StyleSheet,SafeAreaView, Button, ScrollView, View} from 'react-native';
 import RestaurantItem from './components/RestaurantItem';
 import { localRestaurants } from './components/RestaurantItem';
-import GetLocation from 'react-native-get-location'
 import config from '../config'
-import StdButton from './components/button';
-import { useIsFocused } from '@react-navigation/native';
-
+import {renderRestrauntsText} from './components/RestaurantComponents'
   
 const YELP_API_KEY = config.API_KEY
 
@@ -20,7 +17,6 @@ export default function Restaurants({ navigation,route }) {
     let term = route.params.term
     
     term = ''
-
     if (global.vegetarian) {
       term += ',vegetarian'
     }
@@ -36,8 +32,6 @@ export default function Restaurants({ navigation,route }) {
     } else {
       term = 'restaurant'
     }
-    
-
     
 
     let yelpURL = `https://api.yelp.com/v3/businesses/search?term=${term}${loc}&price=` + price + '&categories=' + cat + `&offset=${offset}&limit=50`
@@ -83,17 +77,10 @@ export default function Restaurants({ navigation,route }) {
       updateData();
     }, [restaurantData]);
 
-    const renderRestrauntsText = () => {
-      if(restaurantData.length == 0) {
-        return <Text>Sorry, it dosen't seem like there are any restaurants</Text>
-      } else {
-        return <Text>Here are the Restaurants !</Text>
-      }
-    }
 
     return (
       <SafeAreaView style={styles.container}>
-        {renderRestrauntsText()}
+        {renderRestrauntsText(restaurantData)}
         <View style={{flexDirection: 'row',}}>
       </View>
         <ScrollView showsVerticalScrollIndication = {false}>

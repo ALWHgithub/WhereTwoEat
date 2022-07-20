@@ -21,6 +21,15 @@ export function StdButtonBlue({ text, onPress}) {
   )
 }
 
+export const catButton = (bool,name) => {
+  if(bool){
+    return <StdButtonBlue text = {name}  />
+  } else {
+    return <StdButton text = {name} />
+  }
+  
+}
+
 const styles = StyleSheet.create({
   button: {
     borderRadius: 50,

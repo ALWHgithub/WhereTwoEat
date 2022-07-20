@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { StatusBar } from 'expo-status-bar';
 import StdButton from "../components/button";
-import Slider from '@react-native-community/slider'; 
+
 
 import {
   SafeAreaView,

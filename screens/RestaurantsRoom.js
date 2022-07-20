@@ -7,7 +7,7 @@ import GetLocation from 'react-native-get-location'
 import config from '../config'
 import StdButton from './components/button';
 import { useIsFocused } from '@react-navigation/native';
-
+import {renderRestrauntsText} from './components/RestaurantComponents'
   
 const YELP_API_KEY = config.API_KEY
 
@@ -67,17 +67,9 @@ export default function Restaurants({ navigation,route }) {
       updateData();
     }, [restaurantData]);
 
-    const renderRestrauntsText = () => {
-      if(restaurantData.length == 0) {
-        return <Text>Sorry, it dosen't seem like there are any restaurants</Text>
-      } else {
-        return <Text>Here are the Restaurants !</Text>
-      }
-    }
-
     return (
       <SafeAreaView style={styles.container}>
-        {renderRestrauntsText()}
+        {renderRestrauntsText(restaurantData)}
         <View style={{flexDirection: 'row',}}>
       </View>
         <ScrollView showsVerticalScrollIndication = {false}>

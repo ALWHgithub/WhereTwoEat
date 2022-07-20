@@ -8,7 +8,7 @@ import {
 } from 'firebase/firestore'
 import StdButton from '../components/button';
 import { clearUpdateCacheExperimentalAsync } from "expo-updates";
-
+import {renderLoading,renderCountPrice,renderCountCat,renderCurrentVotePrice} from '../components/RoomComponents'
 
 export default function App({route,navigation}) {
   const db = getFirestore()
@@ -23,7 +23,7 @@ export default function App({route,navigation}) {
   const [highestPrice,setHighestPrice] = useState('')
   let loading = false;
   let sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
-
+  console.log(rooms)
   if(rooms == undefined){
     getDocs(colRef).then((snapshot) => {
       snapshot.docs.forEach((doc) => {
@@ -37,35 +37,7 @@ export default function App({route,navigation}) {
     })
   }
 
-  const renderCountPrice = () => {    
-    if(rooms == undefined) {
-      return <Text>Please Wait!</Text>
-    } else {
-      return <View style = {styles.cat}>
-      <Text>Current Tally: </Text>
-      <Text>$: {rooms[1]} $$: {rooms[2]} $$$: {rooms[3]} $$$$: {rooms[4]}</Text>
-      </View>
-    }
-  }
-
-  const renderCountCat = () => {
-    if(rooms == undefined) {
-      return <Text>Please Wait!</Text>
-    } else {
-      return <View style = {styles.cat}>
-      <Text>Current Tally: </Text>
-      <Text>Chinese: {rooms['Chinese']} Japanese: {rooms['Japanese']} Italian: {rooms['Italian']} Others: {rooms['Others']}</Text>
-      </View>
-    }
-  }
-
-  const renderCurrentVotePrice = () => {
-    if (votePrice == 0) {
-      return <Text></Text>
-    } else {
-      return <Text>Current Vote:  {"$".repeat(votePrice)}</Text>
-    }
-  }
+  
 
   useEffect(() => {
     sleep(100).then(() => {
@@ -271,21 +243,13 @@ export default function App({route,navigation}) {
       }
   }
 
-  const renderLoading = () => {
-    if(loading){
-      return <Text>Loading</Text>
-    } else {
-      return 
-    }
-  }
-
   return (
     <SafeAreaView style={styles.container}>
         <Text>{route.params.name}</Text>
-        {renderLoading()}
-        {renderCountPrice()}
-        {renderCountCat()}
-        {renderCurrentVotePrice()}
+        {renderLoading(loading)}
+        {renderCountPrice(rooms)}
+        {renderCountCat(rooms)}
+        {renderCurrentVotePrice(votePrice)}
         <Text>Currently Selected:  {"$".repeat(range)}, {cat}</Text>
         <Slider
         style={{width: 200, height: 40}}
