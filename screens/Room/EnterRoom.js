@@ -75,11 +75,13 @@ export default function App({route,navigation}) {
     <SafeAreaView style={styles.parentContainer}>
       {/* <ImageBackground source={require('../../assets/WhereTwoEatGroupOrderSimple.png')} resizeMode="cover" style = {styles.image}> */}
         
-        <Text style={{ textAlign: "center", fontSize:30, fontWeight:'bold',}}>Join the room! {'\n'}</Text>
+        <Text style={{ textAlign: "center", fontSize:30, fontWeight:'bold', paddingBottom: 200}}>Join an existing room!</Text>
 
-        <View style={{ padding:5, margin: 10, borderRadius: 5, flexDirection: 'row', }}>
+        <View style={styles.absoluteUnit}>
+        {/* <View style={{ padding:5, margin: 10, borderRadius: 5, flexDirection: 'row', }}> */}
         <TextInput placeholder = "Name"  onChangeText = {text => setName(text)} style = {styles.roomNameInput} />
-        <View style={{ left: windowWidth - 250, padding:5.7, margin: 5, position: `absolute` }}>
+        <View style={{ right: 55, padding:5.7, margin: 5, position: `absolute` }}>
+        {/* <View style={{ windowWidth - 195, padding:5.7, margin: 5, position: `absolute` }}> */}
         <StdButton text = "Enter" onPress={() => enterRoom(name, navigation)}/>
         </View>
         </View>
@@ -102,16 +104,23 @@ const styles = StyleSheet.create({
     },
     roomNameInput: {
       backgroundColor: '#e9e9e9',
-      // borderColor: '#e8e8e8',
-      // borderWidth: 1,
       height: 60,
       width: windowWidth - 150,
       borderRadius: 50,
       paddingVertical: 10,
       paddingHorizontal: 15,
+      margin: 5,
       // specifically for text to not clash with enter button
       paddingRight: 100,
-      margin: 5,
+      // making room name input absolute to match with button
+
+    },
+    absoluteUnit: {
+      position: "absolute",
+      left: 10,
+      right: 10,
+      justifyContent: "center",
+      alignItems: 'center',
     },
     bottomButton : {
       position: 'absolute',
