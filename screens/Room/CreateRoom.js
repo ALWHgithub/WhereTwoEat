@@ -58,7 +58,15 @@ export default function App({route,navigation}) {
       if(!exists) {
         global.room = code
         console.log(roomSetting)
-        setDoc(doc(db,'RoomIDs',code),{name: code, 1:0, 2:0, 3:0, 4:0, Chinese:0, Japanese:0, Italian:0, Others:0, term:roomSetting, loc: loc, num:0,})
+        setDoc(doc(db,'RoomIDs',code),{name: code, 1:0, 2:0, 3:0, 4:0,
+          Chinese:0,
+          Japanese:0,
+          Italian:0,
+          Others:0,
+          Cafe:0,
+          Fastfood:0,
+          Indian:0,
+          term:roomSetting, loc: loc, num:0,})
         navigation.navigate('Room',{name: code, long:long, lat:lat})
       }
     })

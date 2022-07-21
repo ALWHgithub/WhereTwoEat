@@ -14,9 +14,6 @@ export default function App({route,navigation}) {
   global.roomVegetarian = false
   global.roomVegan = false
   global.roomHalal = false
-  if(global.room != '') {
-    navigation.navigate('Room',{name: global.room, navigation})
-  }
 
   const [name,setName] = useState('')
   const [location, setLocation] = useState(null);

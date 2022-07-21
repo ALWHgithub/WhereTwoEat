@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { StyleSheet, Text, View,SafeAreaView, Button, TextInput, TouchableOpacity} from 'react-native';
+import { StyleSheet, Text, View,SafeAreaView, Button, TextInput, TouchableOpacity,Dimensions} from 'react-native';
 import { authentication } from "../../firebase/firebase-config";
 import Slider from '@react-native-community/slider'; 
 import {
@@ -7,6 +7,10 @@ import {
   addDoc, updateDoc, setDoc,doc,
 } from 'firebase/firestore'
 import StdButton from '../components/button';
+import {StdButtonBlue} from '../components/button';
+import {StdButtonSmall} from '../components/button';
+import {CenterButton} from '../components/button';
+import {StdButtonRandomColor} from '../components/button';
 import { clearUpdateCacheExperimentalAsync } from "expo-updates";
 import {renderLoading,renderCountPrice,renderCountCat,renderCurrentVotePrice} from '../components/RoomComponents'
 import FontAwesome from "react-native-vector-icons/FontAwesome";
@@ -222,6 +226,27 @@ export default function App({route,navigation}) {
     else if(rooms['Others'] == max) {
       cat += ',' + 'others'
     }
+    if(rooms['Indian']> max) {
+      max = rooms['Indian']
+      cat  = 'indian'
+    }
+    else if(rooms['Indian'] == max) {
+      cat += ',' + 'indian'
+    }
+    if(rooms['Fastfood']> max) {
+      max = rooms['Fastfood']
+      cat  = 'hotdogs'
+    }
+    else if(rooms['Fastfood'] == max) {
+      cat += ',' + 'hotdogs'
+    }
+    if(rooms['Cafe']> max) {
+      max = rooms['Cafe']
+      cat  = 'cafe'
+    }
+    else if(rooms['Cafe'] == max) {
+      cat += ',' + 'cafe'
+    }
     return cat
   }
 
@@ -255,16 +280,26 @@ export default function App({route,navigation}) {
       }
   }
 
+  const catButton = (num,name,curCat) => {
+    if(rooms == undefined){
+      return  <StdButton text = {name + `0`} onPress={() => setCat(curCat)} />
+    }
+    if(cat == curCat){
+      return <StdButtonBlue text = {name + `${rooms[curCat]}`} onPress={() => setCat(curCat)}/>
+    } else {
+      return <StdButtonRandomColor num={num} text = {name + `${rooms[curCat]}`} onPress={() => setCat(curCat)} />
+    }
+  }
+
   return (
     <SafeAreaView style={styles.container}>
-        <Text style={styles.text}>{route.params.name}</Text>
+        <Text style={styles.text}>Room: {route.params.name}</Text>
       {renderLoading(loading)}
       <View>
       {renderCountPrice(rooms)}
-      {renderCountCat(rooms)}
       </View>
       {renderCurrentVotePrice(votePrice)}
-      <Text style={styles.text}>Currently Selected:  {"$".repeat(range)}, {cat}</Text>
+      
 
       {/* <Slider
       style={{width: 200, height: 40}}
@@ -282,25 +317,29 @@ export default function App({route,navigation}) {
       {renderButton(2)}
       {renderButton(3)}
       {renderButton(4)}
+      
       </View>
       <View style={{flexDirection: 'row', flexWrap:'wrap', justifyContent:'center', paddingBottom: 20}}>
-      <StdButton text = "Chinese" onPress={() => setCat('Chinese')} />
-      <StdButton text = "Japanese" onPress={() => setCat('Japanese')} />
-      <StdButton text = "Italian" onPress={() => setCat('Italian')} />
-      <StdButton text = "Others" onPress={() => setCat('Others')} />
+      {catButton(1,"Chinese: " ,'Chinese')}
+      {catButton(2,'Japanese: ','Japanese')}
+      {catButton(3,"Italian: ",'Italian')}
+      {catButton(3,"Cafe: " ,'Cafe')}
+      {catButton(2,"Fastfood: " ,'Fastfood')}
+      {catButton(1,"Indian: " ,'Indian')}
+      {catButton(3,"Others: " ,'Others')}
       </View>
-      <StdButton text = "Cast Vote!" onPress={() => 
-        {
-          castVote()
-        }
-        } />
-      <StdButton text = "Get Results" onPress={() => getResults()}/>
-      <StdButton text = "Exit Room" onPress={() => exit()}/>
+      <View style = {styles.bottomButton}>
+      <StdButtonSmall text = "Exit Room" onPress={() => exit()}/>
+      <CenterButton text = "Cast Vote!" onPress={() => {castVote()}} />
+      <StdButtonSmall text = "Get Results" onPress={() => getResults()}/>
+      </View>
+      
     </SafeAreaView>
     
   );
 }
-
+const windowWidth = Dimensions.get('window').width;
+const windowHeight = Dimensions.get('window').height;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -335,6 +374,16 @@ const styles = StyleSheet.create({
     margin: 5,
   },
   text: {
-    fontSize: 18,
-  }
+    fontSize: 28,
+  },
+  bottomButton : {
+    width:200,
+    position: 'absolute',
+    bottom:30,
+    left: (windowWidth-365)/2,
+    flexDirection: 'row',
+    alignItems: 'center',
+    display: 'flex',
+  },
+  
 }); 
