@@ -49,7 +49,15 @@ export default function EditProfilePage({ navigation,route}) {
   
   return (
     <SafeAreaView style = {styles.container}>
-      <Text style={{fontSize:18}}>Change your dietry prefrences here</Text>
+      <View style = {{paddingVertical: 50}}>
+        <Text style={{fontSize:40,}}>Edit your Profile!</Text> 
+      </View> 
+      <View style = {[styles.container, 
+        {borderTopLeftRadius:70, 
+        borderTopRightRadius:70, 
+        backgroundColor: '#fff',
+        height: 0.8 * windowHeight} ]}>
+      <Text style={{fontSize:18}}>Change your dietary prefrences here</Text>
       <View style={{flexDirection:"row",height: windowHeight/5}}>
          {renderSwitchButton("vegetarian","Vegetarian")}
          {renderSwitchButton("vegan","Vegan")}
@@ -59,6 +67,12 @@ export default function EditProfilePage({ navigation,route}) {
       <Text style={{fontSize:15}}>{msg}</Text>
       <StdButton text = "Change Password" onPress={changePassword} />
       </View>
+        {/* Questionable text that does nothing other than to reduce whitespace */}
+        <View style={{bottom:10, position: 'absolute'}}>
+        <Text>About • Cookies • Privacy Policy • Source Code</Text>
+        </View>
+
+      </View>
     </SafeAreaView>
   );
   }
@@ -67,12 +81,13 @@ export default function EditProfilePage({ navigation,route}) {
   const styles = StyleSheet.create({
     container: {
       flex: 1,
-      backgroundColor: '#fff',
+      backgroundColor: '#f1e1bf',
       alignItems: 'center',
       justifyContent: 'center',
-      paddingTop: 20,
-      paddingVertical: 14,
-      paddingHorizontal: 10,
+      width: '100%'
+      // paddingTop: 20,
+      // paddingVertical: 14,
+      // paddingHorizontal: 10,
     },
     blue: {
       borderRadius: 5,
