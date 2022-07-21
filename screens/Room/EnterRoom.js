@@ -11,6 +11,9 @@ import * as Location from 'expo-location';
 
 
 export default function App({route,navigation}) {
+  global.roomVegetarian = false
+  global.roomVegan = false
+  global.roomHalal = false
   if(global.room != '') {
     navigation.navigate('Room',{name: global.room, navigation})
   }
@@ -70,10 +73,6 @@ export default function App({route,navigation}) {
     }
   },[location])
   
-
-const getLocation = () => {
-    setLocPerm(locPerm+1)
-}
 
   return (
     <SafeAreaView style={styles.parentContainer}>

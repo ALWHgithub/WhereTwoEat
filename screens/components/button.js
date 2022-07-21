@@ -6,20 +6,20 @@ import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityI
 export default function StdButton({ text, onPress, icon}) {
   return (
     <TouchableOpacity onPress={onPress}>
-      <View style={styles.button}>
+      <View style={[styles.button, { backgroundColor: "orange" , }]}>
         <Text style={styles.buttonText}> {text} </Text>
         <MaterialCommunityIcons name = {icon} size = {25} color = "white" />
-        {/* <MaterialCommunityIcons name = 'food-drumstick' color = "white" /> */}
       </View>
     </TouchableOpacity>
   )
 }
 
-export function StdButtonBlue({ text, onPress}) {
+export function StdButtonBlue({ text, onPress,icon}) {
   return (
     <TouchableOpacity onPress={onPress}>
       <View style={[styles.button, { backgroundColor: "#50C878" , }] }>
-        <Text style={styles.altButtonText}>{text}</Text>
+        <Text style={styles.buttonText}> {text} </Text>
+        <MaterialCommunityIcons name = {icon} size = {25} color = "white" />
       </View>
     </TouchableOpacity>
   )
@@ -67,9 +67,7 @@ export function StdButtonRandomColor({ num,text, onPress}) {
 const styles = StyleSheet.create({
   button: {
     borderRadius: 50,
-    // paddingVertical: 14,
     paddingHorizontal: 18,
-    backgroundColor: 'orange',
     alignItems: "center",
     justifyContent: 'center',
     marginHorizontal: 5,

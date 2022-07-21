@@ -6,7 +6,7 @@ import {
   addDoc, updateDoc, setDoc,doc
 } from 'firebase/firestore'
 import StdButton from '../components/button';
-
+import {StdButtonBlue} from '../components/button';
 
 export default function App({route,navigation}) {
   const defaultValue = () => {
@@ -21,13 +21,30 @@ export default function App({route,navigation}) {
   const db = getFirestore()
   const colRef = collection(db,'RoomIDs')
   const [code,setCode] = useState(defaultValue())
-  const [roomSettings,setRoomSettings] = useState('')
+  const [state, setState] = useState(0)
+
   let exists = false
   const long = route.params.long
   const lat = route.params.lat
   const [loc,setLoc] = useState('Singapore')
 
   const createRoom = () => {
+    let roomSetting = ''
+        if(global.roomVegetarian){
+          roomSetting += ',vegetarian'
+        }
+        if(global.roomVegan){
+          roomSetting += ',vegan'
+        }
+        if(global.roomHalal){
+          roomSetting += ',halal'
+        }
+
+        if(roomSetting.length > 1){
+          roomSetting = roomSetting.substring(1);
+        } else {
+          roomSetting = 'restaurant'
+        }
     getDocs(colRef)
     .then((snapshot) => {
     snapshot.docs.forEach((doc) => {
@@ -40,7 +57,8 @@ export default function App({route,navigation}) {
     .then( () => {
       if(!exists) {
         global.room = code
-        setDoc(doc(db,'RoomIDs',code),{name: code, 1:0, 2:0, 3:0, 4:0, Chinese:0, Japanese:0, Italian:0, Others:0, term:roomSettings, loc: loc, num:0,})
+        console.log(roomSetting)
+        setDoc(doc(db,'RoomIDs',code),{name: code, 1:0, 2:0, 3:0, 4:0, Chinese:0, Japanese:0, Italian:0, Others:0, term:roomSetting, loc: loc, num:0,})
         navigation.navigate('Room',{name: code, long:long, lat:lat})
       }
     })
@@ -51,18 +69,38 @@ export default function App({route,navigation}) {
     setCode(text)
   }
 
-  const setVegetarian = () => {
-    setRoomSettings('vegetarian')
+  const setSettingTrue = (setting) => {
+    global[setting] = true;
+    console.log(global[setting])
+    setState(state+1)
   }
 
-  
+  const setSettingFalse = (setting) => {
+    global[setting] = false;
+    console.log(global[setting])
+    setState(state+1)
+  }
+
+  const renderSwitchButton = (setting,name) => {
+    if (global[setting]) {
+      return <StdButtonBlue text = {name} onPress={() =>setSettingFalse(setting)} />
+    } else {
+      return <StdButton text = {name} onPress={() =>setSettingTrue(setting)} />
+    }
+  }
+
   return (
     <SafeAreaView style={styles.container}>
         <Text style={styles.text}>Pick a Name for your room!</Text>
         <TextInput  defaultValue={defaultValue()}  onChangeText = {text => changeText(text)} style = {styles.input} />
         
         <Text style={styles.text}>Room Options</Text>
-        <StdButton text = "Vegetarian" onPress={() => setVegetarian()}/>
+        <View style ={{flexDirection: 'row', alignItems: 'center', justifyContent: "center"}}>
+        {renderSwitchButton("roomVegetarian","vegetarian")}
+        {renderSwitchButton("roomVegan","vegan")}
+        {renderSwitchButton("roomHalal","halal")}
+        </View>
+        
         <TextInput  defaultValue="Singapore"  onChangeText = {text => setLoc(text)} style = {styles.input} />
         <View style={styles.bottomButton}>
         <StdButton text = "Create Room" onPress={() => createRoom()}/>
