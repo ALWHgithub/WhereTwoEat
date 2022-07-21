@@ -18,8 +18,8 @@ export default function StdButton({ text, onPress, icon}) {
 export function StdButtonBlue({ text, onPress}) {
   return (
     <TouchableOpacity onPress={onPress}>
-      <View style={[styles.button, { backgroundColor: "#90ee90" }] }>
-        <Text style={styles.buttonText}>{text}</Text>
+      <View style={[styles.button, { backgroundColor: "#50C878" , }] }>
+        <Text style={styles.altButtonText}>{text}</Text>
       </View>
     </TouchableOpacity>
   )
@@ -36,24 +36,31 @@ export const catButton = (bool,name) => {
 function getColor(x) {
   switch (x % 4) {
     case 0:
-      return '#AA6D46';
+      return '#FF9E00'
+      //return '#AA6D46';
     case 1:
+      return '#FF6100'
       return '#CB5C00';
     case 2:
+      return '#FFA448'
       return '#C17D39';
     case 3:
+      return '#EA7500'
       return '#925600';
   }
 }
 
-export function StdButtonRandomColor({ text, onPress}) {
-  return (
-    <TouchableOpacity onPress={onPress}>
-      <View style={[styles.button, { backgroundColor: getColor(Math.floor((Math.random() * 3))) }] }>
-        <Text style={styles.buttonText}>{text}</Text>
-      </View>
-    </TouchableOpacity>
-  )
+const colorButton = (color,text,onPress) => {
+  return <TouchableOpacity onPress={onPress}>
+  <View style={[styles.button, { backgroundColor: color }] }>
+    <Text style={styles.buttonText}>{text}</Text>
+  </View>
+</TouchableOpacity>
+}
+
+export function StdButtonRandomColor({ num,text, onPress}) {
+  let rand = Math.floor((Math.random() * 3))
+  return colorButton(getColor(num),text,onPress);
 }
 
 
@@ -71,6 +78,13 @@ const styles = StyleSheet.create({
     height: 47.5,
   },
   buttonText: {
+    color: 'white',
+    textTransform: 'uppercase',
+    fontWeight: 'bold',
+    textAlign: 'center',
+    fontSize: 14,
+  },
+  altButtonText: {
     color: 'white',
     textTransform: 'uppercase',
     fontWeight: 'bold',

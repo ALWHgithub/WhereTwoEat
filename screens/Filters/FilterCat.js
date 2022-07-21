@@ -33,18 +33,18 @@ function FilterCat({ navigation,route }) {
 		</TouchableOpacity>
   }
 
-  const catButton = (thisCat,name) => {
+  const catButton = (num,thisCat,name) => {
     if(cat == thisCat){
       return <StdButtonBlue text = {name} onPress={() =>setCat(thisCat)} />
     } else {
-      return <StdButtonRandomColor text = {name} onPress={() =>setCat(thisCat)} />
+      return <StdButtonRandomColor text = {name} num={num} onPress={() =>setCat(thisCat)} />
     }
   }
 
   return (
     <SafeAreaView style={styles.container}>
       {/* <Text style={{fontSize:18, textAlign: 'center'}}>You have chosen : {"$".repeat(route.params.price)}> */}
-      <Text  style={{fontSize:18,}}>What price ? {"$".repeat(range)} {'\n'} </Text>
+      <Text  style={{fontSize:18,}}>What price ? </Text>
       <View>
       {/* <View style={{flexDirection: 'row'}}>
       <StdButton text = "$$$$" onPress={() =>handlePrice('$$$$')} />
@@ -66,19 +66,19 @@ function FilterCat({ navigation,route }) {
       <Text style={{fontSize:18,}}>{'\n'}What Cuisine ?</Text>
 
       <View style={{flexDirection: 'row', flexWrap: 'wrap', justifyContent:'center'}}>
-        {catButton('chinese','Chinese')}
-        {catButton('japanese','Japanese')}
-        {catButton('italian','Italian')}
-        {catButton('cafes','Cafes')}
-        {catButton('hotdogs','Fast food')}
-        {catButton('indian','Indian')}
-        {catButton('kopitiam','Kopitiam')}
-        {catButton('korean','Korean')}
-        {catButton('malaysian','Malaysian')}
-        {catButton('mexican','Mexican')}
-        {catButton('thai','Thai')}
-        {catButton('vietnamese','Vietnamese')}
-        {catButton('restaurant','All')}
+        {catButton(0,'chinese','Chinese')}
+        {catButton(1,'japanese','Japanese')}
+        {catButton(2,'italian','Italian')}
+        {catButton(3,'cafes','Cafes')}
+        {catButton(0,'hotdogs','Fast food')}
+        {catButton(1,'indian','Indian')}
+        {catButton(2,'kopitiam','Kopitiam')}
+        {catButton(3,'korean','Korean')}
+        {catButton(0,'malaysian','Malaysian')}
+        {catButton(1,'mexican','Mexican')}
+        {catButton(2,'thai','Thai')}
+        {catButton(3,'vietnamese','Vietnamese')}
+        {catButton(0,'restaurant','All')}
       </View>
       <View style={styles.nestedViewStyle}><Text>{'     '}</Text></View>
       <StdButton text = "Filter Based on Location" onPress={() =>toLoc(cat)} icon = "map-marker"/>
