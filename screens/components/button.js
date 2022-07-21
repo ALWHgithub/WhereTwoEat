@@ -25,6 +25,28 @@ export function StdButtonBlue({ text, onPress,icon}) {
   )
 }
 
+export function StdButtonSmall({ text, onPress,icon}) {
+  return (
+    <TouchableOpacity onPress={onPress}>
+      <View style={[styles.buttonSmall, { backgroundColor: "orange" , }] }>
+        <Text style={styles.buttonText}> {text} </Text>
+        <MaterialCommunityIcons name = {icon} size = {25} color = "white" />
+      </View>
+    </TouchableOpacity>
+  )
+}
+
+export function CenterButton({ text, onPress,icon}) {
+  return (
+    <TouchableOpacity onPress={onPress}>
+      <View style={[styles.centerButton, { backgroundColor: "orange" , }] }>
+        <Text style={styles.buttonText}> {text} </Text>
+        <MaterialCommunityIcons name = {icon} size = {25} color = "white" />
+      </View>
+    </TouchableOpacity>
+  )
+}
+
 export const catButton = (bool,name) => {
   if(bool){
     return <StdButtonBlue text = {name}  />
@@ -53,7 +75,7 @@ function getColor(x) {
 const colorButton = (color,text,onPress) => {
   return <TouchableOpacity onPress={onPress}>
   <View style={[styles.button, { backgroundColor: color }] }>
-    <Text style={styles.buttonText}>{text}</Text>
+    <Text style={styles.buttonText}> {text} </Text>
   </View>
 </TouchableOpacity>
 }
@@ -88,6 +110,27 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     textAlign: 'center',
     fontSize: 14,
-  }
+  },
+  buttonSmall : {
+    borderRadius: 15,
+    paddingHorizontal: 10,
+    alignItems: "center",
+    justifyContent: 'center',
+    marginHorizontal: 5,
+    marginVertical: 5,
+    flexDirection: 'row',
+    height: 30,
+    
+  },
+  centerButton: {
+    borderRadius: 50,
+    paddingHorizontal: 18,
+    alignItems: "center",
+    justifyContent: 'center',
+    marginHorizontal: 5,
+    marginVertical: 5,
+    flexDirection: 'row',
+    height: 47.5,
+  },
 
 })

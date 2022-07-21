@@ -17,16 +17,20 @@ export function renderLoading(loading) {
       
       <View style ={{flexDirection:'row',}}>
       <View style = {styles.dollarBorder}>
-        <Text style = {styles.dollarText}>${'\n'}{rooms[1]}</Text>
+        <Text style = {styles.dollarText}>$</Text>
+        <Text>{rooms[1]}</Text>
       </View>
       <View style = {styles.dollarBorder}>
-        <Text style = {styles.dollarText}>$${'\n'}{rooms[2]}</Text>
+        <Text style = {styles.dollarText}>$$</Text>
+        <Text>{rooms[2]}</Text>
       </View>
       <View style = {styles.dollarBorder}>
-        <Text style = {styles.dollarText}>$$${'\n'}{rooms[3]}</Text>
+        <Text style = {styles.dollarText}>$$$</Text>
+        <Text>{rooms[3]}</Text>
       </View>
       <View style = {[styles.dollarBorder, {borderRightWidth: 0}]}>
-        <Text style = {styles.dollarText}>$$$${'\n'}{rooms[4]}</Text>
+        <Text style = {styles.dollarText}>$$$$</Text>
+        <Text>{rooms[4]}</Text>
       </View>
 
       </View>
@@ -60,7 +64,7 @@ export function renderLoading(loading) {
     },
     dollarText: {
       textAlign: 'center',
-      fontSize: 18, 
+      fontSize: 25, 
     },
     tallyBox: {
       // borderWidth: 1, 
@@ -71,8 +75,8 @@ export function renderLoading(loading) {
     },
     dollarBorder: {
       width: '23%', 
-      borderRightColor: 'black', 
-      borderRightWidth: 1, 
+      borderRightColor: 'white', 
+      borderRightWidth: 4, 
       alignItems: 'center'
     }
   }); 

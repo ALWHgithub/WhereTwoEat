@@ -78,7 +78,7 @@ function FilterCat({ navigation,route }) {
         {catButton(1,'mexican','Mexican')}
         {catButton(2,'thai','Thai')}
         {catButton(3,'vietnamese','Vietnamese')}
-        {catButton(0,'restaurant','All')}
+        {catButton(1,'restaurant','All')}
       </View>
       <View style={styles.nestedViewStyle}><Text>{'     '}</Text></View>
       <StdButton text = "Filter Based on Location" onPress={() =>toLoc(cat)} icon = "map-marker"/>
