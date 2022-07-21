@@ -12,7 +12,7 @@ export function renderLoading(loading) {
     if(rooms == undefined) {
       return <Text>Please Wait!</Text>
     } else {
-      return <View style = {{borderWidth: 1, borderRadius: 5, padding: 10, margin: 5,}}>
+      return <View style = {styles.tallyBox}>
       <Text style = {styles.text}>Current Tally: </Text>
       <Text style = {styles.text}>$: {rooms[1]} $$: {rooms[2]} $$$: {rooms[3]} $$$$: {rooms[4]}</Text>
       </View>
@@ -23,7 +23,7 @@ export function renderLoading(loading) {
     if(rooms == undefined) {
       return <Text>Please Wait!</Text>
     } else {
-      return <View style = {{borderWidth: 1,borderRadius: 5,padding: 10,margin: 5,}}>
+      return <View style = {styles.tallyBox}>
       <Text style = {styles.text}>Current Tally: </Text>
       <Text style = {styles.text}>Chinese: {rooms['Chinese']} Japanese: {rooms['Japanese']} Italian: {rooms['Italian']} Others: {rooms['Others']}</Text>
       </View>
@@ -41,5 +41,13 @@ export function renderLoading(loading) {
   const styles = StyleSheet.create({
     text: {
       fontSize: 18,
+    },
+    tallyBox: {
+      // borderWidth: 1, 
+      borderRadius: 5, 
+      padding: 10, 
+      margin: 5,
+      backgroundColor: '#e9e9e9',
+
     }
   }); 

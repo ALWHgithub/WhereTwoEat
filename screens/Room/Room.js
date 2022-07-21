@@ -283,7 +283,7 @@ export default function App({route,navigation}) {
       {renderButton(3)}
       {renderButton(4)}
       </View>
-      <View style={{flexDirection: 'row'}}>
+      <View style={{flexDirection: 'row', flexWrap:'wrap', justifyContent:'center', paddingBottom: 20}}>
       <StdButton text = "Chinese" onPress={() => setCat('Chinese')} />
       <StdButton text = "Japanese" onPress={() => setCat('Japanese')} />
       <StdButton text = "Italian" onPress={() => setCat('Italian')} />
