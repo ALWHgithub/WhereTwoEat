@@ -12,9 +12,25 @@ export function renderLoading(loading) {
     if(rooms == undefined) {
       return <Text>Please Wait!</Text>
     } else {
-      return <View style = {styles.tallyBox}>
-      <Text style = {styles.text}>Current Tally: </Text>
-      <Text style = {styles.text}>$: {rooms[1]} $$: {rooms[2]} $$$: {rooms[3]} $$$$: {rooms[4]}</Text>
+      return <View style = {[styles.tallyBox, {padding: 0, height: 60, justifyContent: 'center', alignItems: 'center',}]}>
+      {/* <Text style = {styles.text}>Current Tally: </Text> */}
+      
+      <View style ={{flexDirection:'row',}}>
+      <View style = {styles.dollarBorder}>
+        <Text style = {styles.dollarText}>${'\n'}{rooms[1]}</Text>
+      </View>
+      <View style = {styles.dollarBorder}>
+        <Text style = {styles.dollarText}>$${'\n'}{rooms[2]}</Text>
+      </View>
+      <View style = {styles.dollarBorder}>
+        <Text style = {styles.dollarText}>$$${'\n'}{rooms[3]}</Text>
+      </View>
+      <View style = {[styles.dollarBorder, {borderRightWidth: 0}]}>
+        <Text style = {styles.dollarText}>$$$${'\n'}{rooms[4]}</Text>
+      </View>
+
+      </View>
+      {/* <Text style = {styles.text}>$: {rooms[1]} $$: {rooms[2]} $$$: {rooms[3]} $$$$: {rooms[4]}</Text> */}
       </View>
     }
   }
@@ -40,7 +56,11 @@ export function renderLoading(loading) {
 
   const styles = StyleSheet.create({
     text: {
-      fontSize: 18,
+      fontSize: 18,      
+    },
+    dollarText: {
+      textAlign: 'center',
+      fontSize: 18, 
     },
     tallyBox: {
       // borderWidth: 1, 
@@ -48,6 +68,11 @@ export function renderLoading(loading) {
       padding: 10, 
       margin: 5,
       backgroundColor: '#e9e9e9',
-
+    },
+    dollarBorder: {
+      width: '23%', 
+      borderRightColor: 'black', 
+      borderRightWidth: 1, 
+      alignItems: 'center'
     }
   }); 
