@@ -379,12 +379,15 @@ const styles = StyleSheet.create({
     fontSize: 28,
   },
   bottomButton : {
-    width:200,
+    // width:200,
     position: 'absolute',
     bottom:30,
-    left: (windowWidth-365)/2,
+    // left: (windowWidth-365)/2,
+    left: 0,
+    right: 0,
     flexDirection: 'row',
     alignItems: 'center',
+    justifyContent: 'center',
     display: 'flex',
   },
   
