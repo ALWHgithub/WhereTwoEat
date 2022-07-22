@@ -1,5 +1,7 @@
 import React from "react";
 import { View, Text, Image } from "react-native";
+import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
+
 
 
 export default function RestaurantAbout(props) {
@@ -35,6 +37,7 @@ export default function RestaurantAbout(props) {
       {/* <RestaurantImage image={image} /> */}
       {/* <RestaurantName name={image} /> */}
       <RestaurantName name={name} />
+      <MaterialCommunityIcons name = 'map-marker' size = {25} color = "black" />
       <RestaurantDescription description={description + `\n` + 'Location: ' + address()} />
      
     </View>

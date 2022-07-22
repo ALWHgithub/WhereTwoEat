@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { StyleSheet, Text, View,SafeAreaView, Button, TextInput } from 'react-native';
+import { StyleSheet, Text, View,SafeAreaView, Button, TextInput, Dimensions } from 'react-native';
 import { authentication } from "../../firebase/firebase-config";
 import {
   getFirestore,collection,getDocs,
@@ -102,14 +102,15 @@ export default function App({route,navigation}) {
         <Text style={styles.text}>Pick a Name for your room!</Text>
         <TextInput  defaultValue={defaultValue()}  onChangeText = {text => changeText(text)} style = {styles.input} />
         
-        <Text style={styles.text}>Room Options</Text>
+        <Text style={styles.text}>{'\n'}Room Options</Text>
         <View style ={{flexDirection: 'row', alignItems: 'center', justifyContent: "center"}}>
         {renderSwitchButton("roomVegetarian","vegetarian")}
         {renderSwitchButton("roomVegan","vegan")}
         {renderSwitchButton("roomHalal","halal")}
         </View>
 
-        <Text style={styles.text}>Search specific locations (eg. Yishun)</Text>
+        <Text style={styles.text}>{'\n'}Search specific locations (eg. Yishun). 
+        Please restrict your selection to a place in Singapore</Text>
         <TextInput  defaultValue="Singapore"  onChangeText = {text => setLoc(text)} style = {styles.input} />
         <View style={styles.bottomButton}>
         <StdButton text = "Create Room" onPress={() => createRoom()}/>
@@ -118,6 +119,8 @@ export default function App({route,navigation}) {
   );
 }
 
+const windowWidth = Dimensions.get('window').width;
+const windowHeight = Dimensions.get('window').height;
 const styles = StyleSheet.create({
     container: {
       flex: 1,
@@ -152,6 +155,7 @@ const styles = StyleSheet.create({
     },
     bottomButton : {
       position: 'absolute',
-      bottom:30,
+      // bottom:30,
+      top: windowHeight - 150,
     }
   });
