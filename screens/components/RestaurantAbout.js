@@ -12,13 +12,31 @@ export default function RestaurantAbout(props) {
   const description = `${formattedCategories} ${
     price ? " • " + price : ""
   } • ${rating} ★ (${reviews}+)`;
+
+  function address(){
+    let restAdd = ''
+    let data = restaurant.location.display_address;
+
+    for(let i = 0; i < data.length; i++) {
+      if(i != 0){
+        restAdd += ' '
+      }
+      restAdd += data[i]
+    }
+    console.log(restAdd)
+    return restAdd
+  }
+    
+    
+  
   return (
     <View style={{paddingBottom: 20}}>
       {/* <Image source={{ uri: 'https://s3-media4.fl.yelpcdn.com/bphoto/ZMV_6YVtVn3jCFpIIiHLqw/o.jpg' }} style={{ width: "100%", height: 180 }} /> */}
       {/* <RestaurantImage image={image} /> */}
       {/* <RestaurantName name={image} /> */}
       <RestaurantName name={name} />
-      <RestaurantDescription description={description} />
+      <RestaurantDescription description={description + `\n` + 'Location: ' + address()} />
+     
     </View>
   );
 }
