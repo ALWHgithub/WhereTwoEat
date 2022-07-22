@@ -4,7 +4,7 @@ import { authentication } from "../../firebase/firebase-config";
 import Slider from '@react-native-community/slider'; 
 import {
   getFirestore,collection,getDocs,
-  addDoc, updateDoc, setDoc,doc,
+  addDoc, updateDoc, setDoc,doc,onSnapshot
 } from 'firebase/firestore'
 import StdButton from '../components/button';
 import {StdButtonBlue} from '../components/button';
@@ -25,6 +25,7 @@ export default function App({route,navigation}) {
   const [cat, setCat] = useState('Others')
   const [state,setState] = useState(0)
   const [loc,setLoc] = useState(0)
+  let one = 0;
   let loading = false;
   let sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
 
@@ -33,7 +34,6 @@ export default function App({route,navigation}) {
       snapshot.docs.forEach((doc) => {
         if(doc.id == route.params.name){
           setRooms(doc.data())
-          
         }
       })
     })
@@ -42,8 +42,7 @@ export default function App({route,navigation}) {
     })
   }
 
-  
-  
+
   useEffect(() => {
     sleep(100).then(() => {
       setState(state+1)
@@ -52,6 +51,9 @@ export default function App({route,navigation}) {
       alert(err);
     })
   }, [state])
+
+    
+  
 
   const renderButton = (price) => {
     let op = 0.5;
@@ -80,11 +82,22 @@ export default function App({route,navigation}) {
       if(prevCat != cat){
         updateCat()
       }
-      
     }
-    setState(state+1)
     } catch (error) {
       alert("Something went wrong. Please wait a bit for the data to load")
+    } finally {
+      setState(state+1)
+      sleep(3000).then(() => {
+        getDocs(colRef).then((snapshot) => {
+          snapshot.docs.forEach((doc) => {
+            if(doc.id == route.params.name){
+              setRooms(doc.data())
+            }
+          })
+        }).then(() => {
+          setState(state+1)
+        }) 
+      })
     }
   }
 
@@ -138,33 +151,6 @@ export default function App({route,navigation}) {
         updateDoc(doc(db,'RoomIDs',rooms["name"]),{[name] : [range,cat], [range] : curPriceCount +1, [prevPrice] : prevPriceCount -1})
          })
     }
-
-  const updateLoc = () => {
-    if(route.params.long != undefined && route.params.lat != undefined && route.params.long != 0 && route.params.lat !=0){
-      let curLong = 0
-      let curLat = 0
-      let curNum = 0
-     getDocs(colRef)
-    .then((snapshot) => {
-      snapshot.docs.forEach((doc) => {
-        if(doc.id == route.params.name){
-          console.log("update")
-          curNum = doc.data().num
-          curLong = (doc.data().long)*curNum
-          curLat = (doc.data().lat)*curNum
-        }
-      })
-    }).then(()=>
-     {
-      curLong+=route.params.long
-      curLat+=route.params.lat
-      curLong = curLong/(curNum+1)
-      curLat = curLat/(curNum+1)
-      updateDoc(doc(db,'RoomIDs',rooms["name"]),{long:curLong, lat:curLat, num: curNum+1})
-     }
-    )
-    }
-  }
   
   const firstTime = () => {
     let name = global.user.uid
@@ -185,9 +171,6 @@ export default function App({route,navigation}) {
         temp[name] = [range,cat]
         setRooms(temp)
     updateDoc(doc(db,'RoomIDs',rooms["name"]),{ [name] : [range,cat], [range] :curPriceCount +1, [cat] : curCatCount +1 })
-    .then(() => {
-      setState(state+1)
-    })
   }
 
   const exit = () => {
@@ -298,7 +281,7 @@ export default function App({route,navigation}) {
       <View>
       {renderCountPrice(rooms)}
       </View>
-      {renderCurrentVotePrice(votePrice)}
+      {renderCurrentVotePrice(range)}
       
 
       {/* <Slider
