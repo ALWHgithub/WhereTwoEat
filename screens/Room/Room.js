@@ -4,7 +4,7 @@ import { authentication } from "../../firebase/firebase-config";
 import Slider from '@react-native-community/slider'; 
 import {
   getFirestore,collection,getDocs,
-  addDoc, updateDoc, setDoc,doc,
+  addDoc, updateDoc, setDoc,doc, getDoc
 } from 'firebase/firestore'
 import StdButton from '../components/button';
 import {StdButtonBlue} from '../components/button';
@@ -33,7 +33,6 @@ export default function App({route,navigation}) {
       snapshot.docs.forEach((doc) => {
         if(doc.id == route.params.name){
           setRooms(doc.data())
-          
         }
       })
     })
@@ -64,27 +63,45 @@ export default function App({route,navigation}) {
   }
 
   const castVote = () => {
-    console.log(rooms.num)
-    try {
-    loading = true;
-    let name = global.user.uid
-    let first = rooms[name] == undefined
-    if(first) {
-      firstTime()
+    if(!global.disabled){
+      global.disabled = true;
+      sleep(2000).then(() => {
+        global.disabled = false;
+      })
+      try {
+        loading = true;
+        let name = global.user.uid
+        let first = rooms[name] == undefined
+        if(first) {
+          firstTime()
+        } else {
+          let prevPrice = rooms[name][0]
+          let prevCat = rooms[name][1]
+          if(prevPrice != range ){
+            updatePrice()
+          }
+          if(prevCat != cat){
+            updateCat()
+          }
+        }
+        } catch (error) {
+          alert("Something went wrong. Please wait a bit for the data to load")
+        } finally {
+          sleep(2000).then(() => {
+            getDocs(colRef).then((snapshot) => {
+              snapshot.docs.forEach((doc) => {
+                if(doc.id == route.params.name){
+                  setRooms(doc.data())
+                }
+              })
+            })
+            .catch(err => {
+              console.log(err);
+            })
+          })     
+        }
     } else {
-      let prevPrice = rooms[name][0]
-      let prevCat = rooms[name][1]
-      if(prevPrice != range ){
-        updatePrice()
-      }
-      if(prevCat != cat){
-        updateCat()
-      }
-      
-    }
-    setState(state+1)
-    } catch (error) {
-      alert("Something went wrong. Please wait a bit for the data to load")
+      alert("Please wait a bit for the database to update")
     }
   }
 
@@ -93,10 +110,12 @@ export default function App({route,navigation}) {
     let prevCat = ""
     let prevCatCount = 0
     let curCatCount = 0
+    let curRoom = undefined
     getDocs(colRef)
     .then((snapshot) => {
       snapshot.docs.forEach((doc) => {
         if(doc.id == route.params.name){
+          curRoom = doc.data()
           prevCat = doc.data()[name][1]
           prevCatCount = doc.data()[prevCat]
           curCatCount = doc.data()[cat]
@@ -104,12 +123,10 @@ export default function App({route,navigation}) {
       })
     })
     .then(() => {
-      let temp = rooms
-      temp[cat] = curCatCount +1
-      temp[prevCat] = prevCatCount -1
-      temp[name] = [range,cat]
-      setRooms(temp)
-      
+      curRoom[cat] = curCatCount +1
+      curRoom[prevCat] = prevCatCount -1
+      curRoom[name] = [range,cat]
+      setRooms(curRoom)
       updateDoc(doc(db,'RoomIDs',rooms["name"]),{[name] : [range,cat], [cat] : curCatCount +1, [prevCat] : prevCatCount -1})
        })
     }
@@ -119,10 +136,12 @@ export default function App({route,navigation}) {
       let prevPrice = 0
       let prevPriceCount = 0
       let curPriceCount = 0
+      let curRoom = undefined
       getDocs(colRef)
       .then((snapshot) => {
         snapshot.docs.forEach((doc) => {
           if(doc.id == route.params.name){
+            curRoom = doc.data()
             prevPrice = doc.data()[name][0]
             prevPriceCount = doc.data()[prevPrice]
             curPriceCount = doc.data()[range]
@@ -130,41 +149,13 @@ export default function App({route,navigation}) {
         })
       })
       .then(() => {
-        let temp = rooms
-        temp[range] = curPriceCount +1
-        temp[prevPrice] = prevPriceCount -1
-        temp[name] = [range,cat]
-        setRooms(temp)
+        curRoom[range] = curPriceCount +1
+        curRoom[prevPrice] = prevPriceCount -1
+        curRoom[name] = [range,cat]
+        setRooms(curRoom)
         updateDoc(doc(db,'RoomIDs',rooms["name"]),{[name] : [range,cat], [range] : curPriceCount +1, [prevPrice] : prevPriceCount -1})
          })
-    }
-
-  const updateLoc = () => {
-    if(route.params.long != undefined && route.params.lat != undefined && route.params.long != 0 && route.params.lat !=0){
-      let curLong = 0
-      let curLat = 0
-      let curNum = 0
-     getDocs(colRef)
-    .then((snapshot) => {
-      snapshot.docs.forEach((doc) => {
-        if(doc.id == route.params.name){
-          console.log("update")
-          curNum = doc.data().num
-          curLong = (doc.data().long)*curNum
-          curLat = (doc.data().lat)*curNum
-        }
-      })
-    }).then(()=>
-     {
-      curLong+=route.params.long
-      curLat+=route.params.lat
-      curLong = curLong/(curNum+1)
-      curLat = curLat/(curNum+1)
-      updateDoc(doc(db,'RoomIDs',rooms["name"]),{long:curLong, lat:curLat, num: curNum+1})
-     }
-    )
-    }
-  }
+    } 
   
   const firstTime = () => {
     let name = global.user.uid
@@ -185,9 +176,6 @@ export default function App({route,navigation}) {
         temp[name] = [range,cat]
         setRooms(temp)
     updateDoc(doc(db,'RoomIDs',rooms["name"]),{ [name] : [range,cat], [range] :curPriceCount +1, [cat] : curCatCount +1 })
-    .then(() => {
-      setState(state+1)
-    })
   }
 
   const exit = () => {
@@ -293,8 +281,8 @@ export default function App({route,navigation}) {
 
   return (
     <SafeAreaView style={styles.container}>
-      <View style={{backgroundColor:"#e9e9e9", width: windowWidth, alignItems: "center", margin: 20, padding: 10}}>
-        <Text style={styles.text}>{route.params.name}</Text>
+      <View style={{backgroundColor:"#e9e9e9", width: windowWidth, alignItems: "center", margin: 20, padding: 10, bottom:70}}>
+        <Text style={styles.text}>Room Name: {route.params.name}</Text>
       </View>
       {renderLoading(loading)}
       <View>

@@ -17,7 +17,7 @@ const YELP_API_KEY = config.API_KEY;
 
 
 function Favourites({ navigation }) {
-  const [favID,setFavID] = useState([])
+  const [favID,setFavID] = useState(undefined)
   const [allFavData,setAllFavData] = useState([])
   const [newfavData,setNewFavData] = useState([])
   const db = getFirestore()
@@ -57,7 +57,7 @@ function Favourites({ navigation }) {
   }
 
   const updateAllData = () => {
-    if(favID.length > allFavData.length){
+    if(favID != undefined && (favID.length > allFavData.length)){
       setAllFavData(allFavData.concat(newfavData))
     }
     
@@ -76,8 +76,10 @@ function Favourites({ navigation }) {
   }, [newfavData]);
 
   const renderData = () => {
-    if(allFavData == undefined || favID == undefined || allFavData.length != favID.length) {
-      return <Text>You dont seem to have any Favourites</Text>
+    if(favID == undefined || allFavData == undefined || allFavData.length != favID.length) {
+      return <Text>Loading Favourites...</Text>
+    } else if(favID.length == 0 && allFavData.length == 0){
+      return <Text>You don't seem to have any favourites.</Text>
     } else {
       return <RestaurantItem restaurantData = {allFavData} navigation = {navigation}/>
     }

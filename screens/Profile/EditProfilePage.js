@@ -1,7 +1,7 @@
 import { authentication } from "../../firebase/firebase-config";
 import {sendEmailVerification} from "firebase/auth";
 import React, { useEffect, useState } from "react";
-import {SafeAreaView,Text,StyleSheet,Alert, View,Button,Dimensions } from 'react-native';
+import {SafeAreaView,Text,StyleSheet,Alert, View,Button,Dimensions,TouchableOpacity,Linking } from 'react-native';
 import StdButton from '../components/button';
 import {StdButtonBlue} from '../components/button'; 
 import Password from '../Profile/ChangePassword'; 
@@ -10,6 +10,7 @@ import {
   getFirestore,collection,getDocs,
   addDoc, updateDoc,setDoc,doc
 } from 'firebase/firestore'
+
 
 export default function EditProfilePage({ navigation,route}) {
   const db = getFirestore()
@@ -68,8 +69,14 @@ export default function EditProfilePage({ navigation,route}) {
       <StdButton text = "Change Password" onPress={changePassword} />
       </View>
         {/* Questionable text that does nothing other than to reduce whitespace */}
-        <View style={{bottom:10, position: 'absolute'}}>
-        <Text>About • Cookies • Privacy Policy • Source Code</Text>
+        <View style={{bottom:10, position: 'absolute' ,flexDirection:'row'}}>
+        <TouchableOpacity  onPress={() => {Linking.openURL('https://docs.google.com/document/d/1sVSfM3ns2Fub6Dxdra0PnMcqfz-OeUFZKz-QKTHpEkk/edit?usp=sharing')}}>
+         <Text>About</Text>
+        </TouchableOpacity>
+        <Text> • </Text>
+        <TouchableOpacity  onPress={() => {Linking.openURL('https://github.com/samuelcheongws/WhereTwoEat')}}>
+         <Text>Source Code</Text>
+        </TouchableOpacity>
         </View>
 
       </View>

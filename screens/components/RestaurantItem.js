@@ -10,7 +10,7 @@ import {
 } from 'firebase/firestore'
 
 export const localRestaurants = [
-
+	
 ]
 
 

@@ -10,9 +10,12 @@ export function renderRating(rating)  {
   }
 
 
-export function renderRestrauntsText(restaurantData) {
-    if(restaurantData.length == 0) {
-      return <Text>Sorry, it dosen't seem like there are any restaurants</Text>
+export function renderRestrauntsText(restaurantData,msg) {
+    if(msg == 'none'){
+      return <Text>No results found. Consider relaxing your criteria</Text>
+    }
+    else if(restaurantData.length == 0) {
+      return <Text>Please wait for the results to load !</Text>
     } else {
       return <Text>Here are the Restaurants !</Text>
     }

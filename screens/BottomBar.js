@@ -27,7 +27,7 @@ const BottomTabs = (props) => {
       <TouchableOpacity onPress={() => {
         global.offset = 0
         navigation.navigate('Cat')
-        }} ><Icon icon="receipt" text="Order" />
+        }} ><Icon icon="search" text="Search" />
         </TouchableOpacity>
 
       <TouchableOpacity onPress={() => navigation.navigate('Profile',
@@ -36,7 +36,7 @@ const BottomTabs = (props) => {
 
        <TouchableOpacity onPress={() => navigation.navigate('EnterRoom',
        {user: props.user, email: props.email, username: props.username, masternav: props.masternav})
-       } ><Icon icon="glass-cheers" text="Group Order" /></TouchableOpacity>
+       } ><Icon icon="glass-cheers" text="Group" /></TouchableOpacity>
     </View>
   );
 }

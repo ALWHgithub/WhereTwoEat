@@ -10,9 +10,32 @@ export function renderLoading(loading) {
 
   export const renderCountPrice = (rooms) => {    
     if(rooms == undefined) {
-      return <Text>Please Wait!</Text>
+      return <View style = {[styles.tallyBox, {padding: 0, height: 60, justifyContent: 'center', alignItems: 'center', bottom:70}]}>
+      {/* <Text style = {styles.text}>Current Tally: </Text> */}
+      
+      <View style ={{flexDirection:'row',}}>
+      <View style = {styles.dollarBorder}>
+        <Text style = {styles.dollarText}>$</Text>
+        <Text>-</Text>
+      </View>
+      <View style = {styles.dollarBorder}>
+        <Text style = {styles.dollarText}>$$</Text>
+        <Text>-</Text>
+      </View>
+      <View style = {styles.dollarBorder}>
+        <Text style = {styles.dollarText}>$$$</Text>
+        <Text>-</Text>
+      </View>
+      <View style = {[styles.dollarBorder, {borderRightWidth: 0}]}>
+        <Text style = {styles.dollarText}>$$$$</Text>
+        <Text>-</Text>
+      </View>
+
+      </View>
+      {/* <Text style = {styles.text}>$: {rooms[1]} $$: {rooms[2]} $$$: {rooms[3]} $$$$: {rooms[4]}</Text> */}
+      </View>
     } else {
-      return <View style = {[styles.tallyBox, {padding: 0, height: 60, justifyContent: 'center', alignItems: 'center',}]}>
+      return <View style = {[styles.tallyBox, {padding: 0, height: 60, justifyContent: 'center', alignItems: 'center', bottom:70}]}>
       {/* <Text style = {styles.text}>Current Tally: </Text> */}
       
       <View style ={{flexDirection:'row',}}>

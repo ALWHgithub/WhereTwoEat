@@ -11,6 +11,7 @@ const YELP_API_KEY = config.API_KEY
 export default function Restaurants({ navigation,route }) {
     const [pastRestaurantData,setPastRestaurantData] = useState(localRestaurants)
     const [restaurantData,setRestaurantData] = useState(localRestaurants)
+    const [msg,setMsg] = useState('')
     const price = route.params.price
     let cat = route.params.cat
     let loc =  route.params.loc
@@ -40,8 +41,13 @@ export default function Restaurants({ navigation,route }) {
       const addJson = (json) => {
         if(json.hasOwnProperty('error')){
           alert(json.error.description)
-        } else {
+        } else if(json.total == 0){
+          alert("No results found. Consider relaxing your criteria")
+          setMsg('none')
+        }
+        else {
           setRestaurantData(pastRestaurantData.concat(json.businesses))
+          setMsg('')
           return json
         }
       }
@@ -72,12 +78,12 @@ export default function Restaurants({ navigation,route }) {
 
     return (
       <SafeAreaView style={styles.container}>
-        {renderRestrauntsText(restaurantData)}
+        {renderRestrauntsText(restaurantData,msg)}
         <View style={{flexDirection: 'row',}}>
       </View>
         <ScrollView showsVerticalScrollIndication = {false}>
         <RestaurantItem restaurantData = {restaurantData} navigation = {navigation}></RestaurantItem>
-          <Button onPress = {refresh} title = "Refresh"></Button>
+          <Button onPress = {refresh} title = "Get more results"></Button>
         </ScrollView>
         <StatusBar style="auto" />
       </SafeAreaView>
