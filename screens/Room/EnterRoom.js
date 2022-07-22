@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { StyleSheet, Text, View,SafeAreaView,Dimensions, Button, TextInput, ImageBackground } from 'react-native';
+import { StyleSheet, Text, View,SafeAreaView,Dimensions, Button, TextInput, ImageBackground, } from 'react-native';
 import { authentication } from "../../firebase/firebase-config";
 import {
   getFirestore,collection,getDocs,
@@ -74,7 +74,6 @@ export default function App({route,navigation}) {
   return (
     <SafeAreaView style={styles.parentContainer}>
       {/* <ImageBackground source={require('../../assets/WhereTwoEatGroupOrderSimple.png')} resizeMode="cover" style = {styles.image}> */}
-        
         <Text style={{ textAlign: "center", fontSize:30, fontWeight:'bold', paddingBottom: 200}}>Join an existing room!</Text>
 
         <View style={styles.absoluteUnit}>
@@ -101,6 +100,12 @@ const styles = StyleSheet.create({
       backgroundColor: '#fff',
       alignItems: 'center',
       justifyContent: 'center',
+      // how I prevent keyboard from moving items
+      position: 'absolute',
+      left: 0,
+      top: 0,
+      width: windowWidth,
+      height: windowHeight - 70,
     },
     roomNameInput: {
       backgroundColor: '#e9e9e9',
