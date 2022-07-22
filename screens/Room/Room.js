@@ -270,7 +270,9 @@ export default function App({route,navigation}) {
 
   const catButton = (num,name,curCat) => {
     if(rooms == undefined){
-      return  <StdButton text = {name + `0`} onPress={() => setCat(curCat)} />
+      // return  <StdButton text = {name + `0`} onPress={() => setCat(curCat)} />
+      return <StdButtonRandomColor num={num} text = {name + `0`} onPress={() => setCat(curCat)} />
+
     }
     if(cat == curCat){
       return <StdButtonBlue text = {name + `${rooms[curCat]}`} onPress={() => setCat(curCat)}/>
