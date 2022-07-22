@@ -276,7 +276,9 @@ export default function App({route,navigation}) {
 
   return (
     <SafeAreaView style={styles.container}>
-        <Text style={styles.text}>Room: {route.params.name}</Text>
+      <View style={{backgroundColor:"#e9e9e9", width: windowWidth, alignItems: "center", margin: 20, padding: 10}}>
+        <Text style={styles.text}>{route.params.name}</Text>
+      </View>
       {renderLoading(loading)}
       <View>
       {renderCountPrice(rooms)}
