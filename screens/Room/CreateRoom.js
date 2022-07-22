@@ -108,7 +108,8 @@ export default function App({route,navigation}) {
         {renderSwitchButton("roomVegan","vegan")}
         {renderSwitchButton("roomHalal","halal")}
         </View>
-        
+
+        <Text style={styles.text}>Search specific locations (eg. Yishun)</Text>
         <TextInput  defaultValue="Singapore"  onChangeText = {text => setLoc(text)} style = {styles.input} />
         <View style={styles.bottomButton}>
         <StdButton text = "Create Room" onPress={() => createRoom()}/>
@@ -139,6 +140,10 @@ const styles = StyleSheet.create({
       paddingVertical: 10,
       paddingHorizontal: 15,
       margin: 5,
+      minWidth: '60%',
+      textAlign: 'center',
+      // color: "pink",
+      fontSize: 15,
     },
     text: {
       textAlign: "center", 
