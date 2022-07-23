@@ -5,7 +5,8 @@ import RestaurantItem from './components/RestaurantItem';
 import { localRestaurants } from './components/RestaurantItem';
 import config from '../config'
 import {renderRestrauntsText} from './components/RestaurantComponents'
-  
+import StdButton from "./components/button";
+
 const YELP_API_KEY = config.API_KEY
 
 export default function Restaurants({ navigation,route }) {
@@ -22,7 +23,7 @@ export default function Restaurants({ navigation,route }) {
     }
 
     if(term.length == 0){
-      term = 'restaurant'
+      term = ' '
     }
 
 
@@ -83,7 +84,7 @@ export default function Restaurants({ navigation,route }) {
       </View>
         <ScrollView showsVerticalScrollIndication = {false}>
         <RestaurantItem restaurantData = {restaurantData} navigation = {navigation}></RestaurantItem>
-          <Button onPress = {refresh} title = "Get more results"></Button>
+        <StdButton onPress = {refresh} text = "Get more results"></StdButton>
         </ScrollView>
         <StatusBar style="auto" />
       </SafeAreaView>

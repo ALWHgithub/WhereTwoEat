@@ -4,7 +4,7 @@ import { authentication } from "../../firebase/firebase-config";
 import Slider from '@react-native-community/slider'; 
 import {
   getFirestore,collection,getDocs,
-  addDoc, updateDoc, setDoc,doc, getDoc
+  addDoc, updateDoc, setDoc,doc, getDoc, onSnapshot
 } from 'firebase/firestore'
 import StdButton from '../components/button';
 import {StdButtonBlue} from '../components/button';
@@ -24,20 +24,14 @@ export default function App({route,navigation}) {
   const [votePrice, setVotePrice] = useState(0)
   const [cat, setCat] = useState('Others')
   const [state,setState] = useState(0)
-  const [loc,setLoc] = useState(0)
+  const [last,setLast] = useState("You last vote : -,-")
   let loading = false;
   let sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
 
   if(rooms == undefined){
-    getDocs(colRef).then((snapshot) => {
-      snapshot.docs.forEach((doc) => {
-        if(doc.id == route.params.name){
-          setRooms(doc.data())
-        }
-      })
-    })
-    .catch(err => {
-      console.log(err);
+    const docRef = doc(db,'RoomIDs',route.params.name);
+    getDoc(docRef).then((snapshot) => {
+      setRooms(snapshot.data());
     })
   }
 
@@ -45,12 +39,14 @@ export default function App({route,navigation}) {
   
   useEffect(() => {
     sleep(100).then(() => {
-      setState(state+1)
+      
     })
     .catch(err => {
       alert(err);
     })
   }, [state])
+
+  
 
   const renderButton = (price) => {
     let op = 0.5;
@@ -72,6 +68,7 @@ export default function App({route,navigation}) {
         loading = true;
         let name = global.user.uid
         let first = rooms[name] == undefined
+        setLast(`Your last vote : ${'$'.repeat(range)} , ${cat}`)
         if(first) {
           firstTime()
         } else {
@@ -87,18 +84,10 @@ export default function App({route,navigation}) {
         } catch (error) {
           alert("Something went wrong. Please wait a bit for the data to load")
         } finally {
-          sleep(2000).then(() => {
-            getDocs(colRef).then((snapshot) => {
-              snapshot.docs.forEach((doc) => {
-                if(doc.id == route.params.name){
-                  setRooms(doc.data())
-                }
-              })
-            })
-            .catch(err => {
-              console.log(err);
-            })
-          })     
+          const unsub = onSnapshot(doc(db,'RoomIDs',rooms["name"]), (doc) => {
+            setRooms(doc.data())
+            console.log("Current data: ", doc.data().Chinese);
+           });  
         }
     } else {
       alert("Please wait a bit for the database to update")
@@ -111,22 +100,17 @@ export default function App({route,navigation}) {
     let prevCatCount = 0
     let curCatCount = 0
     let curRoom = undefined
-    getDocs(colRef)
-    .then((snapshot) => {
-      snapshot.docs.forEach((doc) => {
-        if(doc.id == route.params.name){
-          curRoom = doc.data()
-          prevCat = doc.data()[name][1]
-          prevCatCount = doc.data()[prevCat]
-          curCatCount = doc.data()[cat]
-        }
-      })
+    const docRef = doc(db,'RoomIDs',route.params.name);
+    getDoc(docRef).then((doc) => {
+      curRoom = doc.data()
+      prevCat = doc.data()[name][1]
+      prevCatCount = doc.data()[prevCat]
+      curCatCount = doc.data()[cat]
     })
     .then(() => {
       curRoom[cat] = curCatCount +1
       curRoom[prevCat] = prevCatCount -1
       curRoom[name] = [range,cat]
-      setRooms(curRoom)
       updateDoc(doc(db,'RoomIDs',rooms["name"]),{[name] : [range,cat], [cat] : curCatCount +1, [prevCat] : prevCatCount -1})
        })
     }
@@ -137,22 +121,18 @@ export default function App({route,navigation}) {
       let prevPriceCount = 0
       let curPriceCount = 0
       let curRoom = undefined
-      getDocs(colRef)
-      .then((snapshot) => {
-        snapshot.docs.forEach((doc) => {
-          if(doc.id == route.params.name){
-            curRoom = doc.data()
-            prevPrice = doc.data()[name][0]
-            prevPriceCount = doc.data()[prevPrice]
-            curPriceCount = doc.data()[range]
-          }
-        })
-      })
+      const docRef = doc(db,'RoomIDs',route.params.name);
+      getDoc(docRef)
+      .then((doc) => {
+        curRoom = doc.data()
+        prevPrice = doc.data()[name][0]
+        prevPriceCount = doc.data()[prevPrice]
+        curPriceCount = doc.data()[range]
+       })
       .then(() => {
         curRoom[range] = curPriceCount +1
         curRoom[prevPrice] = prevPriceCount -1
         curRoom[name] = [range,cat]
-        setRooms(curRoom)
         updateDoc(doc(db,'RoomIDs',rooms["name"]),{[name] : [range,cat], [range] : curPriceCount +1, [prevPrice] : prevPriceCount -1})
          })
     } 
@@ -161,20 +141,16 @@ export default function App({route,navigation}) {
     let name = global.user.uid
     let curPriceCount = 0
     let curCatCount = 0
-    getDocs(colRef)
-    .then((snapshot) => {
-      snapshot.docs.forEach((doc) => {
-        if(doc.id == route.params.name){
-          curPriceCount = doc.data()[range]
+    const docRef = doc(db,'RoomIDs',route.params.name);
+    getDoc(docRef).then((doc) => {
+      curPriceCount = doc.data()[range]
           curCatCount = doc.data()[cat]
-        }
-      })
     })
+
     let temp = rooms
         temp[range] = curPriceCount +1
         temp[cat] = curCatCount +1
         temp[name] = [range,cat]
-        setRooms(temp)
     updateDoc(doc(db,'RoomIDs',rooms["name"]),{ [name] : [range,cat], [range] :curPriceCount +1, [cat] : curCatCount +1 })
   }
 
@@ -221,12 +197,12 @@ export default function App({route,navigation}) {
     else if(rooms['Indian'] == max) {
       cat += ',' + 'indian'
     }
-    if(rooms['Fastfood']> max) {
-      max = rooms['Fastfood']
-      cat  = 'hotdogs'
+    if(rooms['Burgers']> max) {
+      max = rooms['Burgers']
+      cat  = 'burgers'
     }
-    else if(rooms['Fastfood'] == max) {
-      cat += ',' + 'hotdogs'
+    else if(rooms['Burgers'] == max) {
+      cat += ',' + 'burgers'
     }
     if(rooms['Cafe']> max) {
       max = rooms['Cafe']
@@ -271,26 +247,28 @@ export default function App({route,navigation}) {
   const catButton = (num,name,curCat) => {
     if(rooms == undefined){
       // return  <StdButton text = {name + `0`} onPress={() => setCat(curCat)} />
-      return <StdButtonRandomColor num={num} text = {name + `0`} onPress={() => setCat(curCat)} />
+      return <StdButtonRandomColor num={num} text = {curCat} onPress={() => setCat(curCat)} />
 
     }
     if(cat == curCat){
-      return <StdButtonBlue text = {name + `${rooms[curCat]}`} onPress={() => setCat(curCat)}/>
+      return <StdButtonBlue text = {curCat} onPress={() => setCat(curCat)}/>
     } else {
-      return <StdButtonRandomColor num={num} text = {name + `${rooms[curCat]}`} onPress={() => setCat(curCat)} />
+      return <StdButtonRandomColor num={num} text = {curCat} onPress={() => setCat(curCat)} />
     }
   }
 
   return (
     <SafeAreaView style={styles.container}>
-      <View style={{backgroundColor:"#e9e9e9", width: windowWidth, alignItems: "center", margin: 20, padding: 10, bottom:70}}>
-        <Text style={styles.text}>Room Name: {route.params.name}</Text>
-      </View>
-      {renderLoading(loading)}
-      <View>
+      <View style ={{bottom: 50 ,alignItems: 'center'}}>
+      <Text style ={{fontSize: 20, color:'#e68a19', fontWeight: 'bold'}}>Total Votes for "{route.params.name}"</Text>
+      <View style ={{borderWidth: 2, borderColor: '#e68a19', }}>
       {renderCountPrice(rooms)}
+      {renderCountCat(rooms)}
       </View>
-      {renderCurrentVotePrice(votePrice)}
+      </View>
+      
+      
+      
       
 
       {/* <Slider
@@ -303,7 +281,8 @@ export default function App({route,navigation}) {
       maximumTrackTintColor="#000000"        
       minimumTrackTintColor = 'orange'
       /> */}
-
+      <Text style={{fontSize: 20}}>{last}</Text>
+      
       <View style={{flexDirection: 'row', alignItems: 'center', padding: 10}}>
       {renderButton(1)}
       {renderButton(2)}
@@ -316,10 +295,11 @@ export default function App({route,navigation}) {
       {catButton(2,'Japanese: ','Japanese')}
       {catButton(3,"Italian: ",'Italian')}
       {catButton(3,"Cafe: " ,'Cafe')}
-      {catButton(2,"Fastfood: " ,'Fastfood')}
+      {catButton(2,"Burgers: " ,'Burgers')}
       {catButton(1,"Indian: " ,'Indian')}
       {catButton(3,"Others: " ,'Others')}
       </View>
+      
       <View style = {styles.bottomButton}>
       <StdButtonSmall text = "Exit Room" onPress={() => exit()}/>
       <CenterButton text = "Cast Vote!" onPress={() => {castVote()}} />

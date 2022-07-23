@@ -74,7 +74,7 @@ export default function App({route,navigation}) {
   return (
     <SafeAreaView style={styles.parentContainer}>
       {/* <ImageBackground source={require('../../assets/WhereTwoEatGroupOrderSimple.png')} resizeMode="cover" style = {styles.image}> */}
-        <Text style={{ textAlign: "center", fontSize:30, fontWeight:'bold', paddingBottom: 200}}>Join an existing room!</Text>
+        <Text style={{ textAlign: "center", fontSize:30, fontWeight:'bold', paddingBottom: 200}}>Join a room!</Text>
 
         <View style={styles.absoluteUnit}>
         {/* <View style={{ padding:5, margin: 10, borderRadius: 5, flexDirection: 'row', }}> */}

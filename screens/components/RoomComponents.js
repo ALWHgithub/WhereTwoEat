@@ -10,7 +10,7 @@ export function renderLoading(loading) {
 
   export const renderCountPrice = (rooms) => {    
     if(rooms == undefined) {
-      return <View style = {[styles.tallyBox, {padding: 0, height: 60, justifyContent: 'center', alignItems: 'center', bottom:70}]}>
+      return <View style = {[styles.tallyBox, {padding: 0, height: 60, justifyContent: 'center', alignItems: 'center', }]}>
       {/* <Text style = {styles.text}>Current Tally: </Text> */}
       
       <View style ={{flexDirection:'row',}}>
@@ -35,7 +35,7 @@ export function renderLoading(loading) {
       {/* <Text style = {styles.text}>$: {rooms[1]} $$: {rooms[2]} $$$: {rooms[3]} $$$$: {rooms[4]}</Text> */}
       </View>
     } else {
-      return <View style = {[styles.tallyBox, {padding: 0, height: 60, justifyContent: 'center', alignItems: 'center', bottom:70}]}>
+      return <View style = {[styles.tallyBox, {padding: 0, height: 60, justifyContent: 'center', alignItems: 'center',}]}>
       {/* <Text style = {styles.text}>Current Tally: </Text> */}
       
       <View style ={{flexDirection:'row',}}>
@@ -62,16 +62,85 @@ export function renderLoading(loading) {
     }
   }
 
-  export const renderCountCat = (rooms) => {
+  export const renderCountCat = (rooms) => {    
     if(rooms == undefined) {
-      return <Text>Please Wait!</Text>
+      return <View style = {[styles.tallyBox, {padding: 0, height: 120, justifyContent: 'center', alignItems: 'center',  borderWidth: 10, borderColor: 'black'}]}>   
+      <View style ={{flexDirection:'row',}}>
+      <View style = {styles.dollarBorder}>
+        <Text style = {styles.catText}>Chinese</Text>
+        <Text>-</Text>
+      </View>
+      <View style = {styles.dollarBorder}>
+        <Text style = {styles.catText}>Japanese</Text>
+        <Text>-</Text>
+      </View>
+      <View style = {styles.dollarBorder}>
+        <Text style = {styles.catText}>Italian</Text>
+        <Text>-</Text>
+      </View>
+      <View style = {[styles.dollarBorder, {borderRightWidth: 0}]}>
+        <Text style = {styles.catText}>Cafe</Text>
+        <Text>-</Text>
+      </View>
+      
+      </View>
+      <View style = {{height: 15 , width: 100}}></View>
+      <View style ={{flexDirection:'row',}}>
+      <View style = {styles.dollarBorder}>
+        <Text style = {styles.catText}>Burgers</Text>
+        <Text>-</Text>
+      </View>
+      <View style = {styles.dollarBorder}>
+        <Text style = {styles.catText}>Indian</Text>
+        <Text>-</Text>
+      </View>
+      <View style = {[styles.dollarBorder, {borderRightWidth: 0}]}>
+        <Text style = {styles.catText}>Others</Text>
+        <Text>-</Text>
+      </View>
+      </View>
+      </View>
     } else {
-      return <View style = {styles.tallyBox}>
-      <Text style = {styles.text}>Current Tally: </Text>
-      <Text style = {styles.text}>Chinese: {rooms['Chinese']} Japanese: {rooms['Japanese']} Italian: {rooms['Italian']} Others: {rooms['Others']}</Text>
+      return <View style = {[styles.tallyBox, {padding: 10, height: 120, justifyContent: 'center', alignItems: 'center', }]}>   
+      <View style ={{flexDirection:'row',}}>
+      <View style = {styles.dollarBorder}>
+        <Text style = {styles.catText}>Chinese</Text>
+        <Text>{rooms['Chinese']}</Text>
+      </View>
+      <View style = {styles.dollarBorder}>
+        <Text style = {styles.catText}>Japanese</Text>
+        <Text>{rooms['Japanese']}</Text>
+      </View>
+      <View style = {styles.dollarBorder}>
+        <Text style = {styles.catText}>Italian</Text>
+        <Text>{rooms['Italian']}</Text>
+      </View>
+      <View style = {[styles.dollarBorder, {borderRightWidth: 0}]}>
+        <Text style = {styles.catText}>Cafe</Text>
+        <Text>{rooms['Cafe']}</Text>
+      </View>
+      
+      </View>
+      <View style = {{height: 15 , width: 100}}></View>
+      <View style ={{flexDirection:'row',}}>
+      <View style = {styles.dollarBorder}>
+        <Text style = {styles.catText}>Burgers</Text>
+        <Text>{rooms['Burgers']}</Text>
+      </View>
+      <View style = {styles.dollarBorder}>
+        <Text style = {styles.catText}>Indian</Text>
+        <Text>{rooms['Indian']}</Text>
+      </View>
+      <View style = {[styles.dollarBorder, {borderRightWidth: 0}]}>
+        <Text style = {styles.catText}>Others</Text>
+        <Text>{rooms['Others']}</Text>
+      </View>
+      </View>
       </View>
     }
   }
+
+  
 
   export const renderCurrentVotePrice = (votePrice) => {
     if (votePrice == 0) {
@@ -92,7 +161,7 @@ export function renderLoading(loading) {
     tallyBox: {
       // borderWidth: 1, 
       borderRadius: 5, 
-      padding: 10, 
+      padding: 20,
       margin: 5,
       backgroundColor: '#e9e9e9',
     },
@@ -101,5 +170,9 @@ export function renderLoading(loading) {
       borderRightColor: 'white', 
       borderRightWidth: 4, 
       alignItems: 'center'
+    },
+    catText: {
+      textAlign: 'center',
+      fontSize: 16, 
     }
   }); 

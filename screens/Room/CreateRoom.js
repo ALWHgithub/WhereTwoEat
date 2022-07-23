@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { StyleSheet, Text, View,SafeAreaView, Button, TextInput, Dimensions } from 'react-native';
+import { KeyboardAvoidingView, StyleSheet, Text, View,SafeAreaView, Button, TextInput, Dimensions } from 'react-native';
 import { authentication } from "../../firebase/firebase-config";
 import {
   getFirestore,collection,getDocs,
@@ -64,7 +64,7 @@ export default function App({route,navigation}) {
           Italian:0,
           Others:0,
           Cafe:0,
-          Fastfood:0,
+          Burgers:0,
           Indian:0,
           term:roomSetting, loc: loc, num:0,})
         navigation.navigate('Room',{name: code, long:long, lat:lat})
@@ -99,19 +99,21 @@ export default function App({route,navigation}) {
 
   return (
     <SafeAreaView style={styles.container}>
-        <Text style={styles.text}>Pick a Name for your room!</Text>
+        <Text style={styles.text}>Pick a name for your room!</Text>
         <TextInput  defaultValue={defaultValue()}  onChangeText = {text => changeText(text)} style = {styles.input} />
         
-        <Text style={styles.text}>{'\n'}Room Options</Text>
-        <View style ={{flexDirection: 'row', alignItems: 'center', justifyContent: "center"}}>
+        
+
+        <Text style={styles.text}>{'\n'}Get locations at:</Text>
+        <TextInput  defaultValue="Singapore"  onChangeText = {text => setLoc(text)} style = {styles.input} />
+        
+        <Text style={styles.text}>{'\n'}Set room options</Text>
+        <View style ={{flexDirection: 'row', alignItems: 'center', justifyContent: "center" }}>
         {renderSwitchButton("roomVegetarian","vegetarian")}
         {renderSwitchButton("roomVegan","vegan")}
         {renderSwitchButton("roomHalal","halal")}
         </View>
-
-        <Text style={styles.text}>{'\n'}Search specific locations (eg. Yishun). 
-        Please restrict your selection to a place in Singapore</Text>
-        <TextInput  defaultValue="Singapore"  onChangeText = {text => setLoc(text)} style = {styles.input} />
+        
         <View style={styles.bottomButton}>
         <StdButton text = "Create Room" onPress={() => createRoom()}/>
         </View> 

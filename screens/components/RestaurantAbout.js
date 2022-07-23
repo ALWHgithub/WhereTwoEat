@@ -19,7 +19,7 @@ export default function RestaurantAbout(props) {
     let restAdd = ''
     let data = restaurant.location.display_address;
 
-    for(let i = 0; i < data.length; i++) {
+    for(let i = 0; i < data.length && i<2; i++) {
       if(i != 0){
         restAdd += ' '
       }
