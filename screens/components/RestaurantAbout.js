@@ -13,7 +13,7 @@ export default function RestaurantAbout(props) {
 
   const description = `${formattedCategories} ${
     price ? " • " + price : ""
-  } • ${rating} ★ (${reviews}+)`;
+  }  • ${reviews} Reviews`;
 
   function address(){
     let restAdd = ''

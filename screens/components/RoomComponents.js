@@ -64,7 +64,7 @@ export function renderLoading(loading) {
 
   export const renderCountCat = (rooms) => {    
     if(rooms == undefined) {
-      return <View style = {[styles.tallyBox, {padding: 0, height: 120, justifyContent: 'center', alignItems: 'center',  borderWidth: 10, borderColor: 'black'}]}>   
+      return <View style = {[styles.tallyBox, {padding: 0, height: 120, justifyContent: 'center', alignItems: 'center',}]}>   
       <View style ={{flexDirection:'row',}}>
       <View style = {styles.dollarBorder}>
         <Text style = {styles.catText}>Chinese</Text>
@@ -95,7 +95,7 @@ export function renderLoading(loading) {
         <Text>-</Text>
       </View>
       <View style = {[styles.dollarBorder, {borderRightWidth: 0}]}>
-        <Text style = {styles.catText}>Others</Text>
+        <Text style = {styles.catText}>All</Text>
         <Text>-</Text>
       </View>
       </View>
@@ -132,8 +132,8 @@ export function renderLoading(loading) {
         <Text>{rooms['Indian']}</Text>
       </View>
       <View style = {[styles.dollarBorder, {borderRightWidth: 0}]}>
-        <Text style = {styles.catText}>Others</Text>
-        <Text>{rooms['Others']}</Text>
+        <Text style = {styles.catText}>All</Text>
+        <Text>{rooms['All']}</Text>
       </View>
       </View>
       </View>

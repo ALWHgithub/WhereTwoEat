@@ -7,7 +7,7 @@ import catButton from '../components/button';
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 
 function FilterCat({ navigation,route }) {
-  const [cat, setCat] = useState('Restaurant')
+  const [cat, setCat] = useState('restaurants')
   const [range, setRange] = useState(1);
   
   const handlePrice = (fig) => {
@@ -78,11 +78,11 @@ function FilterCat({ navigation,route }) {
         {catButton(1,'mexican','Mexican')}
         {catButton(2,'thai','Thai')}
         {catButton(3,'vietnamese','Vietnamese')}
-        {catButton(1,'restaurant','All')}
+        {catButton(1,'restaurants','All')}
       </View>
       <View style={styles.nestedViewStyle}><Text>{'     '}</Text></View>
       <StdButton text = "Filter Based on Location" onPress={() =>toLoc(cat)} icon = "map-marker"/>
-      <StdButton text = "Get Results !" onPress={() =>toRes(cat)} />
+      <StdButton text = "Apply Filters !" onPress={() =>toRes(cat)} />
       <StatusBar style="auto" />
     </SafeAreaView>
   );

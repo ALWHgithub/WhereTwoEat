@@ -62,7 +62,7 @@ export default function App({route,navigation}) {
           Chinese:0,
           Japanese:0,
           Italian:0,
-          Others:0,
+          All:0,
           Cafe:0,
           Burgers:0,
           Indian:0,

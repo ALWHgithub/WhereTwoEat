@@ -22,24 +22,22 @@ export default function App({route,navigation}) {
   const [rooms, setRooms] = useState()
   const [range, setRange] = useState(1);
   const [votePrice, setVotePrice] = useState(0)
-  const [cat, setCat] = useState('Others')
+  const [cat, setCat] = useState('restaurants')
   const [state,setState] = useState(0)
-  const [last,setLast] = useState("You last vote : -,-")
+  const [last,setLast] = useState("Your last vote : -,-")
   let loading = false;
   let sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
-
-  if(rooms == undefined){
-    const docRef = doc(db,'RoomIDs',route.params.name);
-    getDoc(docRef).then((snapshot) => {
-      setRooms(snapshot.data());
-    })
-  }
 
   
   
   useEffect(() => {
     sleep(100).then(() => {
-      
+      if(rooms == undefined){
+        const docRef = doc(db,'RoomIDs',route.params.name);
+        getDoc(docRef).then((snapshot) => {
+          setRooms(snapshot.data());
+        })
+      }
     })
     .catch(err => {
       alert(err);
@@ -183,12 +181,12 @@ export default function App({route,navigation}) {
     else if(rooms['Italian'] == max) {
       cat += ',' + 'italian'
     }
-    if(rooms['Others']> max) {
-      max = rooms['Others']
-      cat  = 'others'
+    if(rooms['All']> max) {
+      max = rooms['All']
+      cat  = 'restaurants'
     }
-    else if(rooms['Others'] == max) {
-      cat += ',' + 'others'
+    else if(rooms['All'] == max) {
+      cat += ',' + 'restaurants'
     }
     if(rooms['Indian']> max) {
       max = rooms['Indian']
@@ -297,7 +295,7 @@ export default function App({route,navigation}) {
       {catButton(3,"Cafe: " ,'Cafe')}
       {catButton(2,"Burgers: " ,'Burgers')}
       {catButton(1,"Indian: " ,'Indian')}
-      {catButton(3,"Others: " ,'Others')}
+      {catButton(3,"All: " ,'All')}
       </View>
       
       <View style = {styles.bottomButton}>

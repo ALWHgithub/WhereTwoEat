@@ -23,7 +23,7 @@ export default function Restaurants({ navigation,route }) {
     }
 
     if(term.length == 0){
-      term = ' '
+      term = 'restaurants'
     }
 
 
@@ -34,8 +34,13 @@ export default function Restaurants({ navigation,route }) {
     console.log(yelpURL)
     function refresh() {
       global.offset += 50
-      yelpURL = `https://api.yelp.com/v3/businesses/search?term=${term}${loc}&price=` + price + '&categories=' + cat + `&offset=${offset}&limit=50`
-      getDataFromYelp();
+      if(global.offset > 999){
+        alert("No more results")
+      } else {
+        yelpURL = `https://api.yelp.com/v3/businesses/search?term=${term}${loc}&price=` + price + '&categories=' + cat + `&offset=${offset}&limit=50`
+        getDataFromYelp();
+      }
+      
     }
 
     const getDataFromYelp = () => {
@@ -77,6 +82,14 @@ export default function Restaurants({ navigation,route }) {
       updateData();
     }, [restaurantData]);
 
+    const renderButton = () => {
+      if(restaurantData == undefined || restaurantData.length == 0){
+        return 
+      } else {
+        return <StdButton onPress = {refresh} text = "Get more results"></StdButton>
+      }
+    }
+
     return (
       <SafeAreaView style={styles.container}>
         {renderRestrauntsText(restaurantData,msg)}
@@ -84,7 +97,7 @@ export default function Restaurants({ navigation,route }) {
       </View>
         <ScrollView showsVerticalScrollIndication = {false}>
         <RestaurantItem restaurantData = {restaurantData} navigation = {navigation}></RestaurantItem>
-        <StdButton onPress = {refresh} text = "Get more results"></StdButton>
+        {renderButton()}
         </ScrollView>
         <StatusBar style="auto" />
       </SafeAreaView>
