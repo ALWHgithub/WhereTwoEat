@@ -11,9 +11,7 @@ export default function RestaurantAbout(props) {
 
   const formattedCategories = categories.map((cat) => cat.title).join(" • ");
 
-  const description = `${formattedCategories} ${
-    price ? " • " + price : ""
-  }  • ${reviews} Reviews \n` ;
+  const description = `${formattedCategories}\n${price ?'' + price : ""}  • ${reviews} Reviews \n` ;
 
   function address(){
     let restAdd = ''
