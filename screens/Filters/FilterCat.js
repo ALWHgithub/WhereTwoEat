@@ -82,7 +82,7 @@ function FilterCat({ navigation,route }) {
       </View>
       <View style={styles.nestedViewStyle}><Text>{'     '}</Text></View>
       <StdButton text = "Filter Based on Location" onPress={() =>toLoc(cat)} icon = "map-marker"/>
-      <StdButton text = "Get Results !" onPress={() =>toRes(cat)} />
+      <StdButton text = "Apply Filters !" onPress={() =>toRes(cat)} />
       <StatusBar style="auto" />
     </SafeAreaView>
   );
