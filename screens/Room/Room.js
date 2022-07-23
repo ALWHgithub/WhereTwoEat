@@ -24,7 +24,7 @@ export default function App({route,navigation}) {
   const [votePrice, setVotePrice] = useState(0)
   const [cat, setCat] = useState('Others')
   const [state,setState] = useState(0)
-  const [last,setLast] = useState("You last vote : -,-")
+  const [last,setLast] = useState("Your last vote : -,-")
   let loading = false;
   let sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
 
