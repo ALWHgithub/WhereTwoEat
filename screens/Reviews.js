@@ -32,6 +32,7 @@ export default function Reviews({ navigation,route}) {
   }
 
   const parseReviews = (reviews) => {
+    console.log(reviews.total)
     let temp = []
     if(reviews.error != undefined){
       console.log(reviews.error)
@@ -53,22 +54,30 @@ export default function Reviews({ navigation,route}) {
     // temp[7] = JSON.stringify(reviews['reviews'][2]['time_created'])
     // temp[8] = JSON.stringify(reviews['reviews'][2]['text'])
 
-    temp[0] = reviews['reviews'][0]['rating']
-    temp[1] = reviews['reviews'][0]['time_created']
-    temp[2] = reviews['reviews'][0]['text']
+    for (let i = 0; i < 12; i++) {
+      temp[i] = ""
+    }
 
+    if(reviews.total > 0) {
+      temp[0] = reviews['reviews'][0]['rating']
+      temp[1] = reviews['reviews'][0]['time_created']
+      temp[2] = reviews['reviews'][0]['text']
+      temp[9] = reviews['reviews'][0]['user']['image_url']
+    }
+    if(reviews.total > 1) {
     temp[3] = reviews['reviews'][1]['rating']
     temp[4] = reviews['reviews'][1]['time_created']
     temp[5] = reviews['reviews'][1]['text']
-
+    temp[10] = reviews['reviews'][1]['user']['image_url']
+    }
+    if(reviews.total > 2) {
     temp[6] = reviews['reviews'][2]['rating']
     temp[7] = reviews['reviews'][2]['time_created']
     temp[8] = reviews['reviews'][2]['text']
-
-    // If these doesn't work to comment it out and there shall be no picture
-    temp[9] = reviews['reviews'][0]['user']['image_url']
-    temp[10] = reviews['reviews'][1]['user']['image_url']
     temp[11] = reviews['reviews'][2]['user']['image_url']
+    }
+    
+
 
     setReviews(temp)
     }
@@ -76,7 +85,10 @@ export default function Reviews({ navigation,route}) {
   }
 
   const renderReview = (offset,image) => {
-    return <View style={styles.reviewStyle}>
+    if(reviews[offset] == ""){
+      return 
+    } else {
+      return <View style={styles.reviewStyle}>
 
               <View style ={{ flexDirection : "row"}}>
                 <Image source={{uri : reviews[image] }} style={{height: 60,width: 60, marginBottom: 10, marginRight: 10, borderRadius: 30}}/>
@@ -87,6 +99,15 @@ export default function Reviews({ navigation,route}) {
               </View>
               <Text>{reviews[offset+2]}</Text>
             </View>
+    }
+  }
+
+  const renderSpecial = () => {
+    if(reviews.total == 0){
+      return <Text>Unable to get reviews. Please tap below for more details</Text>
+    } else {
+      return 
+    }
   }
   
   useEffect(() => {getDataFromYelp()},[])
@@ -97,9 +118,7 @@ export default function Reviews({ navigation,route}) {
           <ScrollView>
             <Image source={{ uri: route.params.image }} style={{ width: "100%", height: 180 }} />
             <RestaurantAbout route={route}/>
-            
-            {/* Whats oop? :thinking: */}
-            {/* To make this into a ReviewItem class soonTM */}
+            {renderSpecial()}
             {renderReview(0,9)}
             {renderReview(3,10)}
             {renderReview(6,11)}
