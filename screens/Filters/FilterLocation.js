@@ -48,7 +48,7 @@ export default function FilterLoc({navigation,route}) {
 
   const useMyLocation = () => {
     sleep(1000).then(() => {
-      if(location.coords == undefined ||location.coords == null ){
+      if(location.coords == null || location.coords == undefined){
         alert("Unable to get device location.Ensure that location permissions are enabled")
       } else {
         let curLoc = `&longitude=${JSON.stringify(location.coords.longitude)}&latitude=${JSON.stringify(location.coords.latitude)}`

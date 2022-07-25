@@ -103,16 +103,12 @@ function LoginScreen({ navigation }) {
         }
 
     })
-      .catch(error => alert(error.message))
+      .catch(error => alert(handleSignInError(error.message)))
     }
   }
 
   const resetPassword = () => {
     navigation.navigate('ResetPasswordLogin', {})
-  }
-
-  const handleSignInAdmin = () => {
-    navigation.navigate('HomeStack', {user: user, email: email, username: username})
   }
 
     return (

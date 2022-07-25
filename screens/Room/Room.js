@@ -85,7 +85,7 @@ export default function App({route,navigation}) {
            });  
         }
     } else {
-      alert("Please wait a bit for the database to update")
+      alert("Please wait a bit for the results to update")
     }
   }
 
