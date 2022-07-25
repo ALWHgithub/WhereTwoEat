@@ -31,17 +31,16 @@ export default function App({route,navigation}) {
   
   
   useEffect(() => {
-    sleep(100).then(() => {
       if(rooms == undefined){
+        global.d
         const docRef = doc(db,'RoomIDs',route.params.name);
         getDoc(docRef).then((snapshot) => {
           setRooms(snapshot.data());
         })
-      }
-    })
-    .catch(err => {
-      alert(err);
-    })
+        .catch(err => {
+          alert(err);
+        })
+      } 
   }, [state])
 
   
@@ -72,7 +71,7 @@ export default function App({route,navigation}) {
         } else {
           let prevPrice = rooms[name][0]
           let prevCat = rooms[name][1]
-          if(prevPrice != range ){
+          if(prevPrice != range){
             updatePrice()
           }
           if(prevCat != cat){
@@ -80,11 +79,10 @@ export default function App({route,navigation}) {
           }
         }
         } catch (error) {
-          alert("Something went wrong. Please wait a bit for the data to load")
+          alert(error)
         } finally {
           const unsub = onSnapshot(doc(db,'RoomIDs',rooms["name"]), (doc) => {
             setRooms(doc.data())
-            console.log("Current data: ", doc.data().Chinese);
            });  
         }
     } else {
@@ -139,17 +137,20 @@ export default function App({route,navigation}) {
     let name = global.user.uid
     let curPriceCount = 0
     let curCatCount = 0
+    let temp = undefined
     const docRef = doc(db,'RoomIDs',route.params.name);
     getDoc(docRef).then((doc) => {
+      temp = doc.data()
       curPriceCount = doc.data()[range]
-          curCatCount = doc.data()[cat]
+      curCatCount = doc.data()[cat]
+    }).then(() => {
+      temp[range] = curPriceCount +1
+      temp[cat] = curCatCount +1
+      temp[name] = [range,cat]
+      updateDoc(doc(db,'RoomIDs',rooms["name"]),{ [name] : [range,cat], [range] :curPriceCount +1, [cat] : curCatCount +1 })
     })
-
-    let temp = rooms
-        temp[range] = curPriceCount +1
-        temp[cat] = curCatCount +1
-        temp[name] = [range,cat]
-    updateDoc(doc(db,'RoomIDs',rooms["name"]),{ [name] : [range,cat], [range] :curPriceCount +1, [cat] : curCatCount +1 })
+    
+    
   }
 
   const exit = () => {

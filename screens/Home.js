@@ -79,7 +79,7 @@ function HomeScreen({ navigation }) {
       <View style={{position: 'absolute', bottom: 0, }}>
       
       <StdButton
-        text="Start New Order ?" 
+        text="Start New Search ?" 
         onPress={() => {
           global.offset = 0
           navigation.navigate('Cat')

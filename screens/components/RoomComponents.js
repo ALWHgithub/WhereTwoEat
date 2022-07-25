@@ -173,6 +173,6 @@ export function renderLoading(loading) {
     },
     catText: {
       textAlign: 'center',
-      fontSize: 16, 
+      fontSize: 14, 
     }
   }); 

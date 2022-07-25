@@ -129,7 +129,6 @@ function LoginScreen({ navigation }) {
           <TextInput placeholder = "Password" secureTextEntry value = {password} onChangeText = {text => setPassword(text)} style = {styles.input}/>
           <StdButton text = "Login" onPress={handleSignIn} />
           <StdButton text = "Im new!" onPress={handleSignUp} />
-          <StdButton text = "Hackerman" onPress={handleSignInAdmin} />
           <View style = {styles.bottomButton}>
           <StdButton text = "Forgot Password" onPress={resetPassword}/>
           </View>
