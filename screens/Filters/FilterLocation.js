@@ -23,6 +23,7 @@ export default function FilterLoc({navigation,route}) {
   let useLoc = false;
   let long = '';
   let lat = ''
+  let sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
   
   useEffect(() => {
     (async () => {
@@ -46,8 +47,16 @@ export default function FilterLoc({navigation,route}) {
   }
 
   const useMyLocation = () => {
-    let curLoc = `&longitude=${JSON.stringify(location.coords.longitude)}&latitude=${JSON.stringify(location.coords.latitude)}`
-    navigation.navigate('Restaurant', {room:false, term:'restaurant', price: route.params.price, loc:curLoc, cat: route.params.cat})
+    sleep(1000).then(() => {
+      if(location.coords == undefined ||location.coords == null ){
+        alert("Unable to get device location.Ensure that location permissions are enabled")
+      } else {
+        let curLoc = `&longitude=${JSON.stringify(location.coords.longitude)}&latitude=${JSON.stringify(location.coords.latitude)}`
+        navigation.navigate('Restaurant', {room:false, term:'restaurant', price: route.params.price, loc:curLoc, cat: route.params.cat})
+      }
+      
+    })
+    
   }
 
 

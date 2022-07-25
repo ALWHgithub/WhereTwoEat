@@ -32,7 +32,6 @@ export default function App({route,navigation}) {
   
   useEffect(() => {
       if(rooms == undefined){
-        global.d
         const docRef = doc(db,'RoomIDs',route.params.name);
         getDoc(docRef).then((snapshot) => {
           setRooms(snapshot.data());
