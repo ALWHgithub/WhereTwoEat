@@ -12,12 +12,12 @@ export function renderRating(rating)  {
 
 export function renderRestrauntsText(restaurantData,msg) {
     if(msg == 'none'){
-      return <Text>No results found. Consider relaxing your criteria</Text>
+      return <Text>{"\n"}No results found. Consider relaxing your criteria</Text>
     }
     else if(restaurantData.length == 0) {
-      return <Text>Please wait for the results to load !</Text>
+      return <Text>{"\n"}Please wait for the results to load !</Text>
     } else {
-      return <Text>Here are the Restaurants !</Text>
+      return <Text>{"\n"}Here are the Restaurants !</Text>
     }
   }
 
