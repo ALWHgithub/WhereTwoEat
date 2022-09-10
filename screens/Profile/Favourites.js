@@ -6,14 +6,14 @@ import BottomTabs from '../BottomBar';
 import RestaurantItem from '../components/RestaurantItem';
 import { localRestaurants} from '../components/RestaurantItem';
 import GetLocation from 'react-native-get-location'
-import config from '../../config'
+import {yelpKey} from '../../config'
 import { authentication } from "../../firebase/firebase-config";
 import {
   getFirestore,collection,getDocs,
   addDoc, updateDoc, setDoc,doc
 } from 'firebase/firestore'
 
-const YELP_API_KEY = config.API_KEY;
+const YELP_API_KEY = yelpKey.API_KEY_YELP
 
 
 function Favourites({ navigation }) {

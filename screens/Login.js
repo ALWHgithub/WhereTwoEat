@@ -1,13 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { StatusBar } from 'expo-status-bar';
 import {TextInput, KeyboardAvoidingView,StyleSheet,Text,View, Button ,TouchableOpacity, ImageBackground, ActivityIndicator,Dimensions} from 'react-native';
 import { authentication } from "../firebase/firebase-config";
 import {signInWithEmailAndPassword, createUserWithEmailAndPassword, sendEmailVerification, signOut} from "firebase/auth";
 import StdButton from './components/button';
 
 import {
-  getFirestore,collection,getDocs,
-  addDoc, updateDoc, setDoc,doc, deleteDoc, getDoc
+  getFirestore,setDoc,doc, deleteDoc
 } from 'firebase/firestore'
 
 function LoginScreen({ navigation }) {
@@ -16,6 +14,7 @@ function LoginScreen({ navigation }) {
   const [password, setPassword,] = useState('');
   const db = getFirestore()
   const [code,setCode] = useState()
+  console.log(authentication.config.apiKey)
   
   const handleSignUpError = (err) => {
     if (err == "Firebase: Password should be at least 6 characters (auth/weak-password).") {

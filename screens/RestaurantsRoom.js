@@ -3,11 +3,11 @@ import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, SafeAreaView, Button, ScrollView, FlatList, View,Alert } from 'react-native';
 import RestaurantItem from './components/RestaurantItem';
 import { localRestaurants } from './components/RestaurantItem';
-import config from '../config'
+import {yelpKey} from '../config'
 import {renderRestrauntsText} from './components/RestaurantComponents'
 import StdButton from "./components/button";
 
-const YELP_API_KEY = config.API_KEY
+const YELP_API_KEY = yelpKey.API_KEY_YELP
 
 export default function Restaurants({ navigation,route }) {
     const [pastRestaurantData,setPastRestaurantData] = useState(localRestaurants)

@@ -4,12 +4,12 @@ import { StyleSheet, Text, SafeAreaView, Button, ScrollView, Dimensions, Image,V
 import RestaurantItem from './components/RestaurantItem';
 import { localRestaurants } from './components/RestaurantItem';
 import GetLocation from 'react-native-get-location';
-import config from '../config';
+import {yelpKey} from '../config';
 import StdButton from './components/button';
 import RestaurantAbout from './components/RestaurantAbout';
 import { TouchableOpacity } from "react-native-web";
 
-const YELP_API_KEY = config.API_KEY
+const YELP_API_KEY = yelpKey.API_KEY_YELP
 
 export default function Reviews({ navigation,route}) {
   const [reviews, setReviews] = useState(['Please Wait!','Please Wait!','Please Wait!'])

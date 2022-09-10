@@ -1,19 +1,15 @@
 import React, { useEffect, useState, Component,useFocusEffect} from 'react';
 import { StatusBar } from 'expo-status-bar';
-import {StyleSheet,Text,SafeAreaView, Divider, ScrollView, View } from 'react-native';
-import { useIsFocused } from '@react-navigation/native';
+import {StyleSheet,SafeAreaView, Divider, ScrollView, View } from 'react-native';
 import StdButton from './components/button';
-import BottomTabs from './BottomBar';
 import RestaurantItem from './components/RestaurantItem';
 import { localRestaurants} from './components/RestaurantItem';
-import GetLocation from 'react-native-get-location'
-import config from '../config'
+import {yelpKey} from '../config'
 import {
   getFirestore,collection,getDocs,
-  addDoc, updateDoc, setDoc,doc, deleteDoc, getDoc
 } from 'firebase/firestore'
 
-const YELP_API_KEY = config.API_KEY
+const YELP_API_KEY = yelpKey.API_KEY_YELP
 global.offset = 0
 
 function HomeScreen({ navigation }) {
